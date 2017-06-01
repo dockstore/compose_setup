@@ -1,0 +1,52 @@
+version: '3'
+
+
+services:
+  postgres:
+    image: postgres:9.5
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    expose: 
+      - "5432"
+
+  webservice: 
+    build:
+      context: .
+      dockerfile: config/Dockerfile_webservice
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - postgres
+    volumes:
+      - log_volume:/dockstore_logs
+      - ./config/web.yml:/web.yml
+
+  ui2:
+    build:
+      context: .
+      dockerfile: config/Dockerfile_ui2
+    ports:
+      - "4200:4200"
+    volumes:
+      - log_volume:/dockstore_logs
+      - ./config/dockstore.model.ts:/dockstore-ui2/src/app/shared/dockstore.model.ts
+
+  client:
+    build:
+      context: .
+      dockerfile: config/Dockerfile_client
+    depends_on:
+      - webservice 
+      - postgres 
+      - ui2 
+    volumes:
+      - log_volume:/dockstore_logs
+    environment:
+      - PGHOST=postgres
+      - PGUSER=postgres
+      - PGPASSWORD=postgres
+      - PGDATABASE=postgres
+    
+volumes:
+  log_volume: 
