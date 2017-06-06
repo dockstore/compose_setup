@@ -1,0 +1,228 @@
+#! /bin/bash
+
+# Created by Solomon Shorser
+# Hacked by Denis Yuen
+
+set -e
+
+# When changing these versions, you will probably need to delete all files in the working directory
+# except for the consonance_launcher_config directory in order to get a clean new copy of
+# the Docker compose templates
+
+cat <<MSG
+DOCKSTORE INSTALLATION BOOTSTRAPPER
+-----------------------------------------------------------------------------
+MSG
+
+
+# Ask the user a question and save the answer.
+# They MUST give an answer, they cannot leave their answer blank. In the future, that could be parameterized...
+# $1 - the question string
+# $2 - the previous value
+# $3 - the name of the value
+# $4 - reference to the user's answer.
+function ask_question()
+{
+	question_str=$1
+	prev_val=$2
+	val_name=$3
+	answer=''
+
+    while [[ -z ${answer// /} ]] ; do
+        if [[ -n $prev_val ]] ; then
+			read -ep "${question_str} Previous value: "$'\n' -i "$prev_val" answer
+        else
+            read -ep "$question_str"$'\n' answer
+        fi
+        if [[ -z ${answer// /} ]] ; then
+            echo "$val_name name cannot be blank."
+        fi
+    done
+    # Set the user's value in the reference. See here: http://stackoverflow.com/a/14852461/192801 to get an idea of how this works.
+    eval "${!4}=\"$answer\""
+}
+
+user_consonance_version=latest
+#FYI: The weird "^^" is to make the user input into uppercase so that if they enter "y" the installer will still run.
+install_consonance_launcher=''
+while [[ "${install_consonance_launcher^^}" != 'Y' &&  "${install_consonance_launcher^^}" != 'N' ]] ; do
+	echo "DO YOU WISH TO CONTINUE [Y/N]:"
+	read install_consonance_launcher
+	if [ "${install_consonance_launcher^^}" = 'Y' ] ; then
+		user_install_docker=''
+		set +e
+		DOCKER_PATH="$(which docker)"
+		set -e
+		if [ -z "$DOCKER_PATH" ] ; then
+			user_install_docker='Y'
+		else
+			while [[ "${user_install_docker^^}" != 'Y' &&  "${user_install_docker^^}" != 'N' ]] ; do
+				echo "It looks like docker may already be installed. Would you like to run this step anyway, which may attempt to upgrade docker? [Y/N]"
+				read user_install_docker
+			done
+		fi
+                echo "Installing various apt packages"
+                # need to install regardless
+		set +e
+		sudo apt-get install wget curl ruby-mustache=1.0.2-1 jq git --yes &> install_wget_curl.log
+		install_wget_result=$?
+		set -e
+
+		if [ $install_wget_result -ne  0 ] ; then
+			echo "It looks like there may have been a problem installing or updated wget and curl:"
+			cat install_wget_curl.log
+			exit 1
+		fi
+		if [ "${user_install_docker^^}" = 'Y' ] ; then
+			# Remove eXecute permission from /etc/grub.d/30_os-prober because sometimes the docker installer will hang when this hangs. This has happened in OpenStack
+			# and could happen elsewhere.
+			if [ -f /etc/grub.d/30_os-prober ] ; then
+				sudo chmod a-x /etc/grub.d/30_os-prober
+			fi
+
+			echo "Installing docker..."
+
+
+			set +e
+			curl -sSL https://get.docker.com/ | sh &> install_docker.log
+			install_docker_result=$?
+			set -e
+
+			if [ $install_docker_result -ne  0 ] ; then
+				echo "It looks like there may have been a problem installing docker:"
+				cat install_wget_curl.log
+				exit 1
+			fi
+
+			set +e
+			sudo wget https://github.com/docker/compose/releases/download/1.8.1/run.sh -O /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose  &> install_compose.log
+			install_compose_result=$?
+			set -e
+
+			if [ $install_compose_result -ne  0 ] ; then
+				echo "It looks like there may have been a problem installing docker compose:"
+				cat install_compose.log
+				exit 1
+			fi
+
+
+
+			echo "Done installing docker!"
+			DOCKER_PATH="$(which docker)"
+		else
+			echo "Skipping docker installation..."
+		fi
+
+		if [ -z "$DOCKER_PATH" ] ; then
+			echo "You need to install docker before pulling docker images. Please ensure that docker is properly installed and then re-run this script with the command \"bash install_bootstrap\""
+			exit 1
+		fi
+	elif [ "${install_consonance_launcher^^}" = 'N' ] ; then
+		echo "You are exiting the installer now, but you can always run it again when you are ready."
+		exit 0
+	fi
+done
+
+run_consonance_launcher=''
+while [[ "${run_consonance_launcher^^}" != 'Y' &&  "${run_consonance_launcher^^}" != 'N' ]] ; do
+    echo "Would you like to run the consonance_launcher now? [Y/N]"
+    read run_consonance_launcher
+    # If the user would like to run consonance_launcher, then we have to get some config settings from them OR read them from an existing file
+    if [ "${run_consonance_launcher^^}" = 'Y' ] ; then
+        #Read the config file if it exists and then show previous values (but do not override variables in this script)
+        if [ -f consonance_launcher_config/compose.config ] ; then
+		source <(jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" consonance_launcher_config/compose.config | grep -v "CONSONANCE")
+        fi
+
+
+        dockstore_version='dockstore_version'
+        ask_question "What version of Dockstore do you wish to deploy?" "$DOCKSTORE_VERSION" "Dockstore version" $dockstore_version
+
+        dockstore_ui1_version='dockstore_ui1_version'
+        ask_question "What version of Dockstore UI 1 do you wish to deploy?" "$DOCKSTORE_UI1_VERSION" "Dockstore version" $dockstore_ui1_version
+        dockstore_ui2_version='dockstore_ui2_version'
+        ask_question "What version of Dockstore UI 2 do you wish to deploy?" "$DOCKSTORE_UI2_VERSION" "Dockstore version" $dockstore_ui2_version
+
+        github_client1_id='github_client1_id'
+        ask_question "What is your github client id for UI1?" "$GITHUB_CLIENT1_ID" "Dockstore version" $github_client1_id
+        github_client1_secret='github_client1_secret'
+        ask_question "What is your github client secret for UI1?" "$GITHUB_CLIENT1_SECRET" "Dockstore version" $github_client1_secret
+        github_client2_id='github_client2_id'
+        ask_question "What is your github client id for UI2?" "$GITHUB_CLIENT2_ID" "Dockstore version" $github_client2_id
+        github_client2_secret='github_client2_secret'
+        ask_question "What is your github client secret for UI2?" "$GITHUB_CLIENT2_SECRET" "Dockstore version" $github_client2_secret
+
+        quay_client_id='quay_client_id'
+        ask_question "What is your quay client id?" "$QUAY_CLIENT_ID" "Dockstore version" $quay_client_id
+        quay_client_secret='quay_client_secret'
+        ask_question "What is your quay client secret?" "$QUAY_CLIENT_SECRET" "Dockstore version" $quay_client_secret
+
+        bitbucket_client_id='bitbucket_client_id'
+        ask_question "What is your bitbucket client id?" "$BITBUCKET_CLIENT_ID" "Dockstore version" $bitbucket_client_id
+        bitbucket_client_secret='bitbucket_client_secret'
+        ask_question "What is your bitbucket client secret?" "$BITBUCKET_CLIENT_SECRET" "Dockstore version" $bitbucket_client_secret
+
+        gitlab_client_id='gitlab_client_id'
+        ask_question "What is your gitlab client id?" "$GITLAB_CLIENT_ID" "Dockstore version" $gitlab_client_id
+        gitlab_client_secret='gitlab_client_secret'
+        ask_question "What is your gitlab client secret?" "$GITLAB_CLIENT_SECRET" "Dockstore version" $gitlab_client_secret
+
+
+        # Now write a config for this file.
+        [[ -f consonance_launcher_config/compose.config ]] || mkdir -p consonance_launcher_config
+		# Note: You can't have ANY blank lines in .consonance/consonance.config because the python library that will eventually process it does not like blank lines and will fail.
+        # we need to override the ethernet device on some systems
+
+                echo "Installing various apt packages"
+        cat > consonance_launcher_config/compose.config <<CONFIG
+{
+"PUBLIC_LAUNCHER_IP_ADDRESS":"`curl http://169.254.169.254/latest/meta-data/public-ipv4`",
+"DOCKSTORE_VERSION":"${dockstore_version}",
+"DOCKSTORE_UI1_VERSION":"${dockstore_ui1_version}",
+"DOCKSTORE_UI2_VERSION":"${dockstore_ui2_version}",
+"GITHUB_CLIENT1_ID":"${github_client1_id}",
+"GITHUB_CLIENT2_ID":"${github_client2_id}",
+"GITHUB_CLIENT1_SECRET":"${github_client1_secret}",
+"GITHUB_CLIENT2_SECRET":"${github_client2_secret}",
+"QUAY_CLIENT_ID":"${quay_client_id}",
+"QUAY_CLIENT_SECRET":"${quay_client_secret}",
+"BITBUCKET_CLIENT_ID":"${bitbucket_client_id}",
+"BITBUCKET_CLIENT_SECRET":"${bitbucket_client_secret}",
+"GITLAB_CLIENT_ID":"${gitlab_client_id}",
+"GITLAB_CLIENT_SECRET":"${gitlab_client_secret}"
+}
+CONFIG
+    [[ -d "consonance_launcher_config" ]] || mkdir "consonance_launcher_config"
+    # cp ~/.consonance/compose.config consonance_launcher_config/compose.config
+    # template out stuff, grab template files for convenience if not running in a git repo
+    # note there should really be a better way of grabbing a directory, see https://github.com/dear-github/dear-github/issues/95
+#    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/Dockerfile_client.template
+#    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/Dockerfile_coordinator.template
+#    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/Dockerfile_provisioner.template
+#    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/Dockerfile_webservice.template
+#    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/aws.config.template
+#    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/bag_params.json.template
+#    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/config.template
+#    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/docker-compose.yml
+#    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/example_tags.json
+#    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/init_client.sh
+
+    mustache consonance_launcher_config/compose.config templates/Dockerfile_client.template > config/Dockerfile_client
+    mustache consonance_launcher_config/compose.config templates/Dockerfile_webservice.template > config/Dockerfile_webservice
+    mustache consonance_launcher_config/compose.config templates/Dockerfile_ui1.template > config/Dockerfile_ui1
+    mustache consonance_launcher_config/compose.config templates/Dockerfile_ui2.template > config/Dockerfile_ui2
+    mustache consonance_launcher_config/compose.config templates/dockstore.model.ts.template > config/dockstore.model.ts
+    mustache consonance_launcher_config/compose.config templates/web.yml.template > config/web.yml 
+    mustache consonance_launcher_config/compose.config templates/webservice.js.template > config/webservice.js
+    mustache consonance_launcher_config/compose.config templates/default.ui1.conf.template > config/default.ui1.conf
+    mustache consonance_launcher_config/compose.config templates/default.ui2.conf.template > config/default.ui2.conf
+
+    docker-compose build
+    docker-compose up 
+    elif [ "${run_consonance_launcher^^}" = 'N' ] ; then
+        echo "You can run this script at another time to run the consonance launcher"
+        exit 0
+    fi
+done
+echo "Exiting now."
+set +e
