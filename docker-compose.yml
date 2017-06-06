@@ -34,8 +34,6 @@ services:
     build:
       context: .
       dockerfile: config/Dockerfile_ui2
-    ports:
-      - "4200:4200"
     volumes:
       - log_volume:/dockstore_logs
       - ./config/dockstore.model.ts:/dockstore-ui2/src/app/shared/dockstore.model.ts
@@ -68,7 +66,6 @@ services:
     depends_on:
       - webservice 
       - postgres 
-      - ui2 
     volumes:
       - log_volume:/dockstore_logs
     environment:
