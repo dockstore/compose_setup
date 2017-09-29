@@ -1,0 +1,7 @@
+#!/bin/bash
+set -o errexit
+set -o pipefail
+set -o nounset
+
+ng build
+rsync -avzh --delete /dockstore-ui2/dist/ /dockstore-ui2/real_dist/

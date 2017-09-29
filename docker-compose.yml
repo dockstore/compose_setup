@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 
 
 services:
@@ -9,6 +9,12 @@ services:
     expose: 
       - "5432"
 
+  elasticsearch:
+    image: elasticsearch:5.5
+    expose:
+      - "9200"
+      - "9300"
+
   webservice: 
     build:
       context: .
@@ -18,6 +24,7 @@ services:
       - "8081:8081"
     depends_on:
       - postgres
+      - elasticsearch
     volumes:
       - log_volume:/dockstore_logs
       - ./config/web.yml:/web.yml
@@ -37,7 +44,7 @@ services:
     volumes:
       - log_volume:/dockstore_logs
       - ./config/dockstore.model.ts:/dockstore-ui2/src/app/shared/dockstore.model.ts
-      - ui2_content:/dockstore-ui2/dist
+      - ui2_content:/dockstore-ui2/real_dist
 
   nginx1: 
     image: nginx:1.13.1
@@ -66,6 +73,7 @@ services:
     depends_on:
       - webservice 
       - postgres 
+      - elasticsearch
     volumes:
       - log_volume:/dockstore_logs
     environment:

@@ -217,6 +217,11 @@ CONFIG
     mustache consonance_launcher_config/compose.config templates/default.ui1.conf.template > config/default.ui1.conf
     mustache consonance_launcher_config/compose.config templates/default.ui2.conf.template > config/default.ui2.conf
 
+    mustache consonance_launcher_config/compose.config templates/init_client.sh.template > config/init_client.sh
+    mustache consonance_launcher_config/compose.config templates/init_webservice.sh.template > config/init_webservice.sh
+    mustache consonance_launcher_config/compose.config templates/init_ui1.sh.template > config/init_ui1.sh
+    mustache consonance_launcher_config/compose.config templates/init_ui2.sh.template > config/init_ui2.sh
+
     docker-compose build
     docker-compose up 
     elif [ "${run_consonance_launcher^^}" = 'N' ] ; then

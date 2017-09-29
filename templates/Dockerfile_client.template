@@ -14,6 +14,7 @@ RUN apt-get update \
     telnet \
     python-pip \
     postgresql-client \
+    curl \
     && apt-get clean
 
 # grab oracle java (auto accept licence)
@@ -37,7 +38,8 @@ RUN wget --no-verbose https://github.com/jwilder/dockerize/releases/download/$DO
 
 # TODO: make sure you create these from the .template files and customize them
 RUN mkdir -p /home/ubuntu/.dockstore /home/ubuntu/bin /home/ubuntu/.dockstore/self-installs
-ADD init_client.sh /home/ubuntu/init_client.sh
+ADD config/init_client.sh /home/ubuntu/init_client.sh
+RUN chmod a+x /home/ubuntu/init_client.sh
 
 RUN chown -R ubuntu /home/ubuntu
 USER ubuntu

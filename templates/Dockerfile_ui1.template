@@ -24,6 +24,7 @@ RUN git checkout {{ DOCKSTORE_UI1_VERSION }}
 RUN npm install
 RUN bower install --allow-root
 
-ADD init_ui1.sh init_ui1.sh
+ADD config/init_ui1.sh init_ui1.sh
+RUN chmod a+x init_ui1.sh
 
 CMD ["./init_ui1.sh"]

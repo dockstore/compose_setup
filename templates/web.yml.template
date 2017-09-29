@@ -17,6 +17,10 @@ gitlabClientID: {{ GITLAB_CLIENT_ID }}
 gitlabClientSecret: {{ GITLAB_CLIENT_SECRET }}
 gitlabRedirectURI: dev-only 
 
+esconfiguration:
+  port: 9200
+  hostname: elasticsearch
+
 
 # the following values describe where the webservice is being run (and on what port and using what scheme) to configure swagger
 hostname: {{ PUBLIC_LAUNCHER_IP_ADDRESS }}
