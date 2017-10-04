@@ -214,8 +214,7 @@ CONFIG
     mustache consonance_launcher_config/compose.config templates/dockstore.model.ts.template > config/dockstore.model.ts
     mustache consonance_launcher_config/compose.config templates/web.yml.template > config/web.yml 
     mustache consonance_launcher_config/compose.config templates/webservice.js.template > config/webservice.js
-    mustache consonance_launcher_config/compose.config templates/default.ui1.conf.template > config/default.ui1.conf
-    mustache consonance_launcher_config/compose.config templates/default.ui2.conf.template > config/default.ui2.conf
+    mustache consonance_launcher_config/compose.config templates/default.nginx.conf.template > config/default.nginx.conf
 
     mustache consonance_launcher_config/compose.config templates/init_client.sh.template > config/init_client.sh
     mustache consonance_launcher_config/compose.config templates/init_webservice.sh.template > config/init_webservice.sh
@@ -223,7 +222,7 @@ CONFIG
     mustache consonance_launcher_config/compose.config templates/init_ui2.sh.template > config/init_ui2.sh
 
     docker-compose build
-    docker-compose up 
+    docker-compose up --force-recreate 
     elif [ "${run_consonance_launcher^^}" = 'N' ] ; then
         echo "You can run this script at another time to run the consonance launcher"
         exit 0
