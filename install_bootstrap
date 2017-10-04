@@ -167,6 +167,10 @@ while [[ "${run_consonance_launcher^^}" != 'Y' &&  "${run_consonance_launcher^^}
         gitlab_client_secret='gitlab_client_secret'
         ask_question "What is your gitlab client secret?" "$GITLAB_CLIENT_SECRET" "Dockstore version" $gitlab_client_secret
 
+        domain_name='domain_name'
+        ask_question "What is the domain name for this server?" "$DOMAIN_NAME" "Domain name" $domain_name
+        https='https'
+        ask_question "Are you using https (true or false)?" "$HTTPS" "https" $https
 
         # Now write a config for this file.
         [[ -f consonance_launcher_config/compose.config ]] || mkdir -p consonance_launcher_config
@@ -188,6 +192,8 @@ while [[ "${run_consonance_launcher^^}" != 'Y' &&  "${run_consonance_launcher^^}
 "QUAY_CLIENT_SECRET":"${quay_client_secret}",
 "BITBUCKET_CLIENT_ID":"${bitbucket_client_id}",
 "BITBUCKET_CLIENT_SECRET":"${bitbucket_client_secret}",
+"DOMAIN_NAME":"${domain_name}",
+"HTTPS":${https},
 "GITLAB_CLIENT_ID":"${gitlab_client_id}",
 "GITLAB_CLIENT_SECRET":"${gitlab_client_secret}"
 }
