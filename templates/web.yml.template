@@ -23,9 +23,9 @@ esconfiguration:
 
 
 # the following values describe where the webservice is being run (and on what port and using what scheme) to configure swagger
-hostname: {{ PUBLIC_LAUNCHER_IP_ADDRESS }}
-scheme: http 
-port: 8080
+hostname: {{ DOMAIN_NAME }}
+scheme: http{{#HTTPS}}s{{/HTTPS}}
+port: 8443
 
 authenticationCachePolicy: maximumSize=10000, expireAfterAccess=10m
 
