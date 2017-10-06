@@ -4,7 +4,7 @@ server {
     server_name  {{ DOMAIN_NAME }};
 
     location / {
-        rewrite ^ https://$host$request_uri? permanent;
+        rewrite ^ http{{#HTTPS}}s{{/HTTPS}}://$host$request_uri? permanent;
     }
 
     location ^~ /.well-known {
