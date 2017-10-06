@@ -168,7 +168,7 @@ while [[ "${run_consonance_launcher^^}" != 'Y' &&  "${run_consonance_launcher^^}
         ask_question "What is your gitlab client secret?" "$GITLAB_CLIENT_SECRET" "Dockstore version" $gitlab_client_secret
 
         domain_name='domain_name'
-        ask_question "What is the domain name for this server?" "$DOMAIN_NAME" "Domain name" $domain_name
+        ask_question "What is the domain name for this server (can be an ip address for development)?" "$DOMAIN_NAME" "Domain name" $domain_name
         https='https'
         ask_question "Are you using https (true or false)?" "$HTTPS" "https" $https
 
@@ -202,7 +202,6 @@ CONFIG
     # cp ~/.consonance/compose.config consonance_launcher_config/compose.config
     # template out stuff, grab template files for convenience if not running in a git repo
     # note there should really be a better way of grabbing a directory, see https://github.com/dear-github/dear-github/issues/95
-#    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/Dockerfile_client.template
 #    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/Dockerfile_coordinator.template
 #    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/Dockerfile_provisioner.template
 #    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/Dockerfile_webservice.template
@@ -211,24 +210,22 @@ CONFIG
 #    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/config.template
 #    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/docker-compose.yml
 #    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/example_tags.json
-#    wget --no-clobber https://raw.githubusercontent.com/Consonance/consonance/${CONSONANCE_LAUNCHER_VERSION}/container-admin/init_client.sh
 
-    mustache consonance_launcher_config/compose.config templates/Dockerfile_client.template > config/Dockerfile_client
     mustache consonance_launcher_config/compose.config templates/Dockerfile_webservice.template > config/Dockerfile_webservice
     mustache consonance_launcher_config/compose.config templates/Dockerfile_ui1.template > config/Dockerfile_ui1
     mustache consonance_launcher_config/compose.config templates/Dockerfile_ui2.template > config/Dockerfile_ui2
     mustache consonance_launcher_config/compose.config templates/dockstore.model.ts.template > config/dockstore.model.ts
     mustache consonance_launcher_config/compose.config templates/web.yml.template > config/web.yml 
     mustache consonance_launcher_config/compose.config templates/webservice.js.template > config/webservice.js
-    mustache consonance_launcher_config/compose.config templates/default.nginx.conf.template > config/default.nginx.conf
+    mustache consonance_launcher_config/compose.config templates/default.nginx_http.conf.template > config/default.nginx_http.conf
+    mustache consonance_launcher_config/compose.config templates/default.nginx_https.conf.template > config/default.nginx_https.conf
 
-    mustache consonance_launcher_config/compose.config templates/init_client.sh.template > config/init_client.sh
     mustache consonance_launcher_config/compose.config templates/init_webservice.sh.template > config/init_webservice.sh
     mustache consonance_launcher_config/compose.config templates/init_ui1.sh.template > config/init_ui1.sh
     mustache consonance_launcher_config/compose.config templates/init_ui2.sh.template > config/init_ui2.sh
 
-    docker-compose build
-    docker-compose up --force-recreate 
+#    docker-compose build
+#    docker-compose up --force-recreate 
     elif [ "${run_consonance_launcher^^}" = 'N' ] ; then
         echo "You can run this script at another time to run the consonance launcher"
         exit 0

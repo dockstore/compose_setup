@@ -1,9 +1,9 @@
 export class Dockstore {
 
   // Please fill in HOSTNAME with your address
-  static readonly HOSTNAME = 'http://{{ PUBLIC_LAUNCHER_IP_ADDRESS }}';
-  static readonly API_PORT = '8080';
-  static readonly UI_PORT = '4200';
+  static readonly HOSTNAME = 'http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}';
+  static readonly API_PORT = '8443';
+  static readonly UI_PORT = '443';
 
   static readonly LOCAL_URI = Dockstore.HOSTNAME + ':' + Dockstore.UI_PORT;
   static readonly API_URI = Dockstore.HOSTNAME + ':' + Dockstore.API_PORT;
