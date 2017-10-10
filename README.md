@@ -9,4 +9,7 @@ To create a HTTP certificate (necessary for running in HTTPS mode)
 
 Change --staging as necessary and the domain names as necessary
 
+For example, for renewing staging on a monthly basis, stick this in the crontab
 
+   docker run -it --rm -v composesetup_certs:/etc/letsencrypt -v composesetup_certs-data:/data/letsencrypt   certbot/certbot renew
+   docker-compose restart nginx_https
