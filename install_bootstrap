@@ -226,8 +226,8 @@ CONFIG
     mustache consonance_launcher_config/compose.config templates/init_ui1.sh.template > config/init_ui1.sh
     mustache consonance_launcher_config/compose.config templates/init_ui2.sh.template > config/init_ui2.sh
 
-#    docker-compose build
-#    docker-compose up --force-recreate 
+#    docker-compose build --no-cache
+#    docker-compose up --force-recreate --remove-orphans
     elif [ "${run_consonance_launcher^^}" = 'N' ] ; then
         echo "You can run this script at another time to run the consonance launcher"
         exit 0
