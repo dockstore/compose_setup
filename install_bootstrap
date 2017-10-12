@@ -225,6 +225,7 @@ CONFIG
     mustache consonance_launcher_config/compose.config templates/init_webservice.sh.template > config/init_webservice.sh
     mustache consonance_launcher_config/compose.config templates/init_ui1.sh.template > config/init_ui1.sh
     mustache consonance_launcher_config/compose.config templates/init_ui2.sh.template > config/init_ui2.sh
+    mustache consonance_launcher_config/compose.config templates/elasticsearch.yml > config/elasticsearch.yml
 
 #    docker-compose build --no-cache
 #    docker-compose up --force-recreate --remove-orphans
