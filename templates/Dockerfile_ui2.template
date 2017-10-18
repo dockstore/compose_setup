@@ -27,6 +27,7 @@ RUN java -jar swagger-codegen-cli.jar generate -i https://raw.githubusercontent.
 RUN bash script.sh
 RUN npm run-script prebuild
 
+ADD config/{{ GOOGLE_VERIFICATION_NAME }}.html {{ GOOGLE_VERIFICATION_NAME }}.html
 ADD config/init_ui2.sh init_ui2.sh
 RUN chmod a+x init_ui2.sh
 

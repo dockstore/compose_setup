@@ -174,6 +174,9 @@ while [[ "${run_consonance_launcher^^}" != 'Y' &&  "${run_consonance_launcher^^}
 
         discourse_url='discourse_url'
         ask_question "What is your Discourse URL (ends with a /)?" "$DISCOURSE_URL" "discourse_url" $discourse_url
+        google_verification_name='google_verification_name'
+        ask_question "What is your Google verification code for search console (looks like google74e52839b1bxxxxxx)?" "$GOOGLE_VERIFICATION_NAME" "google_verification_name" $google_verification_name
+
 
         # Now write a config for this file.
         [[ -f consonance_launcher_config/compose.config ]] || mkdir -p consonance_launcher_config
@@ -198,6 +201,7 @@ while [[ "${run_consonance_launcher^^}" != 'Y' &&  "${run_consonance_launcher^^}
 "DOMAIN_NAME":"${domain_name}",
 "HTTPS":${https},
 "DISCOURSE_URL":"${discourse_url}",
+"GOOGLE_VERIFICATION_NAME":"${google_verification_name}",
 "GITLAB_CLIENT_ID":"${gitlab_client_id}",
 "GITLAB_CLIENT_SECRET":"${gitlab_client_secret}"
 }
@@ -230,6 +234,7 @@ CONFIG
     mustache consonance_launcher_config/compose.config templates/init_ui1.sh.template > config/init_ui1.sh
     mustache consonance_launcher_config/compose.config templates/init_ui2.sh.template > config/init_ui2.sh
     mustache consonance_launcher_config/compose.config templates/elasticsearch.yml > config/elasticsearch.yml
+    mustache consonance_launcher_config/compose.config templates/search_verification.html > config/${google_verification_name}.html
 
 #    docker-compose build --no-cache
 #    docker-compose up --force-recreate --remove-orphans

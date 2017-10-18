@@ -62,6 +62,10 @@ server {
     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
     add_header 'Access-Control-Expose-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
 
+    location = /sitemap.txt {
+        proxy_pass 	http://webservice:8080/metadata/sitemap;
+    }
+
     location / {
         root   /usr/share/nginx/html2;
         index  index.html index.htm;
