@@ -172,6 +172,9 @@ while [[ "${run_consonance_launcher^^}" != 'Y' &&  "${run_consonance_launcher^^}
         https='https'
         ask_question "Are you using https (true or false)?" "$HTTPS" "https" $https
 
+        discourse_url='discourse_url'
+        ask_question "What is your Discourse URL (ends with a /)?" "$DISCOURSE_URL" "discourse_url" $discourse_url
+
         # Now write a config for this file.
         [[ -f consonance_launcher_config/compose.config ]] || mkdir -p consonance_launcher_config
 		# Note: You can't have ANY blank lines in .consonance/consonance.config because the python library that will eventually process it does not like blank lines and will fail.
@@ -194,6 +197,7 @@ while [[ "${run_consonance_launcher^^}" != 'Y' &&  "${run_consonance_launcher^^}
 "BITBUCKET_CLIENT_SECRET":"${bitbucket_client_secret}",
 "DOMAIN_NAME":"${domain_name}",
 "HTTPS":${https},
+"DISCOURSE_URL":"${discourse_url}",
 "GITLAB_CLIENT_ID":"${gitlab_client_id}",
 "GITLAB_CLIENT_SECRET":"${gitlab_client_secret}"
 }
