@@ -11,11 +11,16 @@ Change --staging as necessary and the domain names as necessary
 
 For example, for renewing staging on a monthly basis, stick this in the crontab
 
-   docker run -it --rm -v composesetup_certs:/etc/letsencrypt -v composesetup_certs-data:/data/letsencrypt   certbot/certbot renew
-   docker-compose restart nginx_https
-
+```
+docker run -it --rm -v composesetup_certs:/etc/letsencrypt -v composesetup_certs-data:/data/letsencrypt   certbot/certbot renew
+docker-compose restart nginx_https
+```
 
 For database backups, you can use a script setup in the cron
 
-   @monthly	docker run -it --rm -v composesetup_certs:/etc/letsencrypt -v composesetup_certs-data:/data/letsencrypt certbot/certbot renew && docker-compose restart nginx_https && curl -sm 30 k.wdt.io/denis.yuen@oicr.on.ca/staging.https.renew?c=0_0_1_*_* 
-   @daily 		(echo '['`date`'] Nightly Back-up' && /home/ubuntu/compose_setup/scripts/postgres_backup.sh) |  tee /home/ubuntu/compose_setup/scripts/ds_backup.log
+```
+@monthly	docker run -it --rm -v composesetup_certs:/etc/letsencrypt -v composesetup_certs-data:/data/letsencrypt certbot/certbot renew && docker-compose restart nginx_https && curl -sm 30 k.wdt.io/denis.yuen@oicr.on.ca/staging.https.renew?c=0_0_1_*_* 
+@daily 		(echo '['`date`'] Nightly Back-up' && /home/ubuntu/compose_setup/scripts/postgres_backup.sh) |  tee /home/ubuntu/compose_setup/scripts/ds_backup.log
+```
+
+This relies upon an IAM role for the appropriate S3 bucket. 
