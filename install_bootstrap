@@ -177,8 +177,6 @@ while [[ "${run_consonance_launcher^^}" != 'Y' &&  "${run_consonance_launcher^^}
         google_verification_name='google_verification_name'
         ask_question "What is your Google verification code for search console (looks like google74e52839b1bxxxxxx)?" "$GOOGLE_VERIFICATION_NAME" "google_verification_name" $google_verification_name
 
-        tracking_id='tracking_id'
-        ask_question "What is your Google analytics tracking id?" "$TRACKING_ID" "tracking_id" $tracking_id
         tag_manager_id='tag_manager_id'
         ask_question "What is your Google tag manager id?" "$TAG_MANAGER_ID" "tag_manager_id" $tag_manager_id
 
@@ -207,7 +205,6 @@ while [[ "${run_consonance_launcher^^}" != 'Y' &&  "${run_consonance_launcher^^}
 "HTTPS":${https},
 "DISCOURSE_URL":"${discourse_url}",
 "GOOGLE_VERIFICATION_NAME":"${google_verification_name}",
-"TRACKING_ID":"${tracking_id}",
 "TAG_MANAGER_ID":"${tag_manager_id}",
 "GITLAB_CLIENT_ID":"${gitlab_client_id}",
 "GITLAB_CLIENT_SECRET":"${gitlab_client_secret}"
@@ -231,6 +228,7 @@ CONFIG
     mustache consonance_launcher_config/compose.config templates/Dockerfile_ui1.template > config/Dockerfile_ui1
     mustache consonance_launcher_config/compose.config templates/Dockerfile_ui2.template > config/Dockerfile_ui2
     mustache consonance_launcher_config/compose.config templates/dockstore.model.ts.template > config/dockstore.model.ts
+    mustache consonance_launcher_config/compose.config templates/index.html.template > config/index.html
     mustache consonance_launcher_config/compose.config templates/web.yml.template > config/web.yml 
     mustache consonance_launcher_config/compose.config templates/webservice.js.template > config/webservice.js
     mustache consonance_launcher_config/compose.config templates/default.nginx_http.conf.template > config/default.nginx_http.conf
