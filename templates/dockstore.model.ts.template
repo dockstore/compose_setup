@@ -28,5 +28,8 @@ export class Dockstore {
   static readonly GITLAB_AUTH_URL = 'https://gitlab.com/oauth/authorize';
   static readonly GITLAB_CLIENT_ID = '{{ GITLAB_CLIENT_ID }}';
   static readonly GITLAB_REDIRECT_URI = Dockstore.LOCAL_URI + '/auth/gitlab';
+
+  static readonly TRACKING_ID = '{{ TRACKING_ID }}';
+  static readonly TAG_MANANGER_ID = '{{ TAG_MANAGER_ID }}';
 }
 

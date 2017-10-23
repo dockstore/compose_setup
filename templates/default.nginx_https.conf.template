@@ -1,3 +1,13 @@
+# Expires map
+map $sent_http_content_type $expires {
+    default                    off;
+    text/html                  epoch;
+    text/css                   86400;
+    application/javascript     86400;
+    application/octet-stream   604800;
+    ~image/                    604800;
+}
+
 server {
     server_name  {{ DOMAIN_NAME }};
     include /etc/nginx/conf.d/default.nginx_https.shared.conf;
@@ -5,6 +15,23 @@ server {
 
     #charset koi8-r;
     #access_log  /var/log/nginx/log/host.access.log  main;
+
+    ##
+    # `gzip` Settings
+    # https://www.digitalocean.com/community/tutorials/how-to-add-the-gzip-module-to-nginx-on-ubuntu-14-04 
+    #
+    gzip on;
+    gzip_disable "msie6";
+
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_buffers 16 8k;
+    gzip_http_version 1.1;
+    gzip_min_length 256;
+    gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon application/javascript;
+
+    expires $expires;
 
     # crap the repeated junk below doesn't work in an include directive
     add_header 'Access-Control-Allow-Origin' '*';
@@ -56,6 +83,23 @@ server {
     server_name  {{ DOMAIN_NAME }};
     include /etc/nginx/conf.d/default.nginx_https.shared.conf;
     listen       4200;
+
+    ##
+    # `gzip` Settings
+    # https://www.digitalocean.com/community/tutorials/how-to-add-the-gzip-module-to-nginx-on-ubuntu-14-04 
+    #
+    gzip on;
+    gzip_disable "msie6";
+
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_buffers 16 8k;
+    gzip_http_version 1.1;
+    gzip_min_length 256;
+    gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon application/javascript;
+
+    expires $expires;
 
     add_header 'Access-Control-Allow-Origin' '*';
     add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, OPTIONS';

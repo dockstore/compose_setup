@@ -177,6 +177,11 @@ while [[ "${run_consonance_launcher^^}" != 'Y' &&  "${run_consonance_launcher^^}
         google_verification_name='google_verification_name'
         ask_question "What is your Google verification code for search console (looks like google74e52839b1bxxxxxx)?" "$GOOGLE_VERIFICATION_NAME" "google_verification_name" $google_verification_name
 
+        tracking_id='tracking_id'
+        ask_question "What is your Google analytics tracking id?" "$TRACKING_ID" "tracking_id" $tracking_id
+        tag_manager_id='tag_manager_id'
+        ask_question "What is your Google tag manager id?" "$TAG_MANAGER_ID" "tag_manager_id" $tag_manager_id
+
 
         # Now write a config for this file.
         [[ -f consonance_launcher_config/compose.config ]] || mkdir -p consonance_launcher_config
@@ -202,6 +207,8 @@ while [[ "${run_consonance_launcher^^}" != 'Y' &&  "${run_consonance_launcher^^}
 "HTTPS":${https},
 "DISCOURSE_URL":"${discourse_url}",
 "GOOGLE_VERIFICATION_NAME":"${google_verification_name}",
+"TRACKING_ID":"${tracking_id}",
+"TAG_MANAGER_ID":"${tag_manager_id}",
 "GITLAB_CLIENT_ID":"${gitlab_client_id}",
 "GITLAB_CLIENT_SECRET":"${gitlab_client_secret}"
 }
