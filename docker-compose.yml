@@ -44,6 +44,7 @@ services:
     volumes:
       - log_volume:/dockstore_logs
       - ./config/dockstore.model.ts:/dockstore-ui2/src/app/shared/dockstore.model.ts
+      - ./config/index.html:/dockstore-ui2/src/index.html
       - ui2_content:/dockstore-ui2/real_dist
 
   nginx: 

@@ -218,6 +218,7 @@ CONFIG
     mustache consonance_launcher_config/compose.config templates/Dockerfile_ui1.template > config/Dockerfile_ui1
     mustache consonance_launcher_config/compose.config templates/Dockerfile_ui2.template > config/Dockerfile_ui2
     mustache consonance_launcher_config/compose.config templates/dockstore.model.ts.template > config/dockstore.model.ts
+    mustache consonance_launcher_config/compose.config templates/index.html.template > config/index.html
     mustache consonance_launcher_config/compose.config templates/web.yml.template > config/web.yml 
     mustache consonance_launcher_config/compose.config templates/webservice.js.template > config/webservice.js
     mustache consonance_launcher_config/compose.config templates/default.nginx.conf.template > config/default.nginx.conf
