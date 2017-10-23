@@ -20,13 +20,14 @@ RUN git clone https://github.com/dockstore/dockstore-ui2.git
 WORKDIR /dockstore-ui2
 RUN git checkout {{ DOCKSTORE_UI2_VERSION }}
 
-RUN bower --allow-root update
-RUN npm install
+RUN bower --allow-root install
+RUN npm install --production
 RUN wget https://artifacts.oicr.on.ca/artifactory/collab-release/io/swagger/swagger-codegen-cli/2.3.0-SNAPSHOT/swagger-codegen-cli-2.3.0-20170927.194112-1.jar -O swagger-codegen-cli.jar
-RUN java -jar swagger-codegen-cli.jar generate -i https://raw.githubusercontent.com/ga4gh/dockstore/1.3.0-alpha.3/dockstore-webservice/src/main/resources/swagger.yaml -l typescript-angular -o src/app/shared/swagger -c swagger-config.json
-RUN bash script
+RUN java -jar swagger-codegen-cli.jar generate -i https://raw.githubusercontent.com/ga4gh/dockstore/1.3.0-beta.1/dockstore-webservice/src/main/resources/swagger.yaml -l typescript-angular -o src/app/shared/swagger -c swagger-config.json
+RUN bash script.sh
 RUN npm run-script prebuild
 
+ADD config/{{ GOOGLE_VERIFICATION_NAME }}.html {{ GOOGLE_VERIFICATION_NAME }}.html
 ADD config/init_ui2.sh init_ui2.sh
 RUN chmod a+x init_ui2.sh
 

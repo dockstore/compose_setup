@@ -1,0 +1,14 @@
+error_page 404 /index.html;
+
+proxy_connect_timeout       600;
+proxy_send_timeout          600;
+proxy_read_timeout          600;
+send_timeout                600;
+
+{{#HTTPS}}
+ssl                       on;
+
+ssl_certificate           /etc/letsencrypt/live/{{ DOMAIN_NAME }}/fullchain.pem;
+ssl_certificate_key       /etc/letsencrypt/live/{{ DOMAIN_NAME }}/privkey.pem;
+ssl_trusted_certificate   /etc/letsencrypt/live/{{ DOMAIN_NAME }}/chain.pem;
+{{/HTTPS}}
