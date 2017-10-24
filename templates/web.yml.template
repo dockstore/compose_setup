@@ -15,7 +15,7 @@ bitbucketClientSecret: {{ BITBUCKET_CLIENT_SECRET }}
 
 gitlabClientID: {{ GITLAB_CLIENT_ID }}
 gitlabClientSecret: {{ GITLAB_CLIENT_SECRET }}
-gitlabRedirectURI: dev-only 
+gitlabRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}:443/auth/gitlab.com
 
 esconfiguration:
   port: 9200
