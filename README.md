@@ -12,9 +12,12 @@ This project documents how to setup Dockstore staging and production using compo
 ## Usage
 
 1. Create a HTTP certificate if you want to run in HTTPS mode
-
-    docker run -it --rm -v composesetup_certs:/etc/letsencrypt -v composesetup_certs-data:/data/letsencrypt   certbot/certbot certonly --agree-tos  -m <your email address here> --webroot --webroot-path=/data/letsencrypt --staging  -d staging.dockstore.org -d staging.dockstore.org
+```
+docker run -it --rm -v composesetup_certs:/etc/letsencrypt -v composesetup_certs-data:/data/letsencrypt   certbot/certbot certonly --agree-tos  -m <your email address here> --webroot --webroot-path=/data/letsencrypt --staging  -d staging.dockstore.org -d staging.dockstore.org
+```
+    
   Change --staging as necessary and the domain names as necessary
+    
   For example, for renewing staging on a monthly basis, stick this in the crontab
   ```
   docker run -it --rm -v composesetup_certs:/etc/letsencrypt -v composesetup_certs-data:/data/letsencrypt   certbot/certbot renew
