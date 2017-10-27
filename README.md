@@ -1,12 +1,26 @@
-# compose_setup
+# compose\_setup
 Demonstrate how to setup and run Dockstore using composed containers
 
-## Developers
+## Usage
 
-One useful tool is https://github.com/royrusso/elasticsearch-HQ 
-Make sure to get the right version for your version of elastic search (I've been testing with v2.0.3 with a 2.4.5) version of Elastic Search. 
-Note that Elastic Search will need to be started with something akin to 
+To create a HTTP certificate (necessary for running in HTTPS mode)
 
-    docker run -p 9200:9200 -p 9300:9300  -d elasticsearch:2.4.5 --http.cors.enabled=true --http.cors.allow-origin=*
+    docker run -it --rm -v composesetup_certs:/etc/letsencrypt -v composesetup_certs-data:/data/letsencrypt   certbot/certbot certonly --agree-tos  -m <your email address here> --webroot --webroot-path=/data/letsencrypt --staging  -d staging.dockstore.org -d staging.dockstore.org
 
-However, this is not a secure way to run in production
+Change --staging as necessary and the domain names as necessary
+
+For example, for renewing staging on a monthly basis, stick this in the crontab
+
+```
+docker run -it --rm -v composesetup_certs:/etc/letsencrypt -v composesetup_certs-data:/data/letsencrypt   certbot/certbot renew
+docker-compose restart nginx_https
+```
+
+For database backups, you can use a script setup in the cron
+
+```
+@monthly	docker run -it --rm -v composesetup_certs:/etc/letsencrypt -v composesetup_certs-data:/data/letsencrypt certbot/certbot renew && docker-compose restart nginx_https && curl -sm 30 k.wdt.io/denis.yuen@oicr.on.ca/staging.https.renew?c=0_0_1_*_* 
+@daily 		(echo '['`date`'] Nightly Back-up' && /home/ubuntu/compose_setup/scripts/postgres_backup.sh) |  tee /home/ubuntu/compose_setup/scripts/ds_backup.log
+```
+
+This relies upon an IAM role for the appropriate S3 bucket. 
