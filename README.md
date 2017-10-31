@@ -47,3 +47,19 @@ The bootstrap script can also rebuild your Docker images and spin them up althou
 ```
 
 This relies upon an IAM role for the appropriate S3 bucket. 
+
+### Loading Up a Database ###
+
+The docker-compose setup uses a mount from the host to keep the postgres database persistent (which is different from elastic search which is not) 
+
+However, this does require a convoluted way to add content to the DB as follows
+
+```
+docker cp /tmp/backup.sql <container>:/tmp
+docker exec -ti <container> /bin/bash
+su - postgres
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+\quit
+psql -f  /tmp/backup.sql 
+```
