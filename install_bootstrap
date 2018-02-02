@@ -240,6 +240,7 @@ CONFIG
     mustache dockstore_launcher_config/compose.config templates/init_ui2.sh.template > config/init_ui2.sh
     mustache dockstore_launcher_config/compose.config templates/elasticsearch.yml > config/elasticsearch.yml
     mustache dockstore_launcher_config/compose.config templates/search_verification.html > config/${google_verification_name}.html
+    mustache dockstore_launcher_config/compose.config templates/logsToElastic.conf > config/logsToElastic.conf
 
 #    docker-compose build --no-cache
 #    docker-compose up --force-recreate --remove-orphans

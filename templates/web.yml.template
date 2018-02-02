@@ -73,3 +73,13 @@ database:
 
   # whether or not idle connections should be validated
   checkConnectionWhileIdle: false
+
+server:
+  requestLog:
+    type: classic
+    timeZone: UTC
+    appenders:
+      - type: logstash
+        host: 127.0.0.1
+        port: 5044
+
