@@ -80,6 +80,6 @@ server:
     timeZone: UTC
     appenders:
       - type: logstash
-        host: 127.0.0.1
-        port: 5044
+        host: logstash
+        port: 5055
 
