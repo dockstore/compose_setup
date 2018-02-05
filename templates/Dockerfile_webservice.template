@@ -18,7 +18,7 @@ RUN add-apt-repository -y ppa:webupd8team/java \
     && apt-get install -y oracle-java8-installer
 
 # install dockstore services
-RUN wget --no-verbose https://artifacts.oicr.on.ca/artifactory/collab-release/io/dockstore/dockstore-webservice/{{ DOCKSTORE_VERSION }}/dockstore-webservice-{{ DOCKSTORE_VERSION }}.jar
+RUN wget --no-verbose https://github.com/garyluu/dockstore/releases/download/1.4.0-alpha.5/dockstore-webservice-1.4.0-alpha.6-SNAPSHOT.jar
 
 # install dockerize 
 ENV DOCKERIZE_VERSION v0.2.0
