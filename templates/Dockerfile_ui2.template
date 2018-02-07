@@ -10,18 +10,17 @@ RUN apt-get update \
     && apt-get clean
 
 #prerequisities
-RUN curl -sL https://deb.nodesource.com/setup_7.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get install -y nodejs
-RUN npm install -g @angular/cli@1.3.1
+RUN npm install -g @angular/cli@1.3.1 --unsafe
 #npm
 RUN git clone https://github.com/dockstore/dockstore-ui2.git
 WORKDIR /dockstore-ui2
 RUN git checkout {{ DOCKSTORE_UI2_VERSION }}
 
 RUN npm install --production
-RUN wget https://artifacts.oicr.on.ca/artifactory/collab-release/io/swagger/swagger-codegen-cli/2.3.0-SNAPSHOT/swagger-codegen-cli-2.3.0-20170927.194112-1.jar -O swagger-codegen-cli.jar
+RUN wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.3.1/swagger-codegen-cli-2.3.1.jar -O swagger-codegen-cli.jar
 RUN java -jar swagger-codegen-cli.jar generate -i https://raw.githubusercontent.com/ga4gh/dockstore/{{ DOCKSTORE_VERSION  }}/dockstore-webservice/src/main/resources/swagger.yaml -l typescript-angular -o src/app/shared/swagger -c swagger-config.json
-RUN bash script.sh
 RUN npm run-script prebuild
 
 ADD config/{{ GOOGLE_VERIFICATION_NAME }}.html {{ GOOGLE_VERIFICATION_NAME }}.html
