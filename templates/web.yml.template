@@ -74,12 +74,14 @@ database:
   # whether or not idle connections should be validated
   checkConnectionWhileIdle: false
 
-#server:
-#  requestLog:
-#    type: classic
-#    timeZone: UTC
-#    appenders:
-#      - type: logstash
-#        host: logstash
-#        port: 5055
+{{#LOGSTASH}}
+server:
+  requestLog:
+    type: classic
+    timeZone: UTC
+    appenders:
+      - type: logstash
+        host: logstash
+        port: 5055
+{{/LOGSTASH}}
 

@@ -180,10 +180,12 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         tag_manager_id='tag_manager_id'
         ask_question "What is your Google tag manager id?" "$TAG_MANAGER_ID" "tag_manager_id" $tag_manager_id
 
+        logstash='logstash'
+        ask_question "Are you using logstash (true or false)?" "$LOGSTASH" "logstash" $logstash
 
         # Now write a config for this file.
         [[ -f dockstore_launcher_config/compose.config ]] || mkdir -p dockstore_launcher_config
-		# Note: You can't have ANY blank lines in .dockstore/dockstore.config because the python library that will eventually process it does not like blank lines and will fail.
+               # Note: You can't have ANY blank lines in .dockstore/dockstore.config because the python library that will eventually process it does not like blank lines and will fail.
         # we need to override the ethernet device on some systems
 
                 echo "Installing various apt packages"
@@ -207,7 +209,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "GOOGLE_VERIFICATION_NAME":"${google_verification_name}",
 "TAG_MANAGER_ID":"${tag_manager_id}",
 "GITLAB_CLIENT_ID":"${gitlab_client_id}",
-"GITLAB_CLIENT_SECRET":"${gitlab_client_secret}"
+"GITLAB_CLIENT_SECRET":"${gitlab_client_secret}",
+"LOGSTASH":${logstash}
 }
 CONFIG
     [[ -d "dockstore_launcher_config" ]] || mkdir "dockstore_launcher_config"
