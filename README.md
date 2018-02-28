@@ -39,7 +39,7 @@ If using with logstash, use `-f docker-compose.yml -f docker-compose.dev.yml` fl
 
 3. After following the instructions in the bootstrap script and either letting it rebuild the Docker containers and running them on your own, you can browse to the Dockstore site hosted at port 443 by default. `https://<domain-name>` if you specified https or `http://<domain-name>:443` if you did not. 
 
-4.  Note that the following volumes are created, `composesetup_certs` and `composesetup_certs-data` for https certificates, `composesetup_esdata1` for ephermeral elastic search data, `composesetup_log_volume` for logging, and `composesetup_ui1_content` and its ui2 equivalent for storing the built UIs before they are handed off the nginx for service. 
+4.  Note that the following volumes are created, `composesetup_certs` and `composesetup_certs-data` for https certificates, `composesetup_esdata1` for ephermeral elastic search data, `composesetup_log_volume` for logging, and `composesetup_ui2_content` for storing the built UIs before they are handed off the nginx for service. 
     
 6. For database backups, you can use a script setup in the cron for the host
 
