@@ -179,7 +179,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         ask_question "What is your Google tag manager id?" "$TAG_MANAGER_ID" "tag_manager_id" $tag_manager_id
 
         google_shortener_key='google_shortener_key'
-        ask_question "What is your Google shortener key?" "$GOOGLE_SHORTENER_KEY" "google_shortener_key" $google_shortener_key=
+        ask_question "What is your Google shortener key?" "$GOOGLE_SHORTENER_KEY" "google_shortener_key" $google_shortener_key
 
         logstash='logstash'
         ask_question "Are you using logstash (true or false)?" "$LOGSTASH" "logstash" $logstash
