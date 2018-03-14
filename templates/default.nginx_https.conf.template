@@ -45,6 +45,7 @@ server {
     add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, OPTIONS';
     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
     add_header 'Access-Control-Expose-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
     location / {
         root   /usr/share/nginx/html1;
@@ -112,6 +113,7 @@ server {
     add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, OPTIONS';
     add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
     add_header 'Access-Control-Expose-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
     location = /sitemap.txt {
         proxy_pass 	http://webservice:8080/metadata/sitemap;
