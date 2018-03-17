@@ -184,6 +184,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         logstash='logstash'
         ask_question "Are you using logstash (true or false)?" "$LOGSTASH" "logstash" $logstash
 
+		enable_cwl_viewer='enable_cwl_viewer'
+		ask_question "Do you want to enable CWL Viewer in DAG (true or false)?" $ENABLE_CWL_VIEWER "enable_cwl_viewer" $enable_cwl_viewer	
+
         # Now write a config for this file.
         [[ -f dockstore_launcher_config/compose.config ]] || mkdir -p dockstore_launcher_config
                # Note: You can't have ANY blank lines in .dockstore/dockstore.config because the python library that will eventually process it does not like blank lines and will fail.
@@ -211,7 +214,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "GITLAB_CLIENT_ID":"${gitlab_client_id}",
 "GITLAB_CLIENT_SECRET":"${gitlab_client_secret}",
 "GOOGLE_SHORTENER_KEY":"${google_shortener_key}",
-"LOGSTASH":${logstash}
+"LOGSTASH":${logstash},
+"ENABLE_CWL_VIEWER":"${enableCwlViewer}"
 }
 CONFIG
     [[ -d "dockstore_launcher_config" ]] || mkdir "dockstore_launcher_config"
