@@ -184,8 +184,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         logstash='logstash'
         ask_question "Are you using logstash (true or false)?" "$LOGSTASH" "logstash" $logstash
 
-		enable_cwl_viewer='enable_cwl_viewer'
-		ask_question "Do you want to enable CWL Viewer in DAG (true or false)?" $ENABLE_CWL_VIEWER "enable_cwl_viewer" $enable_cwl_viewer	
+        enable_cwl_viewer='enable_cwl_viewer'
+        ask_question "Do you want to enable CWL Viewer in DAG (true or false)?" $ENABLE_CWL_VIEWER "enable_cwl_viewer" $enable_cwl_viewer
 
         # Now write a config for this file.
         [[ -f dockstore_launcher_config/compose.config ]] || mkdir -p dockstore_launcher_config
