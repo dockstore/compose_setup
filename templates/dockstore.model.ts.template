@@ -33,5 +33,10 @@ export class Dockstore {
   static readonly GITLAB_REDIRECT_URI = Dockstore.LOCAL_URI + '/auth/' + Provider.GITLAB;
 
   static readonly CWL_VISUALIZER_URI = 'https://view.commonwl.org';
+
+  static readonly FEATURES = {
+    enableCwlViewer: {{ ENABLE_CWL_VIEWER }}
+  }
+
 }
 
