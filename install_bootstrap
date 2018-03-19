@@ -215,7 +215,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "GITLAB_CLIENT_SECRET":"${gitlab_client_secret}",
 "GOOGLE_SHORTENER_KEY":"${google_shortener_key}",
 "LOGSTASH":${logstash},
-"ENABLE_CWL_VIEWER":"${enableCwlViewer}"
+"ENABLE_CWL_VIEWER":"${enable_cwl_viewer}"
 }
 CONFIG
     [[ -d "dockstore_launcher_config" ]] || mkdir "dockstore_launcher_config"
