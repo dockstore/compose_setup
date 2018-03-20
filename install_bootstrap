@@ -187,6 +187,12 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         enable_cwl_viewer='enable_cwl_viewer'
         ask_question "Do you want to enable CWL Viewer in DAG (true or false)?" $ENABLE_CWL_VIEWER "enable_cwl_viewer" $enable_cwl_viewer
 
+        enable_launch_with_firecloud='enable_launch_with_firecloud'
+        ask_question "Do you want to enable Launch with FireCloud (true or false)?" "$ENABLE_LAUNCH_WITH_FIRECLOUD" "enable_launch_with_firecloud" $enable_launch_with_firecloud
+
+        firecloud_launch_url='firecloud_launch_url'
+        ask_question "What is the Launch with FireCloud base url? Unless it's a staging FC enviornment, it should be https://portal.firecloud.org/#import/dockstore" "$FIRECLOUD_LAUNCH_URL" "firecloud_launch_url" $firecloud_launch_url
+
         # Now write a config for this file.
         [[ -f dockstore_launcher_config/compose.config ]] || mkdir -p dockstore_launcher_config
                # Note: You can't have ANY blank lines in .dockstore/dockstore.config because the python library that will eventually process it does not like blank lines and will fail.
@@ -215,7 +221,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "GITLAB_CLIENT_SECRET":"${gitlab_client_secret}",
 "GOOGLE_SHORTENER_KEY":"${google_shortener_key}",
 "LOGSTASH":${logstash},
-"ENABLE_CWL_VIEWER":"${enable_cwl_viewer}"
+"ENABLE_CWL_VIEWER":"${enable_cwl_viewer}",
+"ENABLE_LAUNCH_WITH_FIRECLOUD":"${enable_launch_with_firecloud}",
+"FIRECLOUD_LAUNCH_URL":"${firecloud_launch_url}"
 }
 CONFIG
     [[ -d "dockstore_launcher_config" ]] || mkdir "dockstore_launcher_config"
