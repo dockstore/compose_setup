@@ -12,6 +12,7 @@ export class Dockstore {
   static readonly LOCAL_URI = Dockstore.HOSTNAME + ':' + Dockstore.UI_PORT;
   static readonly API_URI = Dockstore.HOSTNAME + ':' + Dockstore.API_PORT;
   static readonly DNASTACK_IMPORT_URL= 'https://app.dnastack.com/#/app/workflow/import/dockstore';
+  static readonly FIRECLOUD_IMPORT_URL= '{{ FIRECLOUD_IMPORT_URL }}';
 
   static readonly GOOGLE_SHORTENER_KEY = '{{ GOOGLE_SHORTENER_KEY }}';
 
@@ -35,7 +36,8 @@ export class Dockstore {
   static readonly CWL_VISUALIZER_URI = 'https://view.commonwl.org';
 
   static readonly FEATURES = {
-    enableCwlViewer: {{ ENABLE_CWL_VIEWER }}
+    enableCwlViewer: {{ ENABLE_CWL_VIEWER }},
+    enableLaunchWithFireCloud: {{ ENABLE_LAUNCH_WITH_FIRECLOUD }}
   }
 
 }
