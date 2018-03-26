@@ -191,7 +191,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         ask_question "Do you want to enable Launch with FireCloud (true or false)?" "$ENABLE_LAUNCH_WITH_FIRECLOUD" "enable_launch_with_firecloud" $enable_launch_with_firecloud
 
         firecloud_import_url='firecloud_import_url'
-        ask_question "What is the Launch with FireCloud base url? Unless it's a staging FC enviornment, it should be https://portal.firecloud.org/#import/dockstore" "$FIRECLOUD_LAUNCH_URL" "firecloud_import_url" $firecloud_import_url
+        ask_question "What is the Launch with FireCloud base url? Unless it's a staging FC enviornment, it should be https://portal.firecloud.org/#import/dockstore" "$FIRECLOUD_IMPORT_URL" "firecloud_import_url" $firecloud_import_url
 
         # Now write a config for this file.
         [[ -f dockstore_launcher_config/compose.config ]] || mkdir -p dockstore_launcher_config
