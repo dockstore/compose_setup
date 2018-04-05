@@ -118,6 +118,11 @@ server {
     location = /sitemap.txt {
         proxy_pass 	http://webservice:8080/metadata/sitemap;
     }
+    
+    location = /rss.xml {
+        proxy_pass     http://webservice:8080/metadata/rss;
+    }
+
 
     location / {
         root   /usr/share/nginx/html2;
