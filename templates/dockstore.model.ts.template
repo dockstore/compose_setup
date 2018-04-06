@@ -14,8 +14,6 @@ export class Dockstore {
   static readonly DNASTACK_IMPORT_URL= 'https://app.dnastack.com/#/app/workflow/import/dockstore';
   static readonly FIRECLOUD_IMPORT_URL= '{{ FIRECLOUD_IMPORT_URL }}';
 
-  static readonly GOOGLE_SHORTENER_KEY = '{{ GOOGLE_SHORTENER_KEY }}';
-
   static readonly GITHUB_CLIENT_ID = '{{ GITHUB_CLIENT2_ID }}';
   static readonly GITHUB_AUTH_URL = 'https://github.com/login/oauth/authorize';
   static readonly GITHUB_REDIRECT_URI = Dockstore.LOCAL_URI + '/auth/' + Provider.GITHUB;
