@@ -14,7 +14,7 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get install -y nodejs
 RUN npm install -g @angular/cli@1.3.1 --unsafe
 #npm
-RUN echo {{ DOCKSTORE_UI2_VERSION }}
+RUN touch {{ DOCKSTORE_UI2_VERSION }}.out
 RUN git clone https://github.com/dockstore/dockstore-ui2.git
 WORKDIR /dockstore-ui2
 RUN git checkout {{ DOCKSTORE_UI2_VERSION }}
