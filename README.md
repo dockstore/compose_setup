@@ -31,7 +31,7 @@ docker-compose restart nginx_https
     4. the Google verification code and tag manager ID are used if you want to properly track visitors to Dockstore and what pages they browse to
 
 The bootstrap script can also rebuild your Docker images and spin them up although you may wish to disable this while doing development. Keep in mind the following handy commands:
-    1. `docker-compose build --no-cache` will rebuild all your images from scratch, useful if you have cached out-of-date information, such as a git checkout of the UI1 or UI2
+    1. `docker-compose build` will rebuild all your images from scratch, useful if you have cached out-of-date information, such as a git checkout of the UI1 or UI2 (--no-cache no longer required)
     2. `docker-compose up --force-recreate --remove-orphans` will re-create all containers known to docker-compose and delete those volumes that no longer are associated with running containers
     3. `docker system prune` for cleaning out old containers and images
 
