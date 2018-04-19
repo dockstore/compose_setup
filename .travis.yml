@@ -5,7 +5,7 @@ services:
 before_install:
 - gem install mustache
 
-language: java
+language: bash
 
 install:
 - bash install_bootstrap --script
