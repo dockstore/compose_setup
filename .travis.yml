@@ -8,4 +8,4 @@ before_install:
 install:
 - bash install_bootstrap --script
 - docker-compose version
-- docker-compose --log-level WARNING  build  
+- docker-compose build  
