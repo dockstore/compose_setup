@@ -2,6 +2,9 @@ sudo: required
 services:
 - docker
 
+before_install:
+- sudo apt-et install -y ruby-mustache
+
 install:
 - bash install_bootstrap --script
 - docker-compose build 
