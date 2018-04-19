@@ -5,7 +5,9 @@ services:
 before_install:
 - gem install mustache
 
+language: java
+
 install:
 - bash install_bootstrap --script
 - docker-compose version
-- docker-compose build  
+- docker-compose build
