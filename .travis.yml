@@ -3,7 +3,7 @@ services:
 - docker
 
 before_install:
-- sudo apt-et install -y ruby-mustache
+- sudo apt-get install -y ruby-mustache
 
 install:
 - bash install_bootstrap --script
