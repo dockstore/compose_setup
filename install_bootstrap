@@ -1,9 +1,12 @@
-#! /bin/bash
+#!/usr/bin/env bash
 
 # Created by Solomon Shorser
 # Hacked by Denis Yuen
 
-set -e
+set -o errexit
+set -o pipefail
+set -o nounset
+
 
 # When changing these versions, you will probably need to delete all files in the working directory
 # except for the dockstore_launcher_config directory in order to get a clean new copy of
@@ -14,6 +17,50 @@ DOCKSTORE INSTALLATION BOOTSTRAPPER
 -----------------------------------------------------------------------------
 MSG
 
+run_dockstore_launcher=''
+PUBLIC_LAUNCHER_IP_ADDRESS=''
+DOCKSTORE_VERSION=''
+DOCKSTORE_UI2_VERSION=''
+GITHUB_CLIENT1_ID=''
+GITHUB_CLIENT2_ID=''
+GITHUB_CLIENT1_SECRET=''
+GITHUB_CLIENT2_SECRET=''
+QUAY_CLIENT_ID=''
+QUAY_CLIENT_SECRET=''
+BITBUCKET_CLIENT_ID=''
+BITBUCKET_CLIENT_SECRET=''
+DOMAIN_NAME=''
+HTTPS=''
+DISCOURSE_URL=''
+GOOGLE_VERIFICATION_NAME=''
+TAG_MANAGER_ID=''
+GITLAB_CLIENT_ID=''
+GITLAB_CLIENT_SECRET=''
+LOGSTASH=''
+ENABLE_CWL_VIEWER=''
+ENABLE_LAUNCH_WITH_FIRECLOUD=''
+FIRECLOUD_IMPORT_URL=''
+google_verification_name=''
+
+function template()
+{
+    mkdir -p config
+    mustache dockstore_launcher_config/compose.config templates/Dockerfile_webservice.template > config/Dockerfile_webservice
+    mustache dockstore_launcher_config/compose.config templates/Dockerfile_ui2.template > config/Dockerfile_ui2
+    mustache dockstore_launcher_config/compose.config templates/dockstore.model.ts.template > config/dockstore.model.ts
+    mustache dockstore_launcher_config/compose.config templates/index.html.template > config/index.html
+    mustache dockstore_launcher_config/compose.config templates/web.yml.template > config/web.yml
+    mustache dockstore_launcher_config/compose.config templates/webservice.js.template > config/webservice.js
+    mustache dockstore_launcher_config/compose.config templates/default.nginx_http.conf.template > config/default.nginx_http.conf
+    mustache dockstore_launcher_config/compose.config templates/default.nginx_https.conf.template > config/default.nginx_https.conf
+    mustache dockstore_launcher_config/compose.config templates/default.nginx_https.shared.conf.template > config/default.nginx_https.shared.conf
+
+    mustache dockstore_launcher_config/compose.config templates/init_webservice.sh.template > config/init_webservice.sh
+    mustache dockstore_launcher_config/compose.config templates/init_ui2.sh.template > config/init_ui2.sh
+    mustache dockstore_launcher_config/compose.config templates/elasticsearch.yml > config/elasticsearch.yml
+    mustache dockstore_launcher_config/compose.config templates/search_verification.html > config/${GOOGLE_VERIFICATION_NAME}.html
+    mustache dockstore_launcher_config/compose.config templates/logsToElastic.conf > config/logsToElastic.conf
+}
 
 # Ask the user a question and save the answer.
 # They MUST give an answer, they cannot leave their answer blank. In the future, that could be parameterized...
@@ -39,13 +86,13 @@ function ask_question()
         fi
     done
     # Set the user's value in the reference. See here: http://stackoverflow.com/a/14852461/192801 to get an idea of how this works.
-    eval "${!4}=\"$answer\""
+    eval "${!4}=\"${answer}\""
 }
 
 user_dockstore_version=latest
 #FYI: The weird "^^" is to make the user input into uppercase so that if they enter "y" the installer will still run.
 install_dockstore_launcher=''
-while [[ "${install_dockstore_launcher^^}" != 'Y' &&  "${install_dockstore_launcher^^}" != 'N' ]] ; do
+while [[ "${install_dockstore_launcher^^}" != 'Y' &&  "${install_dockstore_launcher^^}" != 'N' && "$@" != *"--script"* ]] ; do
 	echo "DO YOU WISH TO CONTINUE [Y/N]:"
 	read install_dockstore_launcher
 	if [ "${install_dockstore_launcher^^}" = 'Y' ] ; then
@@ -88,7 +135,7 @@ while [[ "${install_dockstore_launcher^^}" != 'Y' &&  "${install_dockstore_launc
 			install_docker_result=$?
 			set -e
 
-			if [ $install_docker_result -ne  0 ] ; then
+			if [ ${install_docker_result} -ne  0 ] ; then
 				echo "It looks like there may have been a problem installing docker:"
 				cat install_wget_curl.log
 				exit 1
@@ -99,7 +146,7 @@ while [[ "${install_dockstore_launcher^^}" != 'Y' &&  "${install_dockstore_launc
 			install_compose_result=$?
 			set -e
 
-			if [ $install_compose_result -ne  0 ] ; then
+			if [ ${install_compose_result} -ne  0 ] ; then
 				echo "It looks like there may have been a problem installing docker compose:"
 				cat install_compose.log
 				exit 1
@@ -123,17 +170,16 @@ while [[ "${install_dockstore_launcher^^}" != 'Y' &&  "${install_dockstore_launc
 	fi
 done
 
-run_dockstore_launcher=''
-while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" != 'N' ]] ; do
+#Read the config file if it exists and then show previous values (but do not override variables in this script)
+if [ -f dockstore_launcher_config/compose.config ] ; then
+    source <(jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" dockstore_launcher_config/compose.config | grep -v "CONSONANCE")
+fi
+
+while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" != 'N' && "$@" != *"--script"* ]] ; do
     echo "Would you like to run the dockstore_launcher now? [Y/N]"
     read run_dockstore_launcher
     # If the user would like to run dockstore_launcher, then we have to get some config settings from them OR read them from an existing file
     if [ "${run_dockstore_launcher^^}" = 'Y' ] ; then
-        #Read the config file if it exists and then show previous values (but do not override variables in this script)
-        if [ -f dockstore_launcher_config/compose.config ] ; then
-		source <(jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" dockstore_launcher_config/compose.config | grep -v "CONSONANCE")
-        fi
-
 
         dockstore_version='dockstore_version'
         ask_question "What version of Dockstore do you wish to deploy?" "$DOCKSTORE_VERSION" "Dockstore version" $dockstore_version
@@ -222,42 +268,12 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "FIRECLOUD_IMPORT_URL":"${firecloud_import_url}"
 }
 CONFIG
-    [[ -d "dockstore_launcher_config" ]] || mkdir "dockstore_launcher_config"
-    # cp ~/.dockstore/compose.config dockstore_launcher_config/compose.config
-    # template out stuff, grab template files for convenience if not running in a git repo
-    # note there should really be a better way of grabbing a directory, see https://github.com/dear-github/dear-github/issues/95
-#    wget --no-clobber https://raw.githubusercontent.com/Consonance/dockstore/${CONSONANCE_LAUNCHER_VERSION}/container-admin/Dockerfile_coordinator.template
-#    wget --no-clobber https://raw.githubusercontent.com/Consonance/dockstore/${CONSONANCE_LAUNCHER_VERSION}/container-admin/Dockerfile_provisioner.template
-#    wget --no-clobber https://raw.githubusercontent.com/Consonance/dockstore/${CONSONANCE_LAUNCHER_VERSION}/container-admin/Dockerfile_webservice.template
-#    wget --no-clobber https://raw.githubusercontent.com/Consonance/dockstore/${CONSONANCE_LAUNCHER_VERSION}/container-admin/aws.config.template
-#    wget --no-clobber https://raw.githubusercontent.com/Consonance/dockstore/${CONSONANCE_LAUNCHER_VERSION}/container-admin/bag_params.json.template
-#    wget --no-clobber https://raw.githubusercontent.com/Consonance/dockstore/${CONSONANCE_LAUNCHER_VERSION}/container-admin/config.template
-#    wget --no-clobber https://raw.githubusercontent.com/Consonance/dockstore/${CONSONANCE_LAUNCHER_VERSION}/container-admin/docker-compose.yml
-#    wget --no-clobber https://raw.githubusercontent.com/Consonance/dockstore/${CONSONANCE_LAUNCHER_VERSION}/container-admin/example_tags.json
-
-    mkdir -p config
-    mustache dockstore_launcher_config/compose.config templates/Dockerfile_webservice.template > config/Dockerfile_webservice
-    mustache dockstore_launcher_config/compose.config templates/Dockerfile_ui2.template > config/Dockerfile_ui2
-    mustache dockstore_launcher_config/compose.config templates/dockstore.model.ts.template > config/dockstore.model.ts
-    mustache dockstore_launcher_config/compose.config templates/index.html.template > config/index.html
-    mustache dockstore_launcher_config/compose.config templates/web.yml.template > config/web.yml 
-    mustache dockstore_launcher_config/compose.config templates/webservice.js.template > config/webservice.js
-    mustache dockstore_launcher_config/compose.config templates/default.nginx_http.conf.template > config/default.nginx_http.conf
-    mustache dockstore_launcher_config/compose.config templates/default.nginx_https.conf.template > config/default.nginx_https.conf
-    mustache dockstore_launcher_config/compose.config templates/default.nginx_https.shared.conf.template > config/default.nginx_https.shared.conf
-
-    mustache dockstore_launcher_config/compose.config templates/init_webservice.sh.template > config/init_webservice.sh
-    mustache dockstore_launcher_config/compose.config templates/init_ui2.sh.template > config/init_ui2.sh
-    mustache dockstore_launcher_config/compose.config templates/elasticsearch.yml > config/elasticsearch.yml
-    mustache dockstore_launcher_config/compose.config templates/search_verification.html > config/${google_verification_name}.html
-    mustache dockstore_launcher_config/compose.config templates/logsToElastic.conf > config/logsToElastic.conf
-
-#    docker-compose build --no-cache
-#    docker-compose up --force-recreate --remove-orphans
     elif [ "${run_dockstore_launcher^^}" = 'N' ] ; then
         echo "You can run this script at another time to run the dockstore launcher"
         exit 0
     fi
 done
+
+template
+
 echo "Exiting now."
-set +e

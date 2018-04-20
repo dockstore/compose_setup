@@ -1,0 +1,13 @@
+sudo: required
+services:
+- docker
+
+before_install:
+- gem install mustache
+
+language: bash
+
+install:
+- bash install_bootstrap --script
+- docker-compose version
+- docker-compose build
