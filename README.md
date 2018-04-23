@@ -35,7 +35,7 @@ The bootstrap script can also rebuild your Docker images and spin them up althou
     2. `docker-compose up --force-recreate --remove-orphans` will re-create all containers known to docker-compose and delete those volumes that no longer are associated with running containers
     3. `docker system prune` for cleaning out old containers and images
 
-If using with logstash, use `-f docker-compose.yml -f docker-compose.dev.yml` flags after each `docker-compose` command to merge docker-compose files
+If using with logstash, use `-f docker-compose.yml -f docker-compose.dev.yml` flags after each `docker-compose` command to merge docker-compose files (e.g. `docker-compose -f docker-compse.yml -f docker-compose.dev.yml build`) 
 
 3. After following the instructions in the bootstrap script and either letting it rebuild the Docker containers and running them on your own, you can browse to the Dockstore site hosted at port 443 by default. `https://<domain-name>` if you specified https or `http://<domain-name>:443` if you did not. 
 
