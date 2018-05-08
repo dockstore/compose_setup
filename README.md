@@ -70,12 +70,12 @@ psql -f  /tmp/backup.sql
 You can run database migrations using Dropwizard. First make sure that the webservice is running. The following command can be used to run migrations. Note that the context needs to be filled in.
 
 ```
-docker-compose run webservice java -jar dockstore-webservice-*.jar db migrate web.yml --include <context>
+docker-compose run webservice java -jar dockstore-webservice-<version number here>.jar db migrate web.yml --include <context>
 ```
 
 To run migrations for 1.4.0, run the following command:
 
 ```
-docker-compose run webservice java -jar dockstore-webservice-*.jar db migrate web.yml --include 1.4.0
+docker-compose run webservice java -jar dockstore-webservice-<version number here>.jar db migrate web.yml --include 1.4.0
 
 ```
