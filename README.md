@@ -79,3 +79,7 @@ To run migrations for 1.4.0, run the following command:
 docker-compose run webservice java -jar dockstore-webservice-<version number here>.jar db migrate web.yml --include 1.4.0
 
 ```
+
+### Kibana Dashboard Setup ###
+Import the [export.json](export.json) Dashboard from compose_setup/export.json by going to Kibana's management => saved objects => import.  See https://www.elastic.co/guide/en/kibana/current/managing-saved-objects.html for more info, especially the 2nd warning.
+
