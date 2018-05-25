@@ -36,6 +36,8 @@ GOOGLE_VERIFICATION_NAME=''
 TAG_MANAGER_ID=''
 GITLAB_CLIENT_ID=''
 GITLAB_CLIENT_SECRET=''
+GOOGLE_CLIENT_ID=''
+GOOGLE_CLIENT_SECRET=''
 LOGSTASH=''
 ENABLE_CWL_VIEWER=''
 ENABLE_LAUNCH_WITH_FIRECLOUD=''
@@ -211,6 +213,11 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         gitlab_client_secret='gitlab_client_secret'
         ask_question "What is your gitlab client secret?" "$GITLAB_CLIENT_SECRET" "Dockstore version" $gitlab_client_secret
 
+        google_client_id='google_client_id'
+        ask_question "What is your google client id?" "$GOOGLE_CLIENT_ID" "Dockstore version" $google_client_id
+        google_client_secret='google_client_secret'
+        ask_question "What is your google client secret?" "$GOOGLE_CLIENT_SECRET" "Dockstore version" $google_client_secret
+
         domain_name='domain_name'
         ask_question "What is the domain name for this server (can be an ip address for development)?" "$DOMAIN_NAME" "Domain name" $domain_name
         https='https'
@@ -262,6 +269,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "TAG_MANAGER_ID":"${tag_manager_id}",
 "GITLAB_CLIENT_ID":"${gitlab_client_id}",
 "GITLAB_CLIENT_SECRET":"${gitlab_client_secret}",
+"GOOGLE_CLIENT_ID":"${google_client_id}",
+"GOOGLE_CLIENT_SECRET":"${google_client_secret}",
 "LOGSTASH":${logstash},
 "ENABLE_CWL_VIEWER":"${enable_cwl_viewer}",
 "ENABLE_LAUNCH_WITH_FIRECLOUD":"${enable_launch_with_firecloud}",
