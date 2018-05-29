@@ -17,6 +17,10 @@ gitlabClientID: {{ GITLAB_CLIENT_ID }}
 gitlabClientSecret: {{ GITLAB_CLIENT_SECRET }}
 gitlabRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}:443/auth/gitlab.com
 
+googleClientID: {{ GOOGLE_CLIENT_ID }}
+googleClientSecret: {{ GOOGLE_CLIENT_SECRET }}
+googleRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}:443
+
 esconfiguration:
   port: 9200
   hostname: elasticsearch
