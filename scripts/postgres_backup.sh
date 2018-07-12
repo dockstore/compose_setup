@@ -2,6 +2,7 @@
 set -x
 set -e
 
+cd compose_setup
 s3_url_db_backup='s3://oicr.backups.dockstore/staging.dockstore.org/database/'`date +%Y-%m-%d`
 temp_dir=`mktemp -d`
 output_file=ds-webservice_${2:-prod}_`date +%Y-%m-%dT%H-%M-%S%z`.sql
