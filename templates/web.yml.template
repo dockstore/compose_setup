@@ -4,10 +4,8 @@ quayClientID: {{ QUAY_CLIENT_ID }}
 quayRedirectURI: dev-only
 githubClientID: 
   - {{ GITHUB_CLIENT2_ID }}
-  - {{ GITHUB_CLIENT1_ID }}
 githubClientSecret: 
   - {{ GITHUB_CLIENT2_SECRET }}
-  - {{ GITHUB_CLIENT1_SECRET }}
 # port should match the port where the UI is being hosted, 9000 by default
 githubRedirectURI: dev-only
 bitbucketClientID: {{ BITBUCKET_CLIENT_ID }}
@@ -95,4 +93,3 @@ server:
         host: logstash
         port: 5055
 {{/LOGSTASH}}
-

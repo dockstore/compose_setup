@@ -11,7 +11,7 @@ map $sent_http_content_type $expires {
 server {
     server_name  www.{{ DOMAIN_NAME }};
     listen       4200;
-    return 301 https://{{ DOMAIN_NAME }}/$request_uri;
+    return 301 http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}/$request_uri;
 }
 
 
@@ -46,7 +46,7 @@ server {
     # used to redirect swagger.json as retrieved by swagger ui without changes
     location = /swagger.json {
         #proxy_pass 	http://webservice:8080/swagger.json;
-        rewrite ^/(.*)$ https://{{ DOMAIN_NAME}}/api/swagger.json permanent;
+        rewrite ^/(.*)$ http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME}}/api/swagger.json permanent;
     }
 
     # used when port 8443 was unreachable from google
@@ -87,7 +87,7 @@ server {
     listen 8080;
     
     location /static {
-        rewrite ^/(.*)$ https://{{ DOMAIN_NAME}}/$1 permanent;
+        rewrite ^/(.*)$ http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME}}/$1 permanent;
         proxy_pass     http://webservice:8080/static;
     }
 

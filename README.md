@@ -23,22 +23,22 @@ docker run -it --rm -v composesetup_certs:/etc/letsencrypt -v composesetup_certs
 docker-compose restart nginx_https
 ```
 
-2. Call the install_bootstrap script. This templates the contents of `templates` using mustache to the `config` directory while recording your answers for future use. Note that this may rebuild and spin up the docker containers that host Dockstore unless you comment out the two calls to Dockstores for development purposes.  
+2. Call the install\_bootstrap script. This templates the contents of `templates` using mustache to the `config` directory while recording your answers for future use. Note that this will also
+rebuild your docker images without affecting existing running containers 
 
 3. Some additional information on the answers requested in the script
-    1. Note that changing the versions of the UIs will require a no cache rebuild
-    2. Each integration requires a client id and a secret, it is worth saying that you should not check these in 
-    3. The discourse URL is needed to link Dockstore to a discussion forum 
-    4. the Google verification code and tag manager ID are used if you want to properly track visitors to Dockstore and what pages they browse to
+    1. Each integration requires a client id and a secret, it is worth saying that you should not check these in 
+    2. The discourse URL is needed to link Dockstore to a discussion forum 
+    3. the Google verification code and tag manager ID are used if you want to properly track visitors to Dockstore and what pages they browse to
 
 The bootstrap script can also rebuild your Docker images and spin them up although you may wish to disable this while doing development. Keep in mind the following handy commands:
-    1. `docker-compose build` will rebuild all your images from scratch, useful if you have cached out-of-date information, such as a git checkout of the UI1 or UI2 (--no-cache no longer required)
-    2. `docker-compose up --force-recreate --remove-orphans` will re-create all containers known to docker-compose and delete those volumes that no longer are associated with running containers
-    3. `docker system prune` for cleaning out old containers and images
+    1. `docker-compose up --force-recreate --remove-orphans` will re-create all containers known to docker-compose and delete those volumes that no longer are associated with running containers
+    2. `docker system prune` for cleaning out old containers and images
+    3. `install_boostrap --script` will template and build everything using your previous answers (useful for quick iteration) 
 
 If using with logstash, use `-f docker-compose.yml -f docker-compose.dev.yml` flags after each `docker-compose` command to merge docker-compose files (e.g. `docker-compose -f docker-compse.yml -f docker-compose.dev.yml build`) 
 
-3. After following the instructions in the bootstrap script and either letting it rebuild the Docker containers and running them on your own, you can browse to the Dockstore site hosted at port 443 by default. `https://<domain-name>` if you specified https or `http://<domain-name>:443` if you did not. 
+3. After following the instructions in the bootstrap script and starting up the site with `docker-compose`, you can browse to the Dockstore site hosted at port 443 by default. `https://<domain-name>` if you specified https or `http://<domain-name>:443` if you did not. 
 
 4.  Note that the following volumes are created, `composesetup_certs` and `composesetup_certs-data` for https certificates, `composesetup_esdata1` for ephermeral elastic search data, `composesetup_log_volume` for logging, and `composesetup_ui2_content` for storing the built UIs before they are handed off the nginx for service. 
     
@@ -82,5 +82,5 @@ docker-compose run webservice java -jar dockstore-webservice-<version number her
 ```
 
 ### Kibana Dashboard Setup ###
-Import the [export.json](export.json) Dashboard from compose_setup/export.json by going to Kibana's management => saved objects => import.  See https://www.elastic.co/guide/en/kibana/current/managing-saved-objects.html for more info, especially the 2nd warning.
+Import the [export.json](export.json) Dashboard from compose\_setup/export.json by going to Kibana's management => saved objects => import.  See https://www.elastic.co/guide/en/kibana/current/managing-saved-objects.html for more info, especially the 2nd warning.
 

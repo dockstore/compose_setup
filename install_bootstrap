@@ -21,9 +21,7 @@ run_dockstore_launcher=''
 PUBLIC_LAUNCHER_IP_ADDRESS=''
 DOCKSTORE_VERSION=''
 DOCKSTORE_UI2_VERSION=''
-GITHUB_CLIENT1_ID=''
 GITHUB_CLIENT2_ID=''
-GITHUB_CLIENT1_SECRET=''
 GITHUB_CLIENT2_SECRET=''
 QUAY_CLIENT_ID=''
 QUAY_CLIENT_SECRET=''
@@ -42,8 +40,8 @@ LOGSTASH=''
 ENABLE_CWL_VIEWER=''
 ENABLE_LAUNCH_WITH_FIRECLOUD=''
 FIRECLOUD_IMPORT_URL=''
-google_verification_name=''
-SAM_AUTHORIZER=''
+GOOGLE_VERIFICATION_NAME=''
+AUTHORIZER_TYPE=''
 EXTERNAL_GOOGLE_CLIENT_PREFIX1=''
 SAM_PATH=''
 
@@ -191,10 +189,6 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         dockstore_ui2_version='dockstore_ui2_version'
         ask_question "What version of Dockstore UI 2 do you wish to deploy?" "$DOCKSTORE_UI2_VERSION" "Dockstore version" $dockstore_ui2_version
 
-        github_client1_id='github_client1_id'
-        ask_question "What is your github client id for UI1?" "$GITHUB_CLIENT1_ID" "Dockstore version" $github_client1_id
-        github_client1_secret='github_client1_secret'
-        ask_question "What is your github client secret for UI1?" "$GITHUB_CLIENT1_SECRET" "Dockstore version" $github_client1_secret
         github_client2_id='github_client2_id'
         ask_question "What is your github client id for UI2?" "$GITHUB_CLIENT2_ID" "Dockstore version" $github_client2_id
         github_client2_secret='github_client2_secret'
@@ -245,8 +239,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         firecloud_import_url='firecloud_import_url'
         ask_question "What is the Launch with FireCloud base url? Unless it's a staging FC enviornment, it should be https://portal.firecloud.org/#import/dockstore" "$FIRECLOUD_IMPORT_URL" "firecloud_import_url" $firecloud_import_url
 
-        sam_authorizer='sam_authorizer'
-        ask_question "What kind of authorizer should we use? (sam, or inmemory)" "$SAM_AUTHORIZER" "sam_authorizer" $sam_authorizer
+        authorizer_type='authorizer_type'
+        ask_question "What kind of authorizer should we use? (sam, or inmemory)" "$AUTHORIZER_TYPE" "authorizer_type" $authorizer_type
 
         external_google_client_prefix1='external_google_client_prefix1'
         ask_question "What are the prefixes for google tokens we should accept?" "$EXTERNAL_GOOGLE_CLIENT_PREFIX1" "external_google_client_prefix1" $external_google_client_prefix1
@@ -265,9 +259,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "PUBLIC_LAUNCHER_IP_ADDRESS":"`curl http://169.254.169.254/latest/meta-data/public-ipv4`",
 "DOCKSTORE_VERSION":"${dockstore_version}",
 "DOCKSTORE_UI2_VERSION":"${dockstore_ui2_version}",
-"GITHUB_CLIENT1_ID":"${github_client1_id}",
 "GITHUB_CLIENT2_ID":"${github_client2_id}",
-"GITHUB_CLIENT1_SECRET":"${github_client1_secret}",
 "GITHUB_CLIENT2_SECRET":"${github_client2_secret}",
 "QUAY_CLIENT_ID":"${quay_client_id}",
 "QUAY_CLIENT_SECRET":"${quay_client_secret}",
@@ -286,7 +278,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "ENABLE_CWL_VIEWER":"${enable_cwl_viewer}",
 "ENABLE_LAUNCH_WITH_FIRECLOUD":"${enable_launch_with_firecloud}",
 "FIRECLOUD_IMPORT_URL":"${firecloud_import_url}",
-"SAM_AUTHORIZER":"${sam_authorizer}",
+"AUTHORIZER_TYPE":"${authorizer_type}",
 "EXTERNAL_GOOGLE_CLIENT_PREFIX1":"${external_google_client_prefix1}",
 "SAM_PATH":"${sam_path}"
 }
@@ -298,5 +290,7 @@ CONFIG
 done
 
 template
+
+docker-compose build
 
 echo "Exiting now."
