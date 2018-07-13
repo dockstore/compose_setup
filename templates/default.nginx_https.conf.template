@@ -63,7 +63,10 @@ server {
     }
 
     location /api/ {
-        proxy_pass     http://webservice:8080/;
+        rewrite ^ $request_uri;
+        rewrite ^/api/(.*) $1 break;
+        return 400;
+        proxy_pass     http://webservice:8080/$uri;
     }
 
     location / {
