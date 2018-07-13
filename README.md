@@ -1,5 +1,6 @@
 # compose\_setup
 This project documents how to setup Dockstore staging and production using composed Docker containers. 
+Log issues and see general documentation at [dockstore](https://github.com/ga4gh/dockstore/issues) and [docs.dockstore.org](https://docs.dockstore.org/) respectively
 
 ## Prerequisities
 
