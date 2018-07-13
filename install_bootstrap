@@ -52,7 +52,6 @@ function template()
     mustache dockstore_launcher_config/compose.config templates/dockstore.model.ts.template > config/dockstore.model.ts
     mustache dockstore_launcher_config/compose.config templates/index.html.template > config/index.html
     mustache dockstore_launcher_config/compose.config templates/web.yml.template > config/web.yml
-    mustache dockstore_launcher_config/compose.config templates/webservice.js.template > config/webservice.js
     mustache dockstore_launcher_config/compose.config templates/default.nginx_http.conf.template > config/default.nginx_http.conf
     mustache dockstore_launcher_config/compose.config templates/default.nginx_https.conf.template > config/default.nginx_https.conf
     mustache dockstore_launcher_config/compose.config templates/default.nginx_https.shared.conf.template > config/default.nginx_https.shared.conf
