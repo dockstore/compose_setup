@@ -90,6 +90,6 @@ server:
     timeZone: UTC
     appenders:
       - type: logstash
-        host: 142.1.177.70
+        host: logstash
         port: 5055
 {{/LOGSTASH}}
