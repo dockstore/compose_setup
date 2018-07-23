@@ -23,7 +23,7 @@ esconfiguration:
   port: 9200
   hostname: elasticsearch
 
-authorizerType: {{ SAM_AUTHORIZER }}
+authorizerType: {{ AUTHORIZER_TYPE }}
 externalGoogleClientIdPrefixes:
   - {{ EXTERNAL_GOOGLE_CLIENT_PREFIX1  }}
 
