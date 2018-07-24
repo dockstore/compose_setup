@@ -37,6 +37,7 @@ GITLAB_CLIENT_SECRET=''
 GOOGLE_CLIENT_ID=''
 GOOGLE_CLIENT_SECRET=''
 LOGSTASH=''
+LOGSTASH_HOST=''
 ENABLE_CWL_VIEWER=''
 ENABLE_LAUNCH_WITH_FIRECLOUD=''
 FIRECLOUD_IMPORT_URL=''
@@ -230,6 +231,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         logstash='logstash'
         ask_question "Are you using logstash (true or false)?" "$LOGSTASH" "logstash" $logstash
 
+        logstash_host='logstash_host'
+        ask_question "If you are using logstash, where is it hosted (ex: logstash)?" "$LOGSTASH_HOST" "logstash_host" $logstash_host
+
         enable_cwl_viewer='enable_cwl_viewer'
         ask_question "Do you want to enable CWL Viewer in DAG (true or false)?" "$ENABLE_CWL_VIEWER" "enable_cwl_viewer" $enable_cwl_viewer
 
@@ -275,6 +279,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "GOOGLE_CLIENT_ID":"${google_client_id}",
 "GOOGLE_CLIENT_SECRET":"${google_client_secret}",
 "LOGSTASH":${logstash},
+"LOGSTASH_HOST":${logstash_host},
 "ENABLE_CWL_VIEWER":"${enable_cwl_viewer}",
 "ENABLE_LAUNCH_WITH_FIRECLOUD":"${enable_launch_with_firecloud}",
 "FIRECLOUD_IMPORT_URL":"${firecloud_import_url}",

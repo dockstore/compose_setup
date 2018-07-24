@@ -32,9 +32,11 @@ samconfiguration:
 
 
 # the following values describe where the webservice is being run (and on what port and using what scheme) to configure swagger
-hostname: {{ DOMAIN_NAME }}
-scheme: http{{#HTTPS}}s{{/HTTPS}}
-port: 8443
+externalConfig:
+  basePath: /api/
+  hostname: {{ DOMAIN_NAME }}
+  scheme: http{{#HTTPS}}s{{/HTTPS}}
+  port:
 
 authenticationCachePolicy: maximumSize=10000, expireAfterAccess=10m
 
@@ -90,6 +92,6 @@ server:
     timeZone: UTC
     appenders:
       - type: logstash
-        host: logstash
+        host: {{ LOGSTASH_HOST }}
         port: 5055
 {{/LOGSTASH}}
