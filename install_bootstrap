@@ -279,7 +279,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "GOOGLE_CLIENT_ID":"${google_client_id}",
 "GOOGLE_CLIENT_SECRET":"${google_client_secret}",
 "LOGSTASH":${logstash},
-"LOGSTASH_HOST":${logstash_host},
+"LOGSTASH_HOST":"${logstash_host}",
 "ENABLE_CWL_VIEWER":"${enable_cwl_viewer}",
 "ENABLE_LAUNCH_WITH_FIRECLOUD":"${enable_launch_with_firecloud}",
 "FIRECLOUD_IMPORT_URL":"${firecloud_import_url}",
