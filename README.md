@@ -67,19 +67,7 @@ CREATE SCHEMA public;
 psql -f  /tmp/backup.sql 
 ```
 
-### Database Migrations ###
-You can run database migrations using Dropwizard. First make sure that the webservice is running. The following command can be used to run migrations. Note that the context needs to be filled in.
-
-```
-docker-compose run webservice java -jar dockstore-webservice-<version number here>.jar db migrate web.yml --include <context>
-```
-
-To run migrations for 1.4.0, run the following command:
-
-```
-docker-compose run webservice java -jar dockstore-webservice-<version number here>.jar db migrate web.yml --include 1.4.0
-
-```
+Note that database migration is run once during the startup process and is controlled via the `DATABASE_GENERATED` variable. Answer `yes` if you are working as a developer and want to start work from scratch from an empty database. Answer `no` if you are working as an administrator and/or wish to start Dockstore from a production or staging copy of the database.
 
 ### Kibana Dashboard Setup ###
 Import the [export.json](export.json) Dashboard from compose\_setup/export.json by going to Kibana's management => saved objects => import.  See https://www.elastic.co/guide/en/kibana/current/managing-saved-objects.html for more info, especially the 2nd warning.
