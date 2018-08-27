@@ -291,7 +291,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "AUTHORIZER_TYPE":"${authorizer_type}",
 "EXTERNAL_GOOGLE_CLIENT_PREFIX1":"${external_google_client_prefix1}",
 "SAM_PATH":"${sam_path}",
-"DATABASE_GENERATED":"${database_generated}"
+"DATABASE_GENERATED":${database_generated}
 }
 CONFIG
     elif [ "${run_dockstore_launcher^^}" = 'N' ] ; then
