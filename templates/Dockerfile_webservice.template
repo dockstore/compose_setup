@@ -31,6 +31,7 @@ ADD config/init_webservice.sh .
 ADD config/init_migration.sh .
 
 RUN chmod u+x init_webservice.sh
+RUN chmod u+x init_migration.sh
 # TODO: make sure you create these from the .template files and customize them
 RUN mkdir /dockstore_logs && chmod a+rx /dockstore_logs
 
