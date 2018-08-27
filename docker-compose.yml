@@ -3,7 +3,7 @@ version: '2'
 
 services:
   postgres:
-    image: postgres:9.6
+    image: postgres:9.6.10
     restart: always
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
@@ -29,6 +29,17 @@ services:
     volumes:
       - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
 
+  migration: 
+    build:
+      context: .
+      dockerfile: config/Dockerfile_webservice
+    depends_on:
+      - postgres
+    volumes:
+      - log_volume:/dockstore_logs
+      - ./config/web.yml:/web.yml
+    command: ["dockerize", "-wait", "tcp://postgres:5432", "-timeout", "60s", "./init_migration.sh"]
+
   webservice: 
     build:
       context: .
@@ -37,6 +48,7 @@ services:
     depends_on:
       - postgres
       - elasticsearch
+      - migration
     volumes:
       - log_volume:/dockstore_logs
       - ./config/web.yml:/web.yml

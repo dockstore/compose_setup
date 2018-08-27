@@ -45,6 +45,7 @@ GOOGLE_VERIFICATION_NAME=''
 AUTHORIZER_TYPE=''
 EXTERNAL_GOOGLE_CLIENT_PREFIX1=''
 SAM_PATH=''
+DATABASE_GENERATED=''
 
 function template()
 {
@@ -59,6 +60,7 @@ function template()
     mustache dockstore_launcher_config/compose.config templates/default.nginx_https.shared.conf.template > config/default.nginx_https.shared.conf
 
     mustache dockstore_launcher_config/compose.config templates/init_webservice.sh.template > config/init_webservice.sh
+    mustache dockstore_launcher_config/compose.config templates/init_migration.sh.template > config/init_migration.sh
     mustache dockstore_launcher_config/compose.config templates/init_ui2.sh.template > config/init_ui2.sh
     mustache dockstore_launcher_config/compose.config templates/elasticsearch.yml > config/elasticsearch.yml
     mustache dockstore_launcher_config/compose.config templates/search_verification.html > config/${GOOGLE_VERIFICATION_NAME}.html
@@ -252,6 +254,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         sam_path='sam_path'
         ask_question "What is the path for the sam instance you wish to point at?" "$SAM_PATH" "sam_path" $sam_path
 
+        database_generated='database_generated'
+        ask_question "Do you want to run migration assuming a generated database as opposed to a production DB (true or false)?" "$DATABASE_GENERATED" "database_generated" $database_generated
+
         # Now write a config for this file.
         [[ -f dockstore_launcher_config/compose.config ]] || mkdir -p dockstore_launcher_config
                # Note: You can't have ANY blank lines in .dockstore/dockstore.config because the python library that will eventually process it does not like blank lines and will fail.
@@ -285,7 +290,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "FIRECLOUD_IMPORT_URL":"${firecloud_import_url}",
 "AUTHORIZER_TYPE":"${authorizer_type}",
 "EXTERNAL_GOOGLE_CLIENT_PREFIX1":"${external_google_client_prefix1}",
-"SAM_PATH":"${sam_path}"
+"SAM_PATH":"${sam_path}",
+"DATABASE_GENERATED":"${database_generated}"
 }
 CONFIG
     elif [ "${run_dockstore_launcher^^}" = 'N' ] ; then

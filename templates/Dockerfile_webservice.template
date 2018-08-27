@@ -28,6 +28,7 @@ RUN wget --no-verbose https://github.com/jwilder/dockerize/releases/download/$DO
 
 # the web and Consonance config
 ADD config/init_webservice.sh .
+ADD config/init_migration.sh .
 
 RUN chmod u+x init_webservice.sh
 # TODO: make sure you create these from the .template files and customize them
