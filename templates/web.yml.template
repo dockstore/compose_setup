@@ -19,6 +19,10 @@ googleClientID: {{ GOOGLE_CLIENT_ID }}
 googleClientSecret: {{ GOOGLE_CLIENT_SECRET }}
 googleRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}:443
 
+limitConfig:
+  workflowLimit: 50
+  workflowVersionLimit: 50
+
 esconfiguration:
   port: 9200
   hostname: elasticsearch
