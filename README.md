@@ -31,7 +31,8 @@ rebuild your docker images without affecting existing running containers
     2. The discourse URL is needed to link Dockstore to a discussion forum 
     3. the Google verification code and tag manager ID are used if you want to properly track visitors to Dockstore and what pages they browse to
 
-4. The bootstrap script can also rebuild your Docker images and spin them up although you may wish to disable this while doing development. Keep in mind the following handy commands:
+4. The bootstrap script can also rebuild your Docker images. Keep in mind the following handy commands:
+    0. `docker-compose down` will bring all containers down safely 
     1. `nohup docker-compose up --force-recreate --remove-orphans &` will re-create all containers known to docker-compose and delete those volumes that no longer are associated with running containers
     2. `docker system prune` for cleaning out old containers and images
     3. `install_boostrap --script` will template and build everything using your previous answers (useful for quick iteration) 
