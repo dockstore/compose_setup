@@ -46,6 +46,7 @@ AUTHORIZER_TYPE=''
 EXTERNAL_GOOGLE_CLIENT_PREFIX1=''
 SAM_PATH=''
 DATABASE_GENERATED=''
+SLACK_URL=''
 
 function template()
 {
@@ -68,6 +69,9 @@ function template()
     mustache dockstore_launcher_config/compose.config templates/kibana.yml > config/kibana.yml
     mustache dockstore_launcher_config/compose.config templates/search_verification.html > config/${GOOGLE_VERIFICATION_NAME}.html
     mustache dockstore_launcher_config/compose.config templates/logsToElastic.conf > config/logsToElastic.conf
+
+    mkdir -p config/rules
+    for f in $(ls templates/rules/); do mustache dockstore_launcher_config/compose.config templates/rules/$f > config/rules/$f; done
 }
 
 # Ask the user a question and save the answer.
@@ -257,6 +261,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         sam_path='sam_path'
         ask_question "What is the path for the sam instance you wish to point at?" "$SAM_PATH" "sam_path" $sam_path
 
+        slack_url='slack_url'
+        ask_question "What is the slack URL for notifications?" "$SLACK_URL" "slack_url" $slack_url
+
         database_generated='database_generated'
         ask_question "Do you want to run migration assuming a generated database as opposed to a production DB (true or false)?" "$DATABASE_GENERATED" "database_generated" $database_generated
 
@@ -294,7 +301,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "AUTHORIZER_TYPE":"${authorizer_type}",
 "EXTERNAL_GOOGLE_CLIENT_PREFIX1":"${external_google_client_prefix1}",
 "SAM_PATH":"${sam_path}",
-"DATABASE_GENERATED":${database_generated}
+"DATABASE_GENERATED":${database_generated},
+"SLACK_URL":"${slack_url}"
 }
 CONFIG
     elif [ "${run_dockstore_launcher^^}" = 'N' ] ; then

@@ -53,5 +53,4 @@ services:
     volumes:
       - ./config/elastalert.yaml:/opt/elastalert/config.yaml
       - ./config/config.json:/opt/elastalert-server/config/config.json
-      - ./rules:/opt/elastalert/rules
-      - ./rule_templates:/opt/elastalert/rule_templates
+      - ./config/rules:/opt/elastalert/rules
