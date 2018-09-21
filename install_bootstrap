@@ -63,6 +63,9 @@ function template()
     mustache dockstore_launcher_config/compose.config templates/init_migration.sh.template > config/init_migration.sh
     mustache dockstore_launcher_config/compose.config templates/init_ui2.sh.template > config/init_ui2.sh
     mustache dockstore_launcher_config/compose.config templates/elasticsearch.yml > config/elasticsearch.yml
+    mustache dockstore_launcher_config/compose.config templates/elasticsearchLogstash.yml > config/elasticsearchLogstash.yml
+    mustache dockstore_launcher_config/compose.config templates/metricbeat.yml > config/metricbeat.yml
+    mustache dockstore_launcher_config/compose.config templates/kibana.yml > config/kibana.yml
     mustache dockstore_launcher_config/compose.config templates/search_verification.html > config/${GOOGLE_VERIFICATION_NAME}.html
     mustache dockstore_launcher_config/compose.config templates/logsToElastic.conf > config/logsToElastic.conf
 }
