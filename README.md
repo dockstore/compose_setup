@@ -32,11 +32,10 @@ rebuild your docker images without affecting existing running containers
     3. the Google verification code and tag manager ID are used if you want to properly track visitors to Dockstore and what pages they browse to
 
 4. The bootstrap script can also rebuild your Docker images. Keep in mind the following handy commands:
-    0. `install_boostrap --script` will template and build everything using your previous answers (useful for quick iteration) 
-
-    1. `docker-compose down` will bring all containers down safely 
-    2. `nohup docker-compose up --force-recreate --remove-orphans &` will re-create all containers known to docker-compose and delete those volumes that no longer are associated with running containers
-    3. `docker system prune` for cleaning out old containers and images
+    1. `install_bootstrap --script` will template and build everything using your previous answers (useful for quick iteration) 
+    2. `docker-compose down` will bring all containers down safely 
+    3. `nohup docker-compose up --force-recreate --remove-orphans &` will re-create all containers known to docker-compose and delete those volumes that no longer are associated with running containers
+    4. `docker system prune` for cleaning out old containers and images
 
 If using with logstash in a container (for development), use `-f docker-compose.yml -f docker-compose.dev.yml` flags after each `docker-compose` command to merge docker-compose files (e.g. `docker-compose -f docker-compse.yml -f docker-compose.dev.yml build`) 
 
