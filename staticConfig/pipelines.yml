@@ -1,4 +1,0 @@
-- pipeline.id: apache_http
-  path.config: "/usr/share/logstash/pipeline/logsToElastic.conf"
-- pipeline.id: beats
-  path.config: "/usr/share/logstash/pipeline/logstash.conf"

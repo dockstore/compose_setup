@@ -68,6 +68,7 @@ function template()
     mustache dockstore_launcher_config/compose.config templates/metricbeat.yml > config/metricbeat.yml
     mustache dockstore_launcher_config/compose.config templates/kibana.yml > config/kibana.yml
     mustache dockstore_launcher_config/compose.config templates/search_verification.html > config/${GOOGLE_VERIFICATION_NAME}.html
+    mustache dockstore_launcher_config/compose.config templates/logsToElastic.conf > config/logsToElastic.conf
 
     mkdir -p config/rules
     for f in $(ls templates/rules/); do mustache dockstore_launcher_config/compose.config templates/rules/$f > config/rules/$f; done
