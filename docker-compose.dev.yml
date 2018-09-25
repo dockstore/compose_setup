@@ -45,12 +45,12 @@ services:
       XPACK_SECURITY_ENABLED: "false"
   elastalert:
     image: bitsensor/elastalert:latest
+    environment:
+      ES_HOST: "elasticsearch-logstash"
     depends_on:
       - elasticsearch-logstash
     restart: always
     ports:
       - "3030:3030"
     volumes:
-      - ./config/elastalert.yaml:/opt/elastalert/config.yaml
-      - ./config/config.json:/opt/elastalert-server/config/config.json
       - ./config/rules:/opt/elastalert/rules
