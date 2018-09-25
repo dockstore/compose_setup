@@ -67,7 +67,6 @@ services:
     build:
       context: .
       dockerfile: config/Dockerfile_ui2
-    image: nginx_dockstore:1.13.1
     restart: always
     depends_on:
       - webservice
