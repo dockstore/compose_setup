@@ -25,11 +25,14 @@ services:
     depends_on:
       - elasticsearch-logstash
     volumes:
-      - ./config/logsToElastic.conf:/usr/share/logstash/pipeline/logsToElastic.conf
+      - ./staticConfig/logsToElastic.conf:/usr/share/logstash/pipeline/logsToElastic.conf
+      - ./staticConfig/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./staticConfig/pipelines.yml:/usr/share/logstash/config/pipelines.yml
     environment:
       XPACK_MONITORING_ELASTICSEARCH_URL: "elasticsearch-logstash:9200"
     ports:
       - "5055:5055"
+      - "5044:5044"
   kibana:
     build:
       context: .

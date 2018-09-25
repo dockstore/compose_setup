@@ -56,10 +56,8 @@ metricbeat.modules:
   namespace: example
   enabled: true
 
-output.elasticsearch:
-  hosts: {{ LOGSTASH_HOST }}:9200
-  username: "elastic"
-  password: "changeme"
+output.logstash:
+  hosts: {{ LOGSTASH_HOST }}:5044
 setup.kibana:
   host: {{ LOGSTASH_HOST }}:5601
 setup.dashboards.enabled: true
@@ -70,4 +68,3 @@ logging.files:
   name: metricbeat.log
   keepfiles: 2
   permissions: 0644
-xpack.monitoring.enabled: true
