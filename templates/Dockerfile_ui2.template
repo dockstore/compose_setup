@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:16.04 as builder
 
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -19,13 +19,17 @@ RUN git clone https://github.com/dockstore/dockstore-ui2.git
 WORKDIR /dockstore-ui2
 RUN git checkout {{ DOCKSTORE_UI2_VERSION }}
 
+COPY config/dockstore.model.ts /dockstore-ui2/src/app/shared/dockstore.model.ts
+COPY config/index.html /dockstore-ui2/src/index.html
+
 RUN npm install --production
 RUN wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.3.1/swagger-codegen-cli-2.3.1.jar -O swagger-codegen-cli.jar
 RUN java -jar swagger-codegen-cli.jar generate -i https://raw.githubusercontent.com/ga4gh/dockstore/{{ DOCKSTORE_VERSION  }}/dockstore-webservice/src/main/resources/swagger.yaml -l typescript-angular -o src/app/shared/swagger -c swagger-config.json
 RUN npm run-script prebuild
+RUN ng build --prod --build-optimizer
 
-ADD config/{{ GOOGLE_VERIFICATION_NAME }}.html {{ GOOGLE_VERIFICATION_NAME }}.html
-ADD config/init_ui2.sh init_ui2.sh
-RUN chmod a+x init_ui2.sh
 
-CMD ["./init_ui2.sh"]
+FROM nginx:1.13.1
+
+COPY --from=builder /dockstore-ui2/dist /usr/share/nginx/html2
+COPY config/{{ GOOGLE_VERIFICATION_NAME }}.html /usr/share/nginx/html2/{{ GOOGLE_VERIFICATION_NAME }}.html

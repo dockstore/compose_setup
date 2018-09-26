@@ -53,16 +53,6 @@ services:
       - log_volume:/dockstore_logs
       - ./config/web.yml:/web.yml
 
-  ui2:
-    build:
-      context: .
-      dockerfile: config/Dockerfile_ui2
-    volumes:
-      - log_volume:/dockstore_logs
-      - ./config/dockstore.model.ts:/dockstore-ui2/src/app/shared/dockstore.model.ts
-      - ./config/index.html:/dockstore-ui2/src/index.html
-      - ui2_content:/dockstore-ui2/real_dist
-
   nginx_http:
     image: nginx:1.13.1
     restart: always
@@ -73,18 +63,18 @@ services:
       - certs:/etc/letsencrypt
       - certs-data:/data/letsencrypt
   #    - ./self-signed:/self-signed
-  nginx_https: 
-    image: nginx:1.13.1
+  nginx_dockstore:
+    build:
+      context: .
+      dockerfile: config/Dockerfile_ui2
     restart: always
     depends_on:
-      - ui2
       - webservice
     ports:
       - "8443:8080"
       - "8444:8081"
       - "443:4200"
     volumes:
-      - ui2_content:/usr/share/nginx/html2:ro
       - ./config/default.nginx_https.conf:/etc/nginx/conf.d/default.conf:ro
       - ./config/default.nginx_https.shared.conf:/etc/nginx/conf.d/default.nginx_https.shared.conf:ro
       - certs:/etc/letsencrypt
@@ -108,7 +98,6 @@ services:
 
 volumes:
   log_volume: 
-  ui2_content:
   certs:
   certs-data:
   esdata1:
