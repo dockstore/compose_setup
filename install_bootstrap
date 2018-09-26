@@ -29,6 +29,7 @@ BITBUCKET_CLIENT_ID=''
 BITBUCKET_CLIENT_SECRET=''
 DOMAIN_NAME=''
 HTTPS=''
+NGINX_HTTPS=''
 DISCOURSE_URL=''
 GOOGLE_VERIFICATION_NAME=''
 TAG_MANAGER_ID=''
@@ -46,12 +47,18 @@ AUTHORIZER_TYPE=''
 EXTERNAL_GOOGLE_CLIENT_PREFIX1=''
 SAM_PATH=''
 DATABASE_GENERATED=''
+DATABASE_USER=''
+DATABASE_PASSWORD=''
+DATABASE_JDBC=''
 
 function template()
 {
     mkdir -p config
+    mustache dockstore_launcher_config/compose.config templates/Dockerfile_elasticsearch.template > config/Dockerfile_elasticsearch
+    mustache dockstore_launcher_config/compose.config templates/Dockerfile_nginx_http.template > config/Dockerfile_nginx_http
+
     mustache dockstore_launcher_config/compose.config templates/Dockerfile_webservice.template > config/Dockerfile_webservice
-    mustache dockstore_launcher_config/compose.config templates/Dockerfile_ui2.template > config/Dockerfile_ui2
+    mustache dockstore_launcher_config/compose.config templates/Dockerfile_nginx_dockstore.template > config/Dockerfile_nginx_dockstore
     mustache dockstore_launcher_config/compose.config templates/dockstore.model.ts.template > config/dockstore.model.ts
     mustache dockstore_launcher_config/compose.config templates/index.html.template > config/index.html
     mustache dockstore_launcher_config/compose.config templates/web.yml.template > config/web.yml
@@ -221,6 +228,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         https='https'
         ask_question "Are you using https (true or false)?" "$HTTPS" "https" $https
 
+        nginx_https='nginx_https'
+        ask_question "Is nginx going to be handling https (true or false)?" "$NGINX_HTTPS" "nginx_https" $nginx_https
+
         discourse_url='discourse_url'
         ask_question "What is your Discourse URL (ends with a /)?" "$DISCOURSE_URL" "discourse_url" $discourse_url
         google_verification_name='google_verification_name'
@@ -256,6 +266,16 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         database_generated='database_generated'
         ask_question "Do you want to run migration assuming a generated database as opposed to a production DB (true or false)?" "$DATABASE_GENERATED" "database_generated" $database_generated
 
+        database_user='database_user'
+        ask_question "Do you want to use a specific database user (default is postgres)?" "$DATABASE_USER" "database_user" $database_user
+        database_password='database_password'
+        ask_question "Do you want to use a specific database password (default is postgres)?" "$DATABASE_PASSWORD" "database_password" $database_password
+        database_jdbc='database_jdbc'
+        ask_question "Do you want to use a specific database JDBC connection string (default is jdbc:postgresql://postgres:5432/postgres)" "$DATABASE_JDBC" "database_jdbc" $database_jdbc
+
+        public_launcher_ip_address='public_launcher_ip_address'
+        ask_question "What is the public ip address that Dockstore will be available at?" "$PUBLIC_LAUNCHER_IP_ADDRESS" "public_launcher_ip_address" $public_launcher_ip_address
+
         # Now write a config for this file.
         [[ -f dockstore_launcher_config/compose.config ]] || mkdir -p dockstore_launcher_config
                # Note: You can't have ANY blank lines in .dockstore/dockstore.config because the python library that will eventually process it does not like blank lines and will fail.
@@ -264,7 +284,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
                 echo "Installing various apt packages"
         cat > dockstore_launcher_config/compose.config <<CONFIG
 {
-"PUBLIC_LAUNCHER_IP_ADDRESS":"`curl http://169.254.169.254/latest/meta-data/public-ipv4`",
+"PUBLIC_LAUNCHER_IP_ADDRESS":"${public_launcher_ip_address}",
 "DOCKSTORE_VERSION":"${dockstore_version}",
 "DOCKSTORE_UI2_VERSION":"${dockstore_ui2_version}",
 "GITHUB_CLIENT2_ID":"${github_client2_id}",
@@ -274,6 +294,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "BITBUCKET_CLIENT_ID":"${bitbucket_client_id}",
 "BITBUCKET_CLIENT_SECRET":"${bitbucket_client_secret}",
 "DOMAIN_NAME":"${domain_name}",
+"NGINX_HTTPS":${nginx_https},
 "HTTPS":${https},
 "DISCOURSE_URL":"${discourse_url}",
 "GOOGLE_VERIFICATION_NAME":"${google_verification_name}",
@@ -290,7 +311,10 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "AUTHORIZER_TYPE":"${authorizer_type}",
 "EXTERNAL_GOOGLE_CLIENT_PREFIX1":"${external_google_client_prefix1}",
 "SAM_PATH":"${sam_path}",
-"DATABASE_GENERATED":${database_generated}
+"DATABASE_GENERATED":"${database_generated}",
+"DATABASE_USER":"${database_user}",
+"DATABASE_PASSWORD":"${database_password}",
+"DATABASE_JDBC":"${database_jdbc}"
 }
 CONFIG
     elif [ "${run_dockstore_launcher^^}" = 'N' ] ; then

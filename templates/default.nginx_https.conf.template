@@ -11,14 +11,14 @@ map $sent_http_content_type $expires {
 server {
     server_name  www.{{ DOMAIN_NAME }};
     listen       4200;
-    return 301 http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}/$request_uri;
+    return 301 http{{#NGINX_HTTPS}}s{{/NGINX_HTTPS}}://{{ DOMAIN_NAME }}/$request_uri;
 }
 
 
 server {
     server_name  {{ DOMAIN_NAME }};
     include /etc/nginx/conf.d/default.nginx_https.shared.conf;
-    listen       4200 http2;
+    listen       4200 {{#NGINX_HTTPS}}http2{{/NGINX_HTTPS}};
 
     ##
     # `gzip` Settings
@@ -46,7 +46,7 @@ server {
     # used to redirect swagger.json as retrieved by swagger ui without changes
     location = /swagger.json {
         #proxy_pass 	http://webservice:8080/swagger.json;
-        rewrite ^/(.*)$ http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME}}/api/swagger.json permanent;
+        rewrite ^/(.*)$ http{{#NGINX_HTTPS}}s{{/NGINX_HTTPS}}://{{ DOMAIN_NAME}}/api/swagger.json permanent;
     }
 
     # used when port 8443 was unreachable from google
@@ -84,10 +84,10 @@ server {
 server {
     server_name  {{ DOMAIN_NAME }};
     include /etc/nginx/conf.d/default.nginx_https.shared.conf;
-    listen 8080 http2;
+    listen 8080 {{#NGINX_HTTPS}}http2{{/NGINX_HTTPS}};
     
     location /static {
-        rewrite ^/(.*)$ http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME}}/$1 permanent;
+        rewrite ^/(.*)$ http{{#NGINX_HTTPS}}s{{/NGINX_HTTPS}}://{{ DOMAIN_NAME}}/$1 permanent;
         proxy_pass     http://webservice:8080/static;
     }
 

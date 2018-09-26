@@ -59,13 +59,13 @@ database:
   driverClass: org.postgresql.Driver
 
   # the username
-  user: postgres
+  user: {{ DATABASE_USER }}
 
   # the password
-  password: postgres
+  password: {{ DATABASE_PASSWORD }}
 
   # the JDBC URL
-  url: jdbc:postgresql://postgres:5432/postgres
+  url: {{ DATABASE_JDBC }}
 
   # any properties specific to your JDBC driver:
   properties:

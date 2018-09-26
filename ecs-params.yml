@@ -1,0 +1,12 @@
+version: 1
+task_definition:
+  services:
+    webservice:
+      essential: true
+      mem_reservation: 3GB
+    nginx_dockstore:
+      essential: true
+      mem_reservation: 0.5GB
+    nginx_http:
+      essential: true
+      mem_reservation: 0.1GB
