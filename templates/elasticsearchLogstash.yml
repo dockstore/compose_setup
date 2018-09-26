@@ -5,7 +5,8 @@ http.host: 0.0.0.0
 #discovery.zen.minimum_master_nodes: 1
 # the following seem broken
 script.allowed_types: inline
-script.allowed_contexts: ingest, template
+#script.allowed_contexts: ingest, template
 
 rest.action.multi.allow_explicit_index: true
 xpack.monitoring.collection.enabled: true
+path.repo: ["/mount/backups"]

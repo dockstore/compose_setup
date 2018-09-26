@@ -31,8 +31,7 @@ Rules should be added/modified in the [templates/rules](templates/rules) directo
 ## Elasticsearch backup
 
 ### Snapshot repository creation:
-Make sure elasticsearch-logstash has essnapshot write permissions
-From within kibana of the docker-compose.dev.yml:
+Make sure elasticsearch-logstash has essnapshot write permissions. Run this commands from within the docker-compose.dev.yml server.
 ```
 curl -X PUT "localhost:9200/_snapshot/my_backup" -H 'Content-Type: application/json' -d'
 {
@@ -46,7 +45,6 @@ curl -X PUT "localhost:9200/_snapshot/my_backup" -H 'Content-Type: application/j
 ```
 
 ### Creating daily snapshots
-From the docker-compose.dev.yml server:
 `curl -X PUT "localhost:9200/_snapshot/my_backup/%3Csnapshot-%7Bnow%2Fd%7D%3E"` to take a daily backup that results in a snapshot named like snapshot-2018.09.26
 
 ### Delete snapshot
@@ -54,13 +52,12 @@ From the docker-compose.dev.yml server:
 
 
 ### Restoring snapshots
-From the docker-compose.dev.yml server:
 - `curl -X POST "localhost:9200/_all/_close"` 
 - `curl -X POST "localhost:9200/_snapshot/my_backup/snapshot-2018.09.26/_restore"`
 - `curl -X POST "localhost:9200/_all/_open"`
 
 ## Kibana setup
-Generally, snapshot restore should be used first.  In the event that there's no snapshot, export.json can be used to recover everything except for the actual logging data.
+Generally, snapshot repo create and then snapshot restore should be used first.  In the event that there's no snapshot, export.json can be used to recover everything except for the actual logging data.
 
 ### Using export.json
 See the correct elastic version of the [elastic guide](https://www.elastic.co/guide/en/kibana/current/managing-saved-objects.html#_import_objects) on how to import saved objects.  The JSON file is [export.json](export.json).  If index ID is missing during the import, it will likely let you choose another index.  The index to choose is `logstash-*`.  If `logstash-*` is not one of the selectable options, skip it for now and let it continue.  Then perform the import instructions again, `logstash-*` should be selectable this time.
