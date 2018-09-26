@@ -18,6 +18,7 @@ services:
     volumes:
       - esdata2:/usr/share/elasticsearch/data
       - ./config/elasticsearchLogstash.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./essnapshot:/mount/backups
   logstash:
     image: docker.elastic.co/logstash/logstash:6.4.0
     restart: always

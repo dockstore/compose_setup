@@ -30,7 +30,34 @@ See the correct elastic version of the [elastic guide](https://www.elastic.co/gu
 
 ## Elasticsearch backup
 
-N/A
+### Snapshot repository creation:
+Make sure elasticsearch-logstash has essnapshot write permissions
+From within kibana of the docker-compose.dev.yml:
+```
+curl -X PUT "localhost:9200/_snapshot/my_backup" -H 'Content-Type: application/json' -d'
+{
+    "type": "fs",
+    "settings": {
+        "location": "/mount/backups",
+        "compress": true
+    }
+}
+'
+```
+
+### Creating daily snapshots
+From the docker-compose.dev.yml server:
+`curl -X PUT "localhost:9200/_snapshot/my_backup/%3Csnapshot-%7Bnow%2Fd%7D%3E"` to take a daily backup that results in a snapshot named like snapshot-2018.09.26
+
+### Delete snapshot
+`curl -X DELETE "localhost:9200/_snapshot/my_backup/snapshot-2018.09.26"`
+
+
+### Restoring snapshots
+From the docker-compose.dev.yml server:
+- `curl -X POST "localhost:9200/_all/_close"` 
+- `curl -X POST "localhost:9200/_snapshot/my_backup/snapshot-2018.09.26/_restore"`
+- `curl -X POST "localhost:9200/_all/_open"`
 
 # Quirks
 
