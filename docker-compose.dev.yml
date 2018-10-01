@@ -33,7 +33,7 @@ services:
   kibana:
     build:
       context: .
-      dockerfile: kibanaDockerfile
+      dockerfile: templates/kibanaDockerfile
     restart: always
     volumes:
       - ./staticConfig/kibana.yml:/usr/share/kibana/config/kibana.yml
