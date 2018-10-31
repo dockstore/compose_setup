@@ -16,7 +16,6 @@ services:
       - "9200:9200"
       - "9300:9300"
     volumes:
-      - esdata2:/usr/share/elasticsearch/data
       - ./staticConfig/elasticsearchLogstash.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./essnapshot:/mount/backups
   logstash:
@@ -54,6 +53,3 @@ services:
       - "3030:3030"
     volumes:
       - ./config/rules:/opt/elastalert/rules
-volumes:
-  esdata2:
-    driver: local
