@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -x
 
-WEBHOOK_URL=''
+WEBHOOK_URL='{{SLACK_URL}}'
 
 # Corresponding cronjob is "0 0 * * * /bin/bash /home/ubuntu/compose_setup/scripts/essnapshot_backup.sh"
 
@@ -10,7 +10,7 @@ if [ $? -ne 0 ]
 then
 	curl -X POST -H 'Content-type: application/json' --data '{"text":"Taking snapshot failed."}' $WEBHOOK_URL
 else
-	aws s3 --endpoint-url https://object.cancercollaboratory.org:9080 sync /home/ubuntu/compose_setup/essnapshot2 s3://logstash-elasticdata/essnapshot2
+	aws s3 --endpoint-url https://object.cancercollaboratory.org:9080 sync /home/ubuntu/compose_setup/essnapshot s3://logstash-elasticdata/essnapshot
 	if [ $? -ne 0 ]
 	then
 		curl -X POST -H 'Content-type: application/json' --data '{"text":"Sending snapshot to s3 failed."}' $WEBHOOK_URL
