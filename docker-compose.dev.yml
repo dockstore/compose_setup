@@ -1,7 +1,7 @@
 version: '2'
 services:
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.3
+  elasticsearch-logstash:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.0
     restart: always
     environment:
       - cluster.name=docker-cluster
@@ -12,27 +12,44 @@ services:
         soft: -1
         hard: -1
     mem_limit: 1g
+    ports:
+      - "9200:9200"
+      - "9300:9300"
     volumes:
-      - ./esdata1:/usr/share/elasticsearch/data
-    expose:
-      - "9200"
-      - "9300"
-    volumes:
-      - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./staticConfig/elasticsearchLogstash.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./essnapshot:/mount/backups
   logstash:
-    image: docker.elastic.co/logstash/logstash-oss:6.1.3
+    image: docker.elastic.co/logstash/logstash:6.4.0
     restart: always
     depends_on:
-      - elasticsearch
+      - elasticsearch-logstash
     volumes:
-      - ./config/logsToElastic.conf:/usr/share/logstash/pipeline/logsToElastic.conf
+      - ./staticConfig/logsToElastic.conf:/usr/share/logstash/pipeline/logsToElastic.conf
+    environment:
+      XPACK_MONITORING_ELASTICSEARCH_URL: "elasticsearch-logstash:9200"
     ports:
       - "5055:5055"
   kibana:
-    image: docker.elastic.co/kibana/kibana:5.6.3
+    build:
+      context: .
+      dockerfile: templates/kibanaDockerfile
+    restart: always
+    volumes:
+      - ./staticConfig/kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch-logstash
+    environment:
+      XPACK_SECURITY_ENABLED: "false"
+  elastalert:
+    image: bitsensor/elastalert:latest
+    environment:
+      ES_HOST: "elasticsearch-logstash"
+    depends_on:
+      - elasticsearch-logstash
     restart: always
     ports:
-     - "5601:5601"
-    depends_on:
-     - elasticsearch
-
+      - "3030:3030"
+    volumes:
+      - ./config/rules:/opt/elastalert/rules

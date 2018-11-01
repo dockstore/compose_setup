@@ -1,0 +1,33 @@
+# Rule name, must be unique
+name: Spike in attacks on server
+
+# Type of alert.
+type: spike
+
+# num_events must occur within this amount of time to trigger an alert
+timeframe: 
+  seconds: 60
+spike_height: 10
+spike_type: up
+threshold_cur: 10
+
+# Index to search, wildcard supported
+index: logstash-*
+query_key: 
+  - generalizedPath
+include:
+  - generalizedPath
+alert_subject: "Surge in attacks on {}"
+alert_subject_args:
+  - generalizedPath
+
+alert_text_type: alert_text_only
+alert_text: "Surge in attacks on {}"
+alert_text_args:
+  - generalizedPath
+
+# The alert is use when a match is found
+alert:
+  - slack
+slack_webhook_url: "{{SLACK_URL}}"
+slack_username_override: "ElastAlert"

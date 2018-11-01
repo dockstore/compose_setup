@@ -1,0 +1,42 @@
+# (Required)
+# Rule name, must be unique
+name: Same User Publish Many Workflows Rule
+
+# (Required)
+# Type of alert.
+# the frequency rule type alerts when num_events events occur with timeframe time
+type: frequency
+
+# (Required)
+# Index to search, wildcard supported
+index: logstash-*
+
+# (Required, frequency specific)
+# Alert when this many documents matching the query occur within a timeframe
+num_events: 2
+
+# (Required, frequency specific)
+# num_events must occur within this amount of time to trigger an alert
+timeframe:
+  hours: 1
+query_key: clientip
+
+# (Required)
+# A list of Elasticsearch filters used for find events
+# These filters are joined with AND and nested in a filtered query
+# For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html
+filter:
+- term:
+    generalizedPath.keyword: "/workflows/{workflowId}/publish"
+include:
+  - clientip
+alert_subject: "User Published More Than 2 Workflows"
+alert_text_type: alert_text_only
+alert_text: "{} Published More Than 2 Workflows"
+alert_text_args:
+  - clientip
+# The alert is use when a match is found
+alert:
+  - slack
+slack_webhook_url: "{{SLACK_URL}}"
+slack_username_override: "ElastAlert"

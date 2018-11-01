@@ -8,9 +8,14 @@ send_timeout                600;
 {{#HTTPS}}
 ssl                       on;
 
+# When not using self-signed certificate
 ssl_certificate           /etc/letsencrypt/live/{{ DOMAIN_NAME }}/fullchain.pem;
 ssl_certificate_key       /etc/letsencrypt/live/{{ DOMAIN_NAME }}/privkey.pem;
 ssl_trusted_certificate   /etc/letsencrypt/live/{{ DOMAIN_NAME }}/chain.pem;
+
+# When using self-signed certificate
+#ssl_certificate            /self-signed/certificate.pem;
+#ssl_certificate_key        /self-signed/key.pem;
 
 ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 ssl_prefer_server_ciphers on;

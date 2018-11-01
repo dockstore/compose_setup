@@ -52,6 +52,8 @@ services:
     volumes:
       - log_volume:/dockstore_logs
       - ./config/web.yml:/web.yml
+    expose:
+      - "8081"
 
   nginx_http:
     image: nginx:1.13.1
@@ -62,7 +64,7 @@ services:
       - ./config/default.nginx_http.conf:/etc/nginx/conf.d/default.conf:ro
       - certs:/etc/letsencrypt
       - certs-data:/data/letsencrypt
-
+  #    - ./self-signed:/self-signed
   nginx_dockstore:
     build:
       context: .
@@ -78,6 +80,22 @@ services:
       - ./config/default.nginx_https.shared.conf:/etc/nginx/conf.d/default.nginx_https.shared.conf:ro
       - certs:/etc/letsencrypt
       - certs-data:/data/letsencrypt
+  #    - ./self-signed:/self-signed
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat:6.4.0
+    user: root
+    restart: always
+    depends_on:
+      - webservice
+      - postgres
+    volumes:
+      - /proc:/hostfs/proc:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /:/hostfs:ro
+      - ./config/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
+    command:
+      - "--strict.perms=false"
+      - "-system.hostfs=/hostfs"
 
 volumes:
   log_volume: 
