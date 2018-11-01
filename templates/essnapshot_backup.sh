@@ -5,6 +5,7 @@ WEBHOOK_URL='{{SLACK_URL}}'
 
 # Corresponding cronjob is "0 0 * * * /bin/bash /home/ubuntu/compose_setup/scripts/essnapshot_backup.sh"
 
+curator --config /home/ubuntu/compose_setup/curator/curator.yml /home/ubuntu/compose_setup/curator/delete_old_snapshots.yml
 curl -X PUT "localhost:9200/_snapshot/my_backup/%3Csnapshot-%7Bnow%2Fd%7D%3E" | grep accepted\":true
 if [ $? -ne 0 ]
 then
