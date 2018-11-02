@@ -64,6 +64,7 @@ function template()
     mustache dockstore_launcher_config/compose.config templates/init_migration.sh.template > config/init_migration.sh
     mustache dockstore_launcher_config/compose.config templates/elasticsearch.yml > config/elasticsearch.yml
     mustache dockstore_launcher_config/compose.config templates/metricbeat.yml > config/metricbeat.yml
+    mustache dockstore_launcher_config/compose.config templates/essnapshot_backup.sh > scripts/essnapshot_backup.sh
     mustache dockstore_launcher_config/compose.config templates/search_verification.html > config/${GOOGLE_VERIFICATION_NAME}.html
 
     mkdir -p config/rules
