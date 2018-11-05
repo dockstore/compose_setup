@@ -16,7 +16,7 @@ if [ $? -ne 0 ]
 then
 	curl -X POST -H 'Content-type: application/json' --data '{"text":"Taking snapshot failed."}' $WEBHOOK_URL
 else
-	aws s3 --endpoint-url https://object.cancercollaboratory.org:9080 cp --recursive /home/ubuntu/compose_setup/essnapshot s3://logstash-elasticdata/$1 > $filename
+	aws s3 --endpoint-url https://object.cancercollaboratory.org:9080 sync --only-show-errors /home/ubuntu/compose_setup/essnapshot s3://logstash-elasticdata/$1 > $filename
 	if [ $? -ne 0 ]
 	then
 		curl -X POST -H 'Content-type: application/json' --data '{"text":"Sending snapshot to s3 failed."}' $WEBHOOK_URL
