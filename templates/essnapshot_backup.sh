@@ -18,7 +18,7 @@ then
 else
 	cd /home/ubuntu/compose_setup
 	zip -r essnapshot-$dayofmonth.zip essnapshot
-	aws s3 --endpoint-url https://object.cancercollaboratory.org:9080 cp /home/ubuntu/compose_setup/essnapshot-$dayofmonth.zip s3://logstash-elasticdata/essnapshot-$dayofmonth > $filename
+	aws s3 --endpoint-url https://object.cancercollaboratory.org:9080 cp /home/ubuntu/compose_setup/essnapshot-$dayofmonth.zip s3://logstash-elasticdata/essnapshot-$dayofmonth.zip > $filename
 	if [ $? -ne 0 ]
 	then
 		curl -X POST -H 'Content-type: application/json' --data '{"text":"Sending snapshot to s3 failed."}' $WEBHOOK_URL
