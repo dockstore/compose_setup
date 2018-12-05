@@ -28,10 +28,15 @@ filter:
 - terms:
     response: ["400", "404", "500"]
 
+query_key:
+  - host
+
 alert_subject: "Abnormal responses"
 
 alert_text_type: alert_text_only
-alert_text: "Abnormal responses exceeded 50/hr"
+alert_text: "Abnormal responses exceeded 50/hr at {}"
+alert_text_args:
+  - host
 
 # The alert is use when a match is found
 alert:

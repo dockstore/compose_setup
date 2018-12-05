@@ -20,7 +20,9 @@ num_events: 4
 timeframe:
   hours: 1
 
-query_key: clientip
+query_key: 
+  - clientip
+  - host
 # (Required)
 # A list of Elasticsearch filters used for find events
 # These filters are joined with AND and nested in a filtered query
@@ -32,7 +34,10 @@ filter:
 alert_subject: "User Created Many Hosted Workflows"
 
 alert_text_type: alert_text_only
-alert_text: "User created more than 4 hosted workflows"
+alert_text: "{} created more than 4 hosted workflows at {}"
+alert_text_args:
+  - clientip
+  - host
 
 # The alert is use when a match is found
 alert:

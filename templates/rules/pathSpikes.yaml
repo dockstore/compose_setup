@@ -15,16 +15,17 @@ threshold_cur: 10
 index: logstash-*
 query_key: 
   - generalizedPath
-include:
-  - generalizedPath
+  - host
+
 alert_subject: "Surge in attacks on {}"
 alert_subject_args:
   - generalizedPath
 
 alert_text_type: alert_text_only
-alert_text: "Surge in attacks on {}"
+alert_text: "Surge in attacks on {} at {}"
 alert_text_args:
   - generalizedPath
+  - host
 
 # The alert is use when a match is found
 alert:
