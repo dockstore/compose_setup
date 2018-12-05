@@ -10,6 +10,7 @@ timeframe:
 spike_height: 10
 spike_type: up
 threshold_cur: 10
+threshold_ref: 1
 
 # Index to search, wildcard supported
 index: logstash-*
