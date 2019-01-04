@@ -76,6 +76,9 @@ For example to deploy just logging
 
 ```
 docker-compose  -f docker-compose.dev.yml build
+nohup docker-compose -f docker-compose.dev.yml up --force-recreate --remove-orphans &
+docker-compose -f docker-compose.dev.yml down
+docker-compose -f docker-compose.dev.yml kill
 ```
 
 ### Kibana Dashboard Setup ###
