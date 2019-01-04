@@ -72,6 +72,12 @@ Note that database migration is run once during the startup process and is contr
 
 If using with logstash in a container (for development), use `-f docker-compose.yml -f docker-compose.dev.yml` flags after each `docker-compose` command to merge docker-compose files (e.g. `docker-compose -f docker-compse.yml -f docker-compose.dev.yml build`) 
 
+For example to deploy just logging 
+
+```
+docker-compose  -f docker-compose.dev.yml build
+```
+
 ### Kibana Dashboard Setup ###
 Import the [export.json](export.json) Dashboard from compose\_setup/export.json by going to Kibana's management => saved objects => import.  See https://www.elastic.co/guide/en/kibana/current/managing-saved-objects.html for more info, especially the 2nd warning.
 
