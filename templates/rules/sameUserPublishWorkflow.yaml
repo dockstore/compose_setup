@@ -19,7 +19,9 @@ num_events: 2
 # num_events must occur within this amount of time to trigger an alert
 timeframe:
   hours: 1
-query_key: clientip
+query_key: 
+  - clientip
+  - host
 
 # (Required)
 # A list of Elasticsearch filters used for find events
@@ -28,13 +30,13 @@ query_key: clientip
 filter:
 - term:
     generalizedPath.keyword: "/workflows/{workflowId}/publish"
-include:
-  - clientip
+
 alert_subject: "User Published More Than 2 Workflows"
 alert_text_type: alert_text_only
-alert_text: "{} Published More Than 2 Workflows"
+alert_text: "{} Published More Than 2 Workflows at {}"
 alert_text_args:
   - clientip
+  - host
 # The alert is use when a match is found
 alert:
   - slack
