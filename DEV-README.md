@@ -6,7 +6,8 @@ There are 3 different sets of metric logs being sent to logstash's elasticsearch
 
 ## Ports
 - Port 9200 must be opened for metricbeats to send data to elasticsearch directly
-- Port 5055 must be opened for webservice to send data to logstash
+- Port 5055 must be opened for the production webservice to send data to logstash
+- Port 5066 must be opened for the staging webservice to send data to logstash
 - Port 5601 must be opened for developers to view the kibana dashboard
 
 ## Apache HTTP Logs

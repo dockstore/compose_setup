@@ -97,5 +97,5 @@ server:
     appenders:
       - type: logstash
         host: {{ LOGSTASH_HOST }}
-        port: 5055
+        port: {{#PRODUCTION}}5055{{/PRODUCTION}}{{^PRODUCTION}}5066{{/PRODUCTION}}
 {{/LOGSTASH}}
