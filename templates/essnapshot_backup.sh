@@ -11,7 +11,7 @@ mkdir -p /home/ubuntu/compose_setup/logs
 # "15 0 * * 0 /bin/bash /home/ubuntu/compose_setup/scripts/essnapshot_backup.sh weekly &> /home/ubuntu/compose_setup/logs/`/bin/date +\%Y-\%m-\%d.\%H:\%M:\%S`-cron.log"
 # "30 0 1 * * /bin/bash /home/ubuntu/compose_setup/scripts/essnapshot_backup.sh monthly &> /home/ubuntu/compose_setup/logs/`/bin/date +\%Y-\%m-\%d.\%H:\%M:\%S`-cron.log"
 /home/ubuntu/.local/bin/curator --config /home/ubuntu/compose_setup/curator/curator.yml /home/ubuntu/compose_setup/curator/delete_old_snapshots.yml
-curl -X PUT "localhost:9200/_snapshot/my_backup/%3Csnapshot-%7Bnow%2Fd%7D%3E?wait_for_completion=true" | grep accepted\":true
+/home/ubuntu/.local/bin/curator --config /home/ubuntu/compose_setup/curator/curator.yml /home/ubuntu/compose_setup/curator/take_snapshots.yml
 if [ $? -ne 0 ]
 then
     curl -X POST -H 'Content-type: application/json' --data '{"text":"Taking snapshot failed."}' $WEBHOOK_URL
