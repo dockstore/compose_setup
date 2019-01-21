@@ -67,6 +67,9 @@ function template()
     mustache dockstore_launcher_config/compose.config templates/metricbeat.yml > config/metricbeat.yml
     mustache dockstore_launcher_config/compose.config templates/essnapshot_backup.sh > scripts/essnapshot_backup.sh
     mustache dockstore_launcher_config/compose.config templates/search_verification.html > config/${GOOGLE_VERIFICATION_NAME}.html
+    
+    mustache dockstore_launcher_config/compose.config templates/jvm.options.es.template > config/jvm.options.es
+    mustache dockstore_launcher_config/compose.config templates/jvm.options.logstash.template > config/jvm.options.logstash
 
     mkdir -p config/rules
     for f in $(ls templates/rules/); do mustache dockstore_launcher_config/compose.config templates/rules/$f > config/rules/$f; done
