@@ -6,12 +6,11 @@ services:
     environment:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms1500m -Xmx1500m"
     ulimits:
       memlock:
         soft: -1
         hard: -1
-    mem_limit: 1g
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -44,7 +43,7 @@ services:
     environment:
       XPACK_SECURITY_ENABLED: "false"
   elastalert:
-    image: bitsensor/elastalert:latest
+    image: bitsensor/elastalert:0.0.14
     environment:
       ES_HOST: "elasticsearch-logstash"
     depends_on:
