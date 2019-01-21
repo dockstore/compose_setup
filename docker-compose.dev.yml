@@ -29,6 +29,7 @@ services:
       XPACK_MONITORING_ELASTICSEARCH_URL: "elasticsearch-logstash:9200"
     ports:
       - "5055:5055"
+      - "5066:5066"
   kibana:
     build:
       context: .
