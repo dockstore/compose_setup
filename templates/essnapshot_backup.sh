@@ -5,6 +5,8 @@ WEBHOOK_URL='{{SLACK_URL}}'
 
 mkdir -p /home/ubuntu/compose_setup/logs
 # Corresponding cronjobs are:
+# SHELL=/bin/bash
+# PATH=<echo $PATH on a user that has access to all commands to find out>
 # "0 0 * * * /bin/bash /home/ubuntu/compose_setup/scripts/essnapshot_backup.sh daily &> /home/ubuntu/compose_setup/logs/`/bin/date +\%Y-\%m-\%d.\%H:\%M:\%S`-cron.log"
 # "15 0 * * 0 /bin/bash /home/ubuntu/compose_setup/scripts/essnapshot_backup.sh weekly &> /home/ubuntu/compose_setup/logs/`/bin/date +\%Y-\%m-\%d.\%H:\%M:\%S`-cron.log"
 # "30 0 1 * * /bin/bash /home/ubuntu/compose_setup/scripts/essnapshot_backup.sh monthly &> /home/ubuntu/compose_setup/logs/`/bin/date +\%Y-\%m-\%d.\%H:\%M:\%S`-cron.log"
