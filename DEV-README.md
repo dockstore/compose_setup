@@ -53,10 +53,10 @@ curl -X PUT "localhost:9200/_snapshot/my_backup" -H 'Content-Type: application/j
     }
 }
 '
+```
 If your essnapshot directory has snapshots already, double check by using:
 ```
 curator_cli show_snapshots --repository my_backup
-```
 ```
 
 ### Creating daily snapshots
