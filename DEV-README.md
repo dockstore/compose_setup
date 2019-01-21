@@ -50,7 +50,7 @@ curl -X PUT "localhost:9200/_snapshot/my_backup" -H 'Content-Type: application/j
 ### Delete snapshot
 `curl -X DELETE "localhost:9200/_snapshot/my_backup/snapshot-2018.09.26"`
 
-Alternatively, you can delete old snapshots automatically using curator.  Install with `pip install elasticsearch-curator` then delete old with `curator --config curator.yml delete_old_snapshots.yml` inside the curator directory.
+Alternatively, you can delete old snapshots automatically using curator.  Install with `pip install elasticsearch-curator==5.6.0` then delete old with `curator --config curator.yml delete_old_snapshots.yml` inside the curator directory.
 
 
 ### Restoring snapshots
