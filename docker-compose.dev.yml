@@ -6,16 +6,18 @@ services:
     environment:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
     ulimits:
       memlock:
         soft: -1
         hard: -1
-    mem_limit: 1g
+    mem_limit: 1500m
     ports:
       - "9200:9200"
-      - "9300:9300"
+    expose:
+      - "9300"
     volumes:
+      - ./config/jvm.options.es:/usr/share/elasticsearch/config/jvm.options
       - esdata2:/usr/share/elasticsearch/data
       - ./staticConfig/elasticsearchLogstash.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./essnapshot:/mount/backups
@@ -26,34 +28,54 @@ services:
       - elasticsearch-logstash
     volumes:
       - ./staticConfig/logsToElastic.conf:/usr/share/logstash/pipeline/logsToElastic.conf
+      - ./config/jvm.options.logstash:/usr/share/logstash/config/jvm.options
     environment:
-      XPACK_MONITORING_ELASTICSEARCH_URL: "elasticsearch-logstash:9200"
+      - XPACK_MONITORING_ELASTICSEARCH_URL=elasticsearch-logstash:9200
+      - LS_JAVA_OPTS=-Xms512m -Xmx512m
     ports:
       - "5055:5055"
-  kibana:
-    build:
-      context: .
-      dockerfile: templates/kibanaDockerfile
-    restart: always
-    volumes:
-      - ./staticConfig/kibana.yml:/usr/share/kibana/config/kibana.yml
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch-logstash
-    environment:
-      XPACK_SECURITY_ENABLED: "false"
-  elastalert:
-    image: bitsensor/elastalert:latest
-    environment:
-      ES_HOST: "elasticsearch-logstash"
-    depends_on:
-      - elasticsearch-logstash
-    restart: always
-    ports:
-      - "3030:3030"
-    volumes:
-      - ./config/rules:/opt/elastalert/rules
+    mem_limit: 1g
+#  kibana:
+#    build:
+#      context: .
+#      dockerfile: templates/kibanaDockerfile
+#    restart: always
+#    volumes:
+#      - ./staticConfig/kibana.yml:/usr/share/kibana/config/kibana.yml
+#    expose:
+#      - "5601"
+#    depends_on:
+#      - elasticsearch-logstash
+#    environment:
+#      -  XPACK_SECURITY_ENABLED=false
+#    mem_limit: 1500m 
+#  elastalert:
+#    image: bitsensor/elastalert:0.0.14
+#    environment:
+#      ES_HOST: "elasticsearch-logstash"
+#    depends_on:
+#      - elasticsearch-logstash
+#    restart: always
+#    expose:
+#      - "3030"
+#    volumes:
+#      - ./config/rules:/opt/elastalert/rules
+#    mem_limit: 500m
+  # courtesy of https://blog.t1cg.io/post/elk-aws-deployment.html#installing-docker-nginx-certbot-and-the-elk-stack
+#    nginx:
+#    build:
+#      context: nginx/
+#    restart: always
+#    ports:
+#      - "35943:443"
+#      - "80:80"
+#    volumes:
+#      - "/etc/letsencrypt/live/logging.dockstore.org/fullchain.pem:/etc/letsencrypt/live/logging.dockstore.org/fullchain.pem"
+#      - "/etc/letsencrypt/live/logging.dockstore.org/privkey.pem:/etc/letsencrypt/live/logging.dockstore.org/privkey.pem"
+#      - "./nginx/kibana.htpasswd:/etc/nginx/conf.d/kibana.htpasswd"
+#      - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
+#    depends_on:
+#      - kibana
 volumes:
   esdata2:
     driver: local
