@@ -37,8 +37,6 @@ rebuild your docker images without affecting existing running containers
     3. `nohup docker-compose up --force-recreate --remove-orphans &` will re-create all containers known to docker-compose and delete those volumes that no longer are associated with running containers
     4. `docker system prune` for cleaning out old containers and images
 
-If using with logstash in a container (for development), use `-f docker-compose.yml -f docker-compose.dev.yml` flags after each `docker-compose` command to merge docker-compose files (e.g. `docker-compose -f docker-compse.yml -f docker-compose.dev.yml build`) 
-
 5. After following the instructions in the bootstrap script and starting up the site with `docker-compose`, you can browse to the Dockstore site hosted at port 443 by default. `https://<domain-name>` if you specified https or `http://<domain-name>:443` if you did not. 
 
 6.  Note that the following volumes are created, `composesetup_certs` and `composesetup_certs-data` for https certificates, `composesetup_esdata1` for ephermeral elastic search data, `composesetup_log_volume` for logging, and `composesetup_ui2_content` for storing the built UIs before they are handed off the nginx for service. 
@@ -69,6 +67,19 @@ psql -f  /tmp/backup.sql
 ```
 
 Note that database migration is run once during the startup process and is controlled via the `DATABASE_GENERATED` variable. Answer `yes` if you are working as a developer and want to start work from scratch from an empty database. Answer `no` if you are working as an administrator and/or wish to start Dockstore from a production or staging copy of the database.
+
+## Logging Usage
+
+If using with logstash in a container (for development), use `-f docker-compose.yml -f docker-compose.dev.yml` flags after each `docker-compose` command to merge docker-compose files (e.g. `docker-compose -f docker-compse.yml -f docker-compose.dev.yml build`) 
+
+For example to deploy just logging 
+
+```
+docker-compose  -f docker-compose.dev.yml build
+nohup docker-compose -f docker-compose.dev.yml up --force-recreate --remove-orphans &
+docker-compose -f docker-compose.dev.yml down
+docker-compose -f docker-compose.dev.yml kill
+```
 
 ### Kibana Dashboard Setup ###
 Import the [export.json](export.json) Dashboard from compose\_setup/export.json by going to Kibana's management => saved objects => import.  See https://www.elastic.co/guide/en/kibana/current/managing-saved-objects.html for more info, especially the 2nd warning.
