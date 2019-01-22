@@ -19,6 +19,7 @@ MSG
 
 run_dockstore_launcher=''
 PUBLIC_LAUNCHER_IP_ADDRESS=''
+PRODUCTION=''
 DOCKSTORE_VERSION=''
 DOCKSTORE_UI2_VERSION=''
 GITHUB_CLIENT2_ID=''
@@ -192,7 +193,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
     read run_dockstore_launcher
     # If the user would like to run dockstore_launcher, then we have to get some config settings from them OR read them from an existing file
     if [ "${run_dockstore_launcher^^}" = 'Y' ] ; then
-
+	production='production'
+	ask_question "Are you deploying on production (true or false)?" "$PRODUCTION" "Dockstore version" $production
         dockstore_version='dockstore_version'
         ask_question "What version of Dockstore do you wish to deploy?" "$DOCKSTORE_VERSION" "Dockstore version" $dockstore_version
 
@@ -276,6 +278,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         cat > dockstore_launcher_config/compose.config <<CONFIG
 {
 "PUBLIC_LAUNCHER_IP_ADDRESS":"`curl http://169.254.169.254/latest/meta-data/public-ipv4`",
+"PRODUCTION":${production},
 "DOCKSTORE_VERSION":"${dockstore_version}",
 "DOCKSTORE_UI2_VERSION":"${dockstore_ui2_version}",
 "GITHUB_CLIENT2_ID":"${github_client2_id}",

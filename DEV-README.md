@@ -6,7 +6,8 @@ There are 3 different sets of metric logs being sent to logstash's elasticsearch
 
 ## Ports
 - Port 9200 must be opened for metricbeats to send data to elasticsearch directly
-- Port 5055 must be opened for webservice to send data to logstash
+- Port 5055 must be opened for the production webservice to send data to logstash
+- Port 5066 must be opened for the staging webservice to send data to logstash
 - Port 5601 must be opened for developers to view the kibana dashboard
 
 ## Apache HTTP Logs
@@ -29,9 +30,19 @@ Get the admin port of Dockstore dropwizard (likely 8081 by default).  Make sure 
 Rules should be added/modified in the [templates/rules](templates/rules) directory because SLACK_URL requires templating. Rules can be temporarily added/modified in `config/rules` or via the elasticAlert kibana plugin in the kibana dashboard.
 
 ## Elasticsearch backup
+Install elasticsearch-curator because it makes life a lot easier.
+```
+pip install elasticsearch-curator==5.6.0
+``` 
+Check that `curator_cli` and `curator` command works.
 
 ### Snapshot repository creation:
-Make sure elasticsearch-logstash has essnapshot write permissions. Run this commands from within the docker-compose.dev.yml server.
+Make sure elasticsearch-logstash has essnapshot write permissions. 
+```
+sudo chown -R ubuntu:ubuntu essnapshot
+sudo chmod -R 775 essnapshot
+```
+Run this commands from within the docker-compose.dev.yml server.
 ```
 curl -X PUT "localhost:9200/_snapshot/my_backup" -H 'Content-Type: application/json' -d'
 {
@@ -43,6 +54,10 @@ curl -X PUT "localhost:9200/_snapshot/my_backup" -H 'Content-Type: application/j
 }
 '
 ```
+If your essnapshot directory has snapshots already, double check by using:
+```
+curator_cli show_snapshots --repository my_backup
+```
 
 ### Creating daily snapshots
 `curl -X PUT "localhost:9200/_snapshot/my_backup/%3Csnapshot-%7Bnow%2Fd%7D%3E"` to take a daily backup that results in a snapshot named like snapshot-2018.09.26
@@ -50,13 +65,17 @@ curl -X PUT "localhost:9200/_snapshot/my_backup" -H 'Content-Type: application/j
 ### Delete snapshot
 `curl -X DELETE "localhost:9200/_snapshot/my_backup/snapshot-2018.09.26"`
 
-Alternatively, you can delete old snapshots automatically using curator.  Install with `pip install elasticsearch-curator` then delete old with `curator --config curator.yml delete_old_snapshots.yml` inside the curator directory.
+Alternatively, you can delete old snapshots automatically using curator.  Delete old snapshots with `curator --config curator.yml delete_old_snapshots.yml` inside the curator directory.
 
 
-### Restoring snapshots
-- `curl -X POST "localhost:9200/_all/_close"` 
-- `curl -X POST "localhost:9200/_snapshot/my_backup/snapshot-2018.09.26/_restore"`
+### Restoring snapshots procedure
+Before bringing up elasticsearch-logstash, download the newest zip file from s3 and extract its contents into the essnapshot directory. Then follow the [Snapshot repository creation](#snapshot-repository-creation) section and ensure the snapshots are readable.  Restart elasticsearch-logstash if not snapshots are found.  Perform the snapshot restore:
+- `curl -X POST "localhost:9200/_all/_close"`
+Replace "snapshot-2019.01.04" with the actual snapshot name
+- `curl -X POST "localhost:9200/_snapshot/my_backup/snapshot-2019.01.04/_restore?wait_for_completion=true"`
 - `curl -X POST "localhost:9200/_all/_open"`
+
+Double check in Kibana that the amount of hits are sane
 
 ## Kibana setup
 Generally, snapshot repo create and then snapshot restore should be used first.  In the event that there's no snapshot, export.json can be used to recover everything except for the actual logging data.

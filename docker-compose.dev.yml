@@ -39,6 +39,7 @@ services:
       - LS_JAVA_OPTS=-Xms512m -Xmx512m
     ports:
       - "5055:5055"
+      - "5066:5066"
     mem_limit: 1g
     #    command: ["dockerize", "-wait-retry-interval", "60s", "-timeout", "3600s", "-wait", "tcp://kibana:5601", "/usr/local/bin/docker-entrypoint"]
   kibana:
