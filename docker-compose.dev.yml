@@ -55,18 +55,20 @@ services:
       - elasticsearch-logstash
     environment:
       -  XPACK_SECURITY_ENABLED=false
-#  elastalert:
-#    image: bitsensor/elastalert:0.0.14
-#    environment:
-#      ES_HOST: "elasticsearch-logstash"
-#    depends_on:
-#      - elasticsearch-logstash
-#    restart: always
-#    expose:
-#      - "3030"
-#    volumes:
-#      - ./config/rules:/opt/elastalert/rules
-#    mem_limit: 500m
+      -  NODE_OPTIONS=--max_old_space_size=800
+    mem_limit: 1g
+  elastalert:
+    image: bitsensor/elastalert:0.0.14
+    environment:
+      ES_HOST: "elasticsearch-logstash"
+    depends_on:
+      - elasticsearch-logstash
+    restart: always
+    expose:
+      - "3030"
+    volumes:
+      - ./config/rules:/opt/elastalert/rules
+    mem_limit: 500m
   # courtesy of https://blog.t1cg.io/post/elk-aws-deployment.html#installing-docker-nginx-certbot-and-the-elk-stack
   nginx:
     build:
