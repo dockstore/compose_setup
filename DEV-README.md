@@ -12,12 +12,14 @@ There are 3 different sets of metric logs being sent to logstash's elasticsearch
 
 ## Apache HTTP Logs
 
-Currently, install_bootstrap and docker-compose handles all necessary configuration
+Currently, install\_bootstrap and docker-compose handles all necessary configuration
 
+<!-- Long term, will likely move to AWS RDS, making postgres setup simpler
 ## Postgres
 
 Setup is unlikely required if metricbeats and postgres are on the same docker network.  If it isn't, ensure that `/etc/postgresql/9.6/main/pg_hba.conf` allows the requests.
-Additionally, if pg_stat_statements are required, `shared_preload_libraries = 'pg_stat_statements'` needs to be added to the `/etc/postgresql/9.6/main/postgresql.conf` file.
+Additionally, if pg\_stat\_statements are required, `shared_preload_libraries = 'pg_stat_statements'` needs to be added to the `/etc/postgresql/9.6/main/postgresql.conf` file.
+-->
 
 ## Dropwizard
 
@@ -27,7 +29,7 @@ Get the admin port of Dockstore dropwizard (likely 8081 by default).  Make sure 
 
 ## Alerts
 
-Rules should be added/modified in the [templates/rules](templates/rules) directory because SLACK_URL requires templating. Rules can be temporarily added/modified in `config/rules` or via the elasticAlert kibana plugin in the kibana dashboard.
+Rules should be added/modified in the [templates/rules](templates/rules) directory because SLACK\_URL requires templating. Rules can be temporarily added/modified in `config/rules` or via the elasticAlert kibana plugin in the kibana dashboard.
 
 ## Elasticsearch backup
 Install elasticsearch-curator because it makes life a lot easier.
@@ -60,7 +62,8 @@ curator_cli show_snapshots --repository my_backup
 ```
 
 ### Creating daily snapshots
-`curl -X PUT "localhost:9200/_snapshot/my_backup/%3Csnapshot-%7Bnow%2Fd%7D%3E"` to take a daily backup that results in a snapshot named like snapshot-2018.09.26
+
+Take a look at `scripts/essnapshot_backup.sh` for the appropriate cron tasks to setup the daily backup. Note that this relies upon an IAM user setup with write permissions to the appropriate S3 bucket. 
 
 ### Delete snapshot
 `curl -X DELETE "localhost:9200/_snapshot/my_backup/snapshot-2018.09.26"`
@@ -90,6 +93,6 @@ See the correct elastic version of the [elastic guide](https://www.elastic.co/gu
 
 ## Self-signed certificate
 To use self-signed certificate to run https locally: 
-- go to compose_setup
+- go to compose\_setup
 - `bash scripts/self-signed-certificate.sh`
 - swap the comments in the [templates/default.nginx_https.shared.conf.template](templates/default.nginx_https.shared.conf.template) and [docker-compose.yml](docker-compose.yml)
