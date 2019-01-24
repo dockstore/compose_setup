@@ -68,6 +68,7 @@ services:
       - "3030"
     volumes:
       - ./config/rules:/opt/elastalert/rules
+      - ./staticConfig/elastalert.yaml:/opt/elastalert/config.yaml
     mem_limit: 500m
   # courtesy of https://blog.t1cg.io/post/elk-aws-deployment.html#installing-docker-nginx-certbot-and-the-elk-stack
   nginx:
