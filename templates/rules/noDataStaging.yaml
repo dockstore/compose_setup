@@ -1,7 +1,7 @@
 # Alert when no data has been received for more then 30 seconds.
 
 # Rule name, must be unique
-name: No Data Production
+name: No Data Staging
 
 # Type of alert.
 type: flatline
@@ -23,12 +23,12 @@ exponential_realert:
 doc_type: doc
 
 # Index to search, wildcard supported
-index: "logstash-*"
+index: "staging-logstash-*"
 
 alert_subject: "No data on dashboard"
 
 alert_text_type: alert_text_only
-alert_text: "The stack receives no data at Dockstore Production. It might be down :("
+alert_text: "The stack receives no data at Dockstore Staging. It might be down :("
 
 # The alert is use when a match is found
 alert:
