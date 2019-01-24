@@ -23,7 +23,7 @@ exponential_realert:
 doc_type: doc
 
 # Index to search, wildcard supported
-index: "staging-logstash-*"
+index: staging-logstash-*
 
 alert_subject: "No data on dashboard"
 
