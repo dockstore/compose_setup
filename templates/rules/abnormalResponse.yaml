@@ -9,7 +9,7 @@ type: frequency
 
 # (Required)
 # Index to search, wildcard supported
-index: logstash-*
+index: "*logstash-*"
 
 # (Required, frequency specific)
 # Alert when this many documents matching the query occur within a timeframe
@@ -17,6 +17,7 @@ num_events: 50
 
 # (Required, frequency specific)
 # num_events must occur within this amount of time to trigger an alert
+# When triggered, clears the counter
 timeframe:
   hours: 1
 
@@ -26,7 +27,7 @@ timeframe:
 # For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html
 filter:
 - terms:
-    response: ["400", "404", "500"]
+    response: ["400", "401", "404", "500"]
 
 query_key:
   - host

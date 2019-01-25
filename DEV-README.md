@@ -31,6 +31,15 @@ Get the admin port of Dockstore dropwizard (likely 8081 by default).  Make sure 
 
 Rules should be added/modified in the [templates/rules](templates/rules) directory because SLACK\_URL requires templating. Rules can be temporarily added/modified in `config/rules` or via the elasticAlert kibana plugin in the kibana dashboard.
 
+### Notes
+
+The frequency rule in elasticalert is not intuitive.
+
+If the rule says it's supposed to trigger if there's 5 documents found within a 1 hr time frame and a 5 minute query rate, I'd expect that if the logs were consistently producing 4 docs per 5 mins to trigger an alert on the 10-min mark and every 5 mins after.
+
+However, what actually happens is the counter is cleared after every alert is triggered.  This results in an alert triggering on the 10-min mark and then every 10 mins after.
+
+
 ## Elasticsearch backup
 Install elasticsearch-curator because it makes life a lot easier.
 ```

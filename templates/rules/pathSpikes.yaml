@@ -6,14 +6,14 @@ type: spike
 
 # num_events must occur within this amount of time to trigger an alert
 timeframe: 
-  seconds: 60
-spike_height: 10
+  minutes: 5
+spike_height: 5
 spike_type: up
 threshold_cur: 10
 threshold_ref: 1
 
 # Index to search, wildcard supported
-index: logstash-*
+index: "*logstash-*"
 query_key: 
   - generalizedPath
   - host
