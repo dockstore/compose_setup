@@ -70,6 +70,7 @@ function template()
     
     mustache dockstore_launcher_config/compose.config templates/jvm.options.es.template > config/jvm.options.es
     mustache dockstore_launcher_config/compose.config templates/jvm.options.logstash.template > config/jvm.options.logstash
+    mustache dockstore_launcher_config/compose.config templates/postgres_backup.sh.template > scripts/postgres_backup.sh
 
     mkdir -p config/rules
     for f in $(ls templates/rules/); do mustache dockstore_launcher_config/compose.config templates/rules/$f > config/rules/$f; done
