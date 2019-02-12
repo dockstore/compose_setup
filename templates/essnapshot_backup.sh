@@ -5,10 +5,10 @@ WEBHOOK_URL='{{SLACK_URL}}'
 
 mkdir -p /home/ubuntu/compose_setup/logs
 # Corresponding cronjobs are:
-#0 0 * * * (date && /home/ubuntu/certbot-auto renew) >> /home/ubuntu/logs/certbot-auto.log 2>&1
-#5 0 * * * /bin/bash /home/ubuntu/compose_setup/scripts/essnapshot_backup.sh daily >> /home/ubuntu/compose_setup/logs/daily-cron.log 2>&1
-#15 0 * * 0 /bin/bash /home/ubuntu/compose_setup/scripts/essnapshot_backup.sh weekly >> /home/ubuntu/compose_setup/logs/weekly-cron.log 2>&1
-#30 0 1 * * /bin/bash /home/ubuntu/compose_setup/scripts/essnapshot_backup.sh monthly >> /home/ubuntu/compose_setup/logs/monthly-cron.log 2>&1
+#0 5 * * * (date && /home/ubuntu/certbot-auto renew) >> /home/ubuntu/logs/certbot-auto.log 2>&1
+#0 5 * * * /bin/bash /home/ubuntu/compose_setup/scripts/essnapshot_backup.sh daily >> /home/ubuntu/compose_setup/logs/daily-cron.log 2>&1
+#15 5 * * 0 /bin/bash /home/ubuntu/compose_setup/scripts/essnapshot_backup.sh weekly >> /home/ubuntu/compose_setup/logs/weekly-cron.log 2>&1
+#30 5 1 * * /bin/bash /home/ubuntu/compose_setup/scripts/essnapshot_backup.sh monthly >> /home/ubuntu/compose_setup/logs/monthly-cron.log 2>&1
 
 /home/ubuntu/.local/bin/curator --config /home/ubuntu/compose_setup/curator/curator.yml /home/ubuntu/compose_setup/curator/delete_old_snapshots.yml
 /home/ubuntu/.local/bin/curator --config /home/ubuntu/compose_setup/curator/curator.yml /home/ubuntu/compose_setup/curator/take_snapshots.yml
