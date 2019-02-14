@@ -34,8 +34,9 @@ rebuild your docker images without affecting existing running containers
 4. The bootstrap script can also rebuild your Docker images. Keep in mind the following handy commands:
     1. `install_bootstrap --script` will template and build everything using your previous answers (useful for quick iteration) 
     2. `docker-compose down` will bring all containers down safely 
-    3. `nohup docker-compose up --force-recreate --remove-orphans &` will re-create all containers known to docker-compose and delete those volumes that no longer are associated with running containers
+    3. `nohup docker-compose up --force-recreate --remove-orphans >/dev/null 2>&1 &` will re-create all containers known to docker-compose and delete those volumes that no longer are associated with running containers
     4. `docker system prune` for cleaning out old containers and images
+    5. To watch the logs `docker-compose logs --follow` while debugging
 
 5. After following the instructions in the bootstrap script and starting up the site with `docker-compose`, you can browse to the Dockstore site hosted at port 443 by default. `https://<domain-name>` if you specified https or `http://<domain-name>:443` if you did not. 
 
@@ -76,7 +77,7 @@ For example to deploy just logging
 
 ```
 docker-compose  -f docker-compose.dev.yml build
-nohup docker-compose -f docker-compose.dev.yml up --force-recreate --remove-orphans &
+nohup docker-compose -f docker-compose.dev.yml up --force-recreate --remove-orphans >/dev/null 2>&1 &
 docker-compose -f docker-compose.dev.yml down
 docker-compose -f docker-compose.dev.yml kill
 ```
