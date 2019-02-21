@@ -61,6 +61,7 @@ However, this does require a convoluted way to add content to the DB as follows
 docker cp /tmp/backup.sql <container>:/tmp
 docker exec -ti <container> /bin/bash
 su - postgres
+psql
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 \quit
