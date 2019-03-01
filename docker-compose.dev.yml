@@ -58,7 +58,7 @@ services:
       -  NODE_OPTIONS=--max_old_space_size=800
     mem_limit: 1g
   elastalert:
-    image: bitsensor/elastalert:0.0.14
+    image: bitsensor/elastalert:1.0.0
     environment:
       ES_HOST: "elasticsearch-logstash"
     depends_on:
@@ -69,6 +69,8 @@ services:
     volumes:
       - ./config/rules:/opt/elastalert/rules
       - ./staticConfig/elastalert.yaml:/opt/elastalert/config.yaml
+      - ./staticConfig/elastalert.config-test.yaml:/opt/elastalert/config-test.yaml
+      - ./staticConfig/elastalert.config.json:/opt/elastalert-server/config/config.json
     mem_limit: 500m
   # courtesy of https://blog.t1cg.io/post/elk-aws-deployment.html#installing-docker-nginx-certbot-and-the-elk-stack
   nginx:

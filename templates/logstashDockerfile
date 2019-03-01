@@ -1,4 +1,4 @@
-FROM docker.elastic.co/logstash/logstash:6.4.0
+FROM docker.elastic.co/logstash/logstash:6.6.0
 # enable the following lines to use dockerize
 # USER root
 # RUN yum -y install wget

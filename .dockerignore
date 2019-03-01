@@ -1,2 +1,4 @@
 essnapshot
 postgres-data
+essnapshot-*.zip
+logs
