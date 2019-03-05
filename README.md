@@ -70,6 +70,20 @@ psql -f  /tmp/backup.sql
 
 Note that database migration is run once during the startup process and is controlled via the `DATABASE_GENERATED` variable. Answer `yes` if you are working as a developer and want to start work from scratch from an empty database. Answer `no` if you are working as an administrator and/or wish to start Dockstore from a production or staging copy of the database.
 
+### Modifying the Database ###
+
+If direct modification of the database is required, e.g, a curator needs to modify the value of some row/column that is not accessible via the API, you can use the same steps as above, except for dropping the schema.
+
+This should be exercised with extreme caution, and with someone looking over your shoulder, as you have the potential to unintentionally overwrite or delete data. If you wish to proceed:
+
+```
+# Assuming you copied a file `fix.sql` to the /tmp directory:
+docker cp /tmp/fix.sql <container>:/tmp
+docker exec -ti <container> /bin/bash
+su - postgres
+psql -f  /tmp/fix.sql 
+```
+
 ## Logging Usage
 
 If using with logstash in a container (for development), use `-f docker-compose.yml -f docker-compose.dev.yml` flags after each `docker-compose` command to merge docker-compose files (e.g. `docker-compose -f docker-compse.yml -f docker-compose.dev.yml build`) 
