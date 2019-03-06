@@ -23,8 +23,7 @@ COPY config/dockstore.model.ts /dockstore-ui2/src/app/shared/dockstore.model.ts
 COPY config/index.html /dockstore-ui2/src/index.html
 
 RUN npm install
-RUN wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.3.1/swagger-codegen-cli-2.3.1.jar -O swagger-codegen-cli.jar
-RUN java -jar swagger-codegen-cli.jar generate -i https://raw.githubusercontent.com/ga4gh/dockstore/{{ DOCKSTORE_VERSION  }}/dockstore-webservice/src/main/resources/swagger.yaml -l typescript-angular -o src/app/shared/swagger -c swagger-config.json
+ENV WEBSERVICE_VERSION {{ DOCKSTORE_VERSION }}
 RUN npm run-script prebuild
 RUN ng build --prod --build-optimizer
 
