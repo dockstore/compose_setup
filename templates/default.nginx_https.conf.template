@@ -43,9 +43,6 @@ server {
     add_header 'Access-Control-Expose-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
-    # Limit body size of a request to 50K to protect Java server from DOS attacks.
-    client_max_body_size 50k;
-
     # used to redirect swagger.json as retrieved by swagger ui without changes
     location = /swagger.json {
         #proxy_pass 	http://webservice:8080/swagger.json;
