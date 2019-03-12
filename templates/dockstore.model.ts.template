@@ -14,6 +14,7 @@ export class Dockstore {
   static readonly DNASTACK_IMPORT_URL= 'https://app.dnastack.com/#/app/workflow/import/dockstore';
   static readonly FIRECLOUD_IMPORT_URL= '{{ FIRECLOUD_IMPORT_URL }}';
   static readonly DNANEXUS_IMPORT_URL = 'https://platform.dnanexus.com/panx/tools/import-workflow';
+  static readonly TERRA_IMPORT_URL = '{{ TERRA_IMPORT_URL }}';
 
 
   static readonly GITHUB_CLIENT_ID = '{{ GITHUB_CLIENT2_ID }}';
@@ -42,8 +43,7 @@ export class Dockstore {
   static readonly CWL_VISUALIZER_URI = 'https://view.commonwl.org';
 
   static readonly FEATURES = {
-    enableCwlViewer: {{ ENABLE_CWL_VIEWER }},
-    enableLaunchWithFireCloud: {{ ENABLE_LAUNCH_WITH_FIRECLOUD }}
+    enableCwlViewer: {{ ENABLE_CWL_VIEWER }}
   }
 
 }

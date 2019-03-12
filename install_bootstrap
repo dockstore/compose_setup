@@ -40,8 +40,8 @@ GOOGLE_CLIENT_SECRET=''
 LOGSTASH=''
 LOGSTASH_HOST=''
 ENABLE_CWL_VIEWER=''
-ENABLE_LAUNCH_WITH_FIRECLOUD=''
 FIRECLOUD_IMPORT_URL=''
+TERRA_IMPORT_URL=''
 GOOGLE_VERIFICATION_NAME=''
 AUTHORIZER_TYPE=''
 EXTERNAL_GOOGLE_CLIENT_PREFIX1=''
@@ -249,11 +249,11 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         enable_cwl_viewer='enable_cwl_viewer'
         ask_question "Do you want to enable CWL Viewer in DAG (true or false)?" "$ENABLE_CWL_VIEWER" "enable_cwl_viewer" $enable_cwl_viewer
 
-        enable_launch_with_firecloud='enable_launch_with_firecloud'
-        ask_question "Do you want to enable Launch with FireCloud (true or false)?" "$ENABLE_LAUNCH_WITH_FIRECLOUD" "enable_launch_with_firecloud" $enable_launch_with_firecloud
-
         firecloud_import_url='firecloud_import_url'
         ask_question "What is the Launch with FireCloud base url? Unless it's a staging FC enviornment, it should be https://portal.firecloud.org/#import/dockstore" "$FIRECLOUD_IMPORT_URL" "firecloud_import_url" $firecloud_import_url
+
+        terra_import_url='terra_import_url'
+        ask_question "What is the Launch with Terra base url? For prod it should be https://app.terra.bio/#import-tool/dockstore; for staging it should be https://bvdp-saturn-dev.appspot.com/#import-tool/dockstore" "$TERRA_IMPORT_URL" "terra_import_url" $terra_import_url
 
         authorizer_type='authorizer_type'
         ask_question "What kind of authorizer should we use? (sam, or inmemory)" "$AUTHORIZER_TYPE" "authorizer_type" $authorizer_type
@@ -300,8 +300,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "LOGSTASH":${logstash},
 "LOGSTASH_HOST":"${logstash_host}",
 "ENABLE_CWL_VIEWER":"${enable_cwl_viewer}",
-"ENABLE_LAUNCH_WITH_FIRECLOUD":"${enable_launch_with_firecloud}",
 "FIRECLOUD_IMPORT_URL":"${firecloud_import_url}",
+"TERRA_IMPORT_URL":${terra_import_url}",
 "AUTHORIZER_TYPE":"${authorizer_type}",
 "EXTERNAL_GOOGLE_CLIENT_PREFIX1":"${external_google_client_prefix1}",
 "SAM_PATH":"${sam_path}",
