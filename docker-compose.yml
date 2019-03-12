@@ -114,6 +114,7 @@ services:
         awslogs-group: ${LOG_GROUP_NAME}
         awslogs-stream: "nginx_dockstore"
 
+# re-enable if we go down the route of these metrics going into ELK
 #  metricbeat:
 #    image: docker.elastic.co/beats/metricbeat:6.4.0
 #    user: root
