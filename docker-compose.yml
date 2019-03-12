@@ -1,6 +1,5 @@
 version: '2'
 
-
 services:
   postgres:
     image: postgres:9.6.10
@@ -9,6 +8,11 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
     expose: 
       - "5432"
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "postgres"
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:5.6.3
@@ -29,6 +33,11 @@ services:
       - "9300"
     volumes:
       - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "elasticsearch"
 
   migration: 
     build:
@@ -40,6 +49,11 @@ services:
       - log_volume:/dockstore_logs
       - ./config/web.yml:/web.yml
     command: ["dockerize", "-wait", "tcp://postgres:5432", "-timeout", "60s", "./init_migration.sh"]
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "migration"
 
   webservice: 
     build:
@@ -55,6 +69,11 @@ services:
       - ./config/web.yml:/web.yml
     expose:
       - "8081"
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "webservice"
 
   nginx_http:
     image: nginx:1.13.1
@@ -66,6 +85,13 @@ services:
       - certs:/etc/letsencrypt
       - certs-data:/data/letsencrypt
   #    - ./self-signed:/self-signed
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "nginx_http"
+
+
   nginx_dockstore:
     build:
       context: .
@@ -82,6 +108,12 @@ services:
       - certs:/etc/letsencrypt
       - certs-data:/data/letsencrypt
   #    - ./self-signed:/self-signed
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "nginx_dockstore"
+
   metricbeat:
     image: docker.elastic.co/beats/metricbeat:6.4.0
     user: root
@@ -97,6 +129,11 @@ services:
     command:
       - "--strict.perms=false"
       - "-system.hostfs=/hostfs"
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "metricbeat"
 
 volumes:
   log_volume: 
