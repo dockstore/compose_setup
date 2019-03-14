@@ -24,6 +24,11 @@ services:
       - ./staticConfig/elasticsearchLogstash.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./essnapshot:/mount/backups
         #    command: ["dockerize", "-wait-retry-interval", "60s", "-timeout", "3600s",  "-wait", "tcp://kibana:5601", "/usr/local/bin/docker-entrypoint.sh"]
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "elasticsearch-logstash"
   logstash:
     build:
       context: .
@@ -42,6 +47,12 @@ services:
       - "5066:5066"
     mem_limit: 1g
     #    command: ["dockerize", "-wait-retry-interval", "60s", "-timeout", "3600s", "-wait", "tcp://kibana:5601", "/usr/local/bin/docker-entrypoint"]
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "logstash"
+
   kibana:
     build:
       context: .
@@ -57,6 +68,12 @@ services:
       -  XPACK_SECURITY_ENABLED=false
       -  NODE_OPTIONS=--max_old_space_size=800
     mem_limit: 1g
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "kibana"
+
   elastalert:
     image: bitsensor/elastalert:1.0.0
     environment:
@@ -72,6 +89,12 @@ services:
       - ./staticConfig/elastalert.config-test.yaml:/opt/elastalert/config-test.yaml
       - ./staticConfig/elastalert.config.json:/opt/elastalert-server/config/config.json
     mem_limit: 500m
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "elastalert"
+
   # courtesy of https://blog.t1cg.io/post/elk-aws-deployment.html#installing-docker-nginx-certbot-and-the-elk-stack
   nginx:
     build:
@@ -87,6 +110,12 @@ services:
       - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
     depends_on:
       - kibana
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "nginx"
+
 volumes:
   esdata2:
     driver: local
