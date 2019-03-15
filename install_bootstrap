@@ -303,7 +303,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "LOGSTASH_HOST":"${logstash_host}",
 "ENABLE_CWL_VIEWER":"${enable_cwl_viewer}",
 "FIRECLOUD_IMPORT_URL":"${firecloud_import_url}",
-"TERRA_IMPORT_URL":${terra_import_url}",
+"TERRA_IMPORT_URL":"${terra_import_url}",
 "AUTHORIZER_TYPE":"${authorizer_type}",
 "EXTERNAL_GOOGLE_CLIENT_PREFIX1":"${external_google_client_prefix1}",
 "SAM_PATH":"${sam_path}",
