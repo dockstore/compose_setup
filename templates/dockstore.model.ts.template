@@ -43,7 +43,8 @@ export class Dockstore {
   static readonly CWL_VISUALIZER_URI = 'https://view.commonwl.org';
 
   static readonly FEATURES = {
-    enableCwlViewer: {{ ENABLE_CWL_VIEWER }}
+    enableCwlViewer: {{ ENABLE_CWL_VIEWER }},
+    enableLaunchWithFireCloud: {{ ENABLE_LAUNCH_WITH_FIRECLOUD }}
   }
 
 }
