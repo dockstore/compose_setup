@@ -25,7 +25,7 @@ COPY config/index.html /dockstore-ui2/src/index.html
 RUN npm install
 ENV WEBSERVICE_VERSION {{ DOCKSTORE_VERSION }}
 RUN npm run-script prebuild
-RUN ng build --prod --build-optimizer
+RUN ng build --prod
 
 
 FROM nginx:1.13.1
