@@ -8,6 +8,5 @@ before_install:
 language: bash
 
 install:
-- bash install_bootstrap --script
+- travis_wait 30 bash install_bootstrap --script
 - docker-compose version
-- docker-compose build
