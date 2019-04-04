@@ -9,24 +9,26 @@ RUN apt-get update \
     wget \
     && apt-get clean
 
-#prerequisites
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
-RUN apt-get install -y nodejs
-RUN npm install -g @angular/cli@7.0.4
-#npm
+# install nvm
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+
 RUN touch {{ DOCKSTORE_UI2_VERSION }}.out
 RUN git clone https://github.com/dockstore/dockstore-ui2.git
 WORKDIR /dockstore-ui2
-RUN git checkout {{ DOCKSTORE_UI2_VERSION }}
+RUN git checkout feature/preinstall
+
+# install node version from .nvmrc file
+run bash -i -c 'nvm install'
+
 
 COPY config/dockstore.model.ts /dockstore-ui2/src/app/shared/dockstore.model.ts
 COPY config/index.html /dockstore-ui2/src/index.html
 
-RUN CI=true npm ci
-ENV WEBSERVICE_VERSION {{ DOCKSTORE_VERSION }}
-RUN npm run-script prebuild
-RUN ng build --prod
+# install
+RUN bash -i -c 'npm run install'
 
+# build
+RUN bash -i -c 'npm run build.prod'
 
 FROM nginx:1.13.1
 
