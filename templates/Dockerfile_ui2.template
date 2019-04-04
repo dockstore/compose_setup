@@ -25,7 +25,7 @@ COPY config/dockstore.model.ts /dockstore-ui2/src/app/shared/dockstore.model.ts
 COPY config/index.html /dockstore-ui2/src/index.html
 
 # install
-RUN bash -i -c 'npm run install'
+RUN bash -i -c 'CI=true npm ci'
 
 # build
 RUN bash -i -c 'npm run build.prod'
