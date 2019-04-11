@@ -27,8 +27,10 @@ run bash -i -c 'nvm install'
 COPY config/dockstore.model.ts /dockstore-ui2/src/app/shared/dockstore.model.ts
 COPY config/index.html /dockstore-ui2/src/index.html
 
-# install with CI set to true in order to suppress Cypress TTY output
-RUN bash -i -c 'CI=true npm ci'
+# inherit $CI in order to suppress Cypress TTY output when running on CI server
+ARG CI
+ENV CI $CI
+RUN bash -i -c 'npm ci'
 
 # build
 RUN bash -i -c 'npm run build.prod'
