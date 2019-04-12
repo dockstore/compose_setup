@@ -1,16 +1,14 @@
-FROM ubuntu:16.04 as builder
+FROM ubuntu:18.04 as builder
 
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y \
+RUN apt update \
+    && apt install -yq \
+    openjdk-11-jre \
     git \
-    curl \
-    maven \
     wget \
-    && apt-get clean
+    && apt clean
 
 # install nvm
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+RUN wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
 
 # cache busting in order to get the up-to-date Git repo
 RUN touch {{ DOCKSTORE_UI2_VERSION }}.out
