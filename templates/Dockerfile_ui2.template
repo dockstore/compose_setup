@@ -15,7 +15,7 @@ RUN touch {{ DOCKSTORE_UI2_VERSION }}.out
 
 RUN git clone https://github.com/dockstore/dockstore-ui2.git
 WORKDIR /dockstore-ui2
-RUN git checkout feature/preinstall
+RUN git checkout {{ DOCKSTORE_UI2_VERSION }}
 
 # install node version from .nvmrc file
 run bash -i -c 'nvm install'
