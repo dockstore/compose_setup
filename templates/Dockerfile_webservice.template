@@ -10,11 +10,14 @@ RUN apt-get update \
     telnet \
     vim \
     wget \
+    locales \
     && apt-get clean
 
-# grab openjdk
-RUN apt install locales -yq \
-    && apt install default-jdk -yq
+# install java
+RUN add-apt-repository ppa:openjdk-r/ppa
+RUN apt-get update \
+    && apt-get install openjdk-11-jdk -y \
+    && apt-get clean
 
 RUN locale-gen en_US.UTF-8
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
