@@ -1,32 +1,37 @@
-FROM ubuntu:16.04 as builder
+FROM ubuntu:18.04 as builder
 
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y \
+RUN apt update \
+    && apt install -yq \
+    openjdk-11-jre \
     git \
-    curl \
-    maven \
     wget \
-    && apt-get clean
+    && apt clean
 
-#prerequisities
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
-RUN apt-get install -y nodejs
-RUN npm install -g @angular/cli@6.0.2 --unsafe
-#npm
+# install nvm
+RUN wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+
+# cache busting in order to get the up-to-date Git repo
 RUN touch {{ DOCKSTORE_UI2_VERSION }}.out
+
 RUN git clone https://github.com/dockstore/dockstore-ui2.git
 WORKDIR /dockstore-ui2
 RUN git checkout {{ DOCKSTORE_UI2_VERSION }}
 
+# install node version from .nvmrc file
+run bash -i -c 'nvm install'
+
+# copy templated files
+# TODO: have the UI handle templating these two file in order to reduce sync issues
 COPY config/dockstore.model.ts /dockstore-ui2/src/app/shared/dockstore.model.ts
 COPY config/index.html /dockstore-ui2/src/index.html
 
-RUN npm install
-ENV WEBSERVICE_VERSION {{ DOCKSTORE_VERSION }}
-RUN npm run-script prebuild
-RUN ng build --prod --build-optimizer
+# inherit $CI in order to suppress Cypress TTY output when running on CI server
+ARG CI
+ENV CI $CI
+RUN bash -i -c 'npm ci'
 
+# build
+RUN bash -i -c 'npm run build.prod'
 
 FROM nginx:1.13.1
 

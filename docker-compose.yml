@@ -96,6 +96,8 @@ services:
     build:
       context: .
       dockerfile: config/Dockerfile_ui2
+      args:
+        CI: ${CI}
     restart: always
     depends_on:
       - webservice

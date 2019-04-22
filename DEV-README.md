@@ -113,3 +113,6 @@ To use self-signed certificate to run https locally:
 - go to compose\_setup
 - `bash scripts/self-signed-certificate.sh`
 - swap the comments in the [templates/default.nginx_https.shared.conf.template](templates/default.nginx_https.shared.conf.template) and [docker-compose.yml](docker-compose.yml)
+
+## Elasticsearch Production Setup Differences
+Set vm.max_map_count as described in https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-prod-mode
