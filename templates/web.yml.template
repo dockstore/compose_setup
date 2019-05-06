@@ -19,6 +19,9 @@ googleClientID: {{ GOOGLE_CLIENT_ID }}
 googleClientSecret: {{ GOOGLE_CLIENT_SECRET }}
 googleRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}:443
 
+discourseKey: {{ DISCOURSE_KEY }}
+discourseUrl: {{ DISCOURSE_URL }}
+
 limitConfig:
   workflowLimit: 50
   workflowVersionLimit: 50
@@ -99,3 +102,30 @@ server:
         host: {{ LOGSTASH_HOST }}
         port: {{#PRODUCTION}}5055{{/PRODUCTION}}{{^PRODUCTION}}5066{{/PRODUCTION}}
 {{/LOGSTASH}}
+
+uiConfig:
+  discourseUrl: {{ DISCOURSE_URL }}
+  dnaStackImportUrl: https://app.dnastack.com/#/app/workflow/import/dockstore
+  fireCloudImportUrl: https://portal.firecloud.org/#import/dockstore
+  dnaNexusImportUrl: https://platform.dnanexus.com/panx/tools/import-workflow
+  terraImportUrl: https://app.terra.bio/#import-tool/dockstore
+
+  gitHubAuthUrl: https://github.com/login/oauth/authorize
+  gitHubRedirectPath: /auth/github.com
+  gitHubScope: read:org,user:email
+
+  quayIoAuthUrl: https://quay.io/oauth/authorize
+  quayIoRedirectPath: /auth/quay.io
+  quayIoScope: repo:read,user:read
+
+  bitBucketAuthUrl: https://bitbucket.org/site/oauth2/authorize
+
+  gitlabAuthUrl: https://gitlab.com/oauth/authorize
+  gitlabRedirectPath: /auth/gitlab.com
+  gitlabScope: api
+
+  googleScope: profile email
+
+  cwlVisualizerUri: https://view.commonwl.org
+
+  enableLaunchWithFireCloud: true
