@@ -31,6 +31,7 @@ BITBUCKET_CLIENT_SECRET=''
 DOMAIN_NAME=''
 HTTPS=''
 DISCOURSE_URL=''
+DISCOURSE_KEY=''
 GOOGLE_VERIFICATION_NAME=''
 TAG_MANAGER_ID=''
 GITLAB_CLIENT_ID=''
@@ -237,6 +238,10 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 
         discourse_url='discourse_url'
         ask_question "What is your Discourse URL (ends with a /)?" "$DISCOURSE_URL" "discourse_url" $discourse_url
+        discourse_key='discourse_key'
+        ask_question "What is your Discourse key?" "$DISCOURSE_KEY" "discourse_key" $discourse_key
+
+        google_verification_name='google_verification_name'
         google_verification_name='google_verification_name'
         ask_question "What is your Google verification code for search console (looks like google74e52839b1bxxxxxx)?" "$GOOGLE_VERIFICATION_NAME" "google_verification_name" $google_verification_name
 
