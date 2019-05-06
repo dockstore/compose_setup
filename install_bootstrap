@@ -40,7 +40,6 @@ GOOGLE_CLIENT_ID=''
 GOOGLE_CLIENT_SECRET=''
 LOGSTASH=''
 LOGSTASH_HOST=''
-ENABLE_CWL_VIEWER=''
 ENABLE_LAUNCH_WITH_FIRECLOUD=''
 FIRECLOUD_IMPORT_URL=''
 TERRA_IMPORT_URL=''
@@ -253,9 +252,6 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         logstash_host='logstash_host'
         ask_question "If you are using logstash, where is it hosted (ex: logstash)?" "$LOGSTASH_HOST" "logstash_host" $logstash_host
 
-        enable_cwl_viewer='enable_cwl_viewer'
-        ask_question "Do you want to enable CWL Viewer in DAG (true or false)?" "$ENABLE_CWL_VIEWER" "enable_cwl_viewer" $enable_cwl_viewer
-
         enable_launch_with_firecloud='enable_launch_with_firecloud'
         ask_question "Do you want to enable Launch with FireCloud (true or false)?" "$ENABLE_LAUNCH_WITH_FIRECLOUD" "enable_launch_with_firecloud" $enable_launch_with_firecloud
 
@@ -309,7 +305,6 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "GOOGLE_CLIENT_SECRET":"${google_client_secret}",
 "LOGSTASH":${logstash},
 "LOGSTASH_HOST":"${logstash_host}",
-"ENABLE_CWL_VIEWER":"${enable_cwl_viewer}",
 "ENABLE_LAUNCH_WITH_FIRECLOUD":"${enable_launch_with_firecloud}",
 "FIRECLOUD_IMPORT_URL":"${firecloud_import_url}",
 "TERRA_IMPORT_URL":"${terra_import_url}",
