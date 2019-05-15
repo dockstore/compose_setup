@@ -1,11 +1,10 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 # Update the APT cache
 # prepare for Java download
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y \
-    python-software-properties \
     software-properties-common \
     telnet \
     vim \
