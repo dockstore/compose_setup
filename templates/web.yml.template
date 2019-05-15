@@ -2,10 +2,8 @@ template: Hello, %s!
 quayClientID: {{ QUAY_CLIENT_ID }} 
 # port should match the port where the UI is being hosted, 9000 by default
 quayRedirectURI: dev-only
-githubClientID: 
-  - {{ GITHUB_CLIENT2_ID }}
-githubClientSecret: 
-  - {{ GITHUB_CLIENT2_SECRET }}
+githubClientID: {{ GITHUB_CLIENT2_ID }}
+githubClientSecret: {{ GITHUB_CLIENT2_SECRET }}
 # port should match the port where the UI is being hosted, 9000 by default
 githubRedirectURI: dev-only
 bitbucketClientID: {{ BITBUCKET_CLIENT_ID }}
