@@ -302,6 +302,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "DOMAIN_NAME":"${domain_name}",
 "HTTPS":${https},
 "DISCOURSE_URL":"${discourse_url}",
+"DISCOURSE_KEY":"${discourse_key}",
 "GOOGLE_VERIFICATION_NAME":"${google_verification_name}",
 "TAG_MANAGER_ID":"${tag_manager_id}",
 "GITLAB_CLIENT_ID":"${gitlab_client_id}",
