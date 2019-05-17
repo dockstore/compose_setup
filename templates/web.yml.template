@@ -19,6 +19,7 @@ googleRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}:443
 
 discourseKey: {{ DISCOURSE_KEY }}
 discourseUrl: {{ DISCOURSE_URL }}
+discourseCategoryId: {{ DISCOURSE_CATEGORY_ID }}
 
 limitConfig:
   workflowLimit: 50

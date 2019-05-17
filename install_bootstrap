@@ -32,6 +32,7 @@ DOMAIN_NAME=''
 HTTPS=''
 DISCOURSE_URL=''
 DISCOURSE_KEY=''
+DISCOURSE_CATEGORY_ID=''
 GOOGLE_VERIFICATION_NAME=''
 TAG_MANAGER_ID=''
 GITLAB_CLIENT_ID=''
@@ -240,6 +241,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         ask_question "What is your Discourse URL (ends with a /)?" "$DISCOURSE_URL" "discourse_url" $discourse_url
         discourse_key='discourse_key'
         ask_question "What is your Discourse key?" "$DISCOURSE_KEY" "discourse_key" $discourse_key
+        discourse_category_id='discourse_category_id'
+        ask_question "What is your Discourse category id (9 for staging, 6 for production)?" "$DISCOURSE_CATEGORY_ID" "discourse_category_id" $discourse_category_id
 
         google_verification_name='google_verification_name'
         google_verification_name='google_verification_name'
@@ -303,6 +306,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "HTTPS":${https},
 "DISCOURSE_URL":"${discourse_url}",
 "DISCOURSE_KEY":"${discourse_key}",
+"DISCOURSE_CATEGORY_ID":"${discourse_category_id}",
 "GOOGLE_VERIFICATION_NAME":"${google_verification_name}",
 "TAG_MANAGER_ID":"${tag_manager_id}",
 "GITLAB_CLIENT_ID":"${gitlab_client_id}",
