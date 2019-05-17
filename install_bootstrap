@@ -242,7 +242,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         discourse_key='discourse_key'
         ask_question "What is your Discourse key?" "$DISCOURSE_KEY" "discourse_key" $discourse_key
         discourse_category_id='discourse_category_id'
-        ask_question "What is your Discourse category id (6 for staging, 9 for production)?" "$DISCOURSE_CATEGORY_ID" "discourse_category_id" $discourse_category_id
+        ask_question "What is your Discourse category id (9 for staging, 6 for production)?" "$DISCOURSE_CATEGORY_ID" "discourse_category_id" $discourse_category_id
 
         google_verification_name='google_verification_name'
         google_verification_name='google_verification_name'
