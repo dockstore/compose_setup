@@ -20,7 +20,7 @@ Change --staging as necessary and the domain names as necessary to match where y
 
 ```
 docker run -it --rm -v composesetup_certs:/etc/letsencrypt -v composesetup_certs-data:/data/letsencrypt   certbot/certbot renew
-docker-compose restart nginx_https
+docker-compose restart nginx_dockstore
 ```
 
 2. Call the install\_bootstrap script. This templates the contents of `templates` using mustache to the `config` directory while recording your answers for future use. Note that this will also
