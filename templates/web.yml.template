@@ -103,11 +103,12 @@ server:
 {{/LOGSTASH}}
 
 uiConfig:
+  # Must end with a slash
   discourseUrl: {{ DISCOURSE_URL }}
   dnaStackImportUrl: https://app.dnastack.com/#/app/workflow/import/dockstore
-  fireCloudImportUrl: https://portal.firecloud.org/#import/dockstore
+  fireCloudImportUrl: {{ FIRECLOUD_IMPORT_URL }}
   dnaNexusImportUrl: https://platform.dnanexus.com/panx/tools/import-workflow
-  terraImportUrl: https://app.terra.bio/#import-tool/dockstore
+  terraImportUrl: {{ TERRA_IMPORT_URL }}
 
   gitHubAuthUrl: https://github.com/login/oauth/authorize
   gitHubRedirectPath: /auth/github.com
@@ -127,4 +128,5 @@ uiConfig:
 
   cwlVisualizerUri: https://view.commonwl.org
 
-  enableLaunchWithFireCloud: true
+  enableLaunchWithFireCloud: {{ ENABLE_LAUNCH_WITH_FIRECLOUD }}
+
