@@ -124,6 +124,7 @@ uiConfig:
   gitlabScope: api
 
   googleScope: profile email
+  tagManagerId: {{ TAG_MANAGER_ID }} 
 
   cwlVisualizerUri: https://view.commonwl.org
 

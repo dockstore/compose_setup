@@ -20,10 +20,6 @@ RUN git checkout {{ DOCKSTORE_UI2_VERSION }}
 # install node version from .nvmrc file
 run bash -i -c 'nvm install'
 
-# copy templated files
-# TODO: have the UI handle templating these two file in order to reduce sync issues
-COPY config/index.html /dockstore-ui2/src/index.html
-
 # inherit $CI in order to suppress Cypress TTY output when running on CI server
 ARG CI
 ENV CI $CI

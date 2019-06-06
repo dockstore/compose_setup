@@ -54,7 +54,6 @@ function template()
     mkdir -p config
     mustache dockstore_launcher_config/compose.config templates/Dockerfile_webservice.template > config/Dockerfile_webservice
     mustache dockstore_launcher_config/compose.config templates/Dockerfile_ui2.template > config/Dockerfile_ui2
-    mustache dockstore_launcher_config/compose.config templates/index.html.template > config/index.html
     mustache dockstore_launcher_config/compose.config templates/web.yml.template > config/web.yml
     mustache dockstore_launcher_config/compose.config templates/default.nginx_http.conf.template > config/default.nginx_http.conf
     mustache dockstore_launcher_config/compose.config templates/default.nginx_https.conf.template > config/default.nginx_https.conf
