@@ -103,8 +103,6 @@ server:
 {{/LOGSTASH}}
 
 uiConfig:
-  # Must end with a slash
-  discourseUrl: {{ DISCOURSE_URL }}
   dnaStackImportUrl: https://app.dnastack.com/#/app/workflow/import/dockstore
   dnaNexusImportUrl: https://platform.dnanexus.com/panx/tools/import-workflow
   terraImportUrl: {{ TERRA_IMPORT_URL }}
