@@ -21,6 +21,9 @@ discourseKey: {{ DISCOURSE_KEY }}
 discourseUrl: {{ DISCOURSE_URL }}
 discourseCategoryId: {{ DISCOURSE_CATEGORY_ID }}
 
+gitHubAppPrivateKeyFile: {{ GITHUB_APP_PRIVATE_KEY_FILE }}
+gitHubAppId: {{ GITHUB_APP_ID }}
+
 limitConfig:
   workflowLimit: 50
   workflowVersionLimit: 50
