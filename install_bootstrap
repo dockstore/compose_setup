@@ -33,6 +33,8 @@ HTTPS=''
 DISCOURSE_URL=''
 DISCOURSE_KEY=''
 DISCOURSE_CATEGORY_ID=''
+GITHUB_APP_PRIVATE_KEY_FILE=''
+GITHUB_APP_ID=''
 GOOGLE_VERIFICATION_NAME=''
 TAG_MANAGER_ID=''
 GITLAB_CLIENT_ID=''
@@ -239,6 +241,11 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         discourse_category_id='discourse_category_id'
         ask_question "What is your Discourse category id (9 for staging, 6 for production)?" "$DISCOURSE_CATEGORY_ID" "discourse_category_id" $discourse_category_id
 
+        github_app_private_key_file='github_app_private_key_file'
+        ask_question "What is the absolute path to the private key file?" "$GITHUB_APP_PRIVATE_KEY_FILE", "github_app_private_key_file" $github_app_private_key_file
+        github_app_id='github_app_id'
+        ask_question "What is the id of the GitHub App?" "$GITHUB_APP_ID", "github_app_id" $github_app_id
+
         google_verification_name='google_verification_name'
         google_verification_name='google_verification_name'
         ask_question "What is your Google verification code for search console (looks like google74e52839b1bxxxxxx)?" "$GOOGLE_VERIFICATION_NAME" "google_verification_name" $google_verification_name
@@ -293,6 +300,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "DISCOURSE_URL":"${discourse_url}",
 "DISCOURSE_KEY":"${discourse_key}",
 "DISCOURSE_CATEGORY_ID":"${discourse_category_id}",
+"GITHUB_APP_PRIVATE_KEY_FILE": "${github_app_private_key_file}",
+"GITHUB_APP_ID": "${github_app_id}",
 "GOOGLE_VERIFICATION_NAME":"${google_verification_name}",
 "TAG_MANAGER_ID":"${tag_manager_id}",
 "GITLAB_CLIENT_ID":"${gitlab_client_id}",
