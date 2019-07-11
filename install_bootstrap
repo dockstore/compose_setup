@@ -50,6 +50,10 @@ EXTERNAL_GOOGLE_CLIENT_PREFIX1=''
 SAM_PATH=''
 DATABASE_GENERATED=''
 SLACK_URL=''
+TOOLTESTER_BUCKET_NAME=''
+ZENODO_CLIENT_ID=''
+ZENODO_CLIENT_SECRET=''
+ZENODO_URL=''
 
 function template()
 {
@@ -241,12 +245,21 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         discourse_category_id='discourse_category_id'
         ask_question "What is your Discourse category id (9 for staging, 6 for production)?" "$DISCOURSE_CATEGORY_ID" "discourse_category_id" $discourse_category_id
 
-        github_app_private_key_file='github_app_private_key_file'
-        ask_question "What is the absolute path to the private key file?" "$GITHUB_APP_PRIVATE_KEY_FILE", "github_app_private_key_file" $github_app_private_key_file
-        github_app_id='github_app_id'
-        ask_question "What is the id of the GitHub App?" "$GITHUB_APP_ID", "github_app_id" $github_app_id
+        zenodo_client_id='zenodo_client_id'
+        ask_question "What is your zenodo client id?" "$ZENODO_CLIENT_ID" "zenodo_client_id" $zenodo_client_id
+        zenodo_client_secret='zenodo_client_secret'
+        ask_question "What is your zenodo client secret?" "$ZENODO_CLIENT_SECRET" "zenodo_client_secret" $zenodo_client_secret
+        zenodo_url='zenodo_url'
+        ask_question "What is the zenodo url?" "$ZENODO_URL" "zenodo_url" $zenodo_url
 
-        google_verification_name='google_verification_name'
+        tooltester_bucket_name='tooltester_bucket_name'
+        ask_question "What is the name of the bucket holding tooltester logs?" "$TOOLTESTER_BUCKET_NAME" "tooltester_bucket_name" $tooltester_bucket_name
+
+        github_app_private_key_file='github_app_private_key_file'
+        ask_question "What is the absolute path to the private key file?" "$GITHUB_APP_PRIVATE_KEY_FILE" "github_app_private_key_file" $github_app_private_key_file
+        github_app_id='github_app_id'
+        ask_question "What is the id of the GitHub App?" "$GITHUB_APP_ID" "github_app_id" $github_app_id
+
         google_verification_name='google_verification_name'
         ask_question "What is your Google verification code for search console (looks like google74e52839b1bxxxxxx)?" "$GOOGLE_VERIFICATION_NAME" "google_verification_name" $google_verification_name
 
@@ -302,6 +315,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "DISCOURSE_CATEGORY_ID":"${discourse_category_id}",
 "GITHUB_APP_PRIVATE_KEY_FILE": "${github_app_private_key_file}",
 "GITHUB_APP_ID": "${github_app_id}",
+"TOOLTESTER_BUCKET_NAME": "${tooltester_bucket_name}",
 "GOOGLE_VERIFICATION_NAME":"${google_verification_name}",
 "TAG_MANAGER_ID":"${tag_manager_id}",
 "GITLAB_CLIENT_ID":"${gitlab_client_id}",
@@ -315,6 +329,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "EXTERNAL_GOOGLE_CLIENT_PREFIX1":"${external_google_client_prefix1}",
 "SAM_PATH":"${sam_path}",
 "DATABASE_GENERATED":${database_generated},
+"ZENODO_CLIENT_ID":"${zenodo_client_id}",
+"ZENODO_CLIENT_SECRET":"${zenodo_client_secret}",
+"ZENODO_URL":"${zenodo_url}",
 "SLACK_URL":"${slack_url}"
 }
 CONFIG
