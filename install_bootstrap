@@ -35,6 +35,7 @@ DISCOURSE_KEY=''
 DISCOURSE_CATEGORY_ID=''
 GITHUB_APP_PRIVATE_KEY_FILE=''
 GITHUB_APP_ID=''
+GITHUB_APP_NAME=''
 GOOGLE_VERIFICATION_NAME=''
 TAG_MANAGER_ID=''
 GITLAB_CLIENT_ID=''
@@ -259,6 +260,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         ask_question "What is the absolute path to the private key file?" "$GITHUB_APP_PRIVATE_KEY_FILE" "github_app_private_key_file" $github_app_private_key_file
         github_app_id='github_app_id'
         ask_question "What is the id of the GitHub App?" "$GITHUB_APP_ID" "github_app_id" $github_app_id
+        github_app_name='github_app_name'
+        ask_question "What is the name of the GitHub App?" "$GITHUB_APP_NAME" "github_app_name" $github_app_name
+
 
         google_verification_name='google_verification_name'
         ask_question "What is your Google verification code for search console (looks like google74e52839b1bxxxxxx)?" "$GOOGLE_VERIFICATION_NAME" "google_verification_name" $google_verification_name
@@ -315,6 +319,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "DISCOURSE_CATEGORY_ID":"${discourse_category_id}",
 "GITHUB_APP_PRIVATE_KEY_FILE": "${github_app_private_key_file}",
 "GITHUB_APP_ID": "${github_app_id}",
+"GITHUB_APP_NAME": "${github_app_name}",
 "TOOLTESTER_BUCKET_NAME": "${tooltester_bucket_name}",
 "GOOGLE_VERIFICATION_NAME":"${google_verification_name}",
 "TAG_MANAGER_ID":"${tag_manager_id}",
