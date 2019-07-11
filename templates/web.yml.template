@@ -136,3 +136,5 @@ uiConfig:
 
   cwlVisualizerUri: https://view.commonwl.org
 
+  gitHubAppInstallationUrl: https://github.com/apps/{{ GITHUB_APP_NAME }}
+
