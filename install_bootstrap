@@ -242,9 +242,11 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         ask_question "What is your Discourse category id (9 for staging, 6 for production)?" "$DISCOURSE_CATEGORY_ID" "discourse_category_id" $discourse_category_id
 
         github_app_private_key_file='github_app_private_key_file'
-        ask_question "What is the absolute path to the private key file?" "$GITHUB_APP_PRIVATE_KEY_FILE", "github_app_private_key_file" $github_app_private_key_file
+        ask_question "What is the absolute path to the private key file?" "$GITHUB_APP_PRIVATE_KEY_FILE" "github_app_private_key_file" $github_app_private_key_file
         github_app_id='github_app_id'
-        ask_question "What is the id of the GitHub App?" "$GITHUB_APP_ID", "github_app_id" $github_app_id
+        ask_question "What is the id of the GitHub App?" "$GITHUB_APP_ID" "github_app_id" $github_app_id
+        github_app_name='github_app_name'
+        ask_question "What is the name of the GitHub App (See public link on app General page)" "$GITHUB_APP_NAME" "github_app_name" $github_app_name
 
         google_verification_name='google_verification_name'
         google_verification_name='google_verification_name'
