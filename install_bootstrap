@@ -251,7 +251,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         zenodo_client_secret='zenodo_client_secret'
         ask_question "What is your zenodo client secret?" "$ZENODO_CLIENT_SECRET" "zenodo_client_secret" $zenodo_client_secret
         zenodo_url='zenodo_url'
-        ask_question "What is the zenodo url?" "$ZENODO_URL" "zenodo_url" $zenodo_url
+	ask_question "What is the zenodo url (https://sandbox.zenodo.org for staging, https://zenodo.org for production)?" "$ZENODO_URL" "zenodo_url" $zenodo_url
 
         tooltester_bucket_name='tooltester_bucket_name'
         ask_question "What is the name of the bucket holding tooltester logs?" "$TOOLTESTER_BUCKET_NAME" "tooltester_bucket_name" $tooltester_bucket_name
