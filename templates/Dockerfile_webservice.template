@@ -34,6 +34,8 @@ RUN wget --no-verbose https://github.com/jwilder/dockerize/releases/download/$DO
 ADD config/init_webservice.sh .
 ADD config/init_migration.sh .
 
+ADD {{ GITHUB_APP_PRIVATE_KEY_FILE }} ./dockstore_github_app_private_key.pem
+
 RUN chmod u+x init_webservice.sh
 RUN chmod u+x init_migration.sh
 # TODO: make sure you create these from the .template files and customize them
