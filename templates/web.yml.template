@@ -97,6 +97,7 @@ database:
   removeAbandoned: true
   abandonWhenPercentageFull: 80
   logAbandonedConnections: true
+  removeAbandonedTimeout: 5 minutes
 
 {{#LOGSTASH}}
 server:
