@@ -21,8 +21,15 @@ discourseKey: {{ DISCOURSE_KEY }}
 discourseUrl: {{ DISCOURSE_URL }}
 discourseCategoryId: {{ DISCOURSE_CATEGORY_ID }}
 
-gitHubAppPrivateKeyFile: {{ GITHUB_APP_PRIVATE_KEY_FILE }}
+zenodoClientID: {{ ZENODO_CLIENT_ID }}
+zenodoClientSecret: {{ ZENODO_CLIENT_SECRET }}
+zenodoRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}:443/auth/zenodo.org
+zenodoUrl: {{ ZENODO_URL }}
+
+gitHubAppPrivateKeyFile: /dockstore_github_app_private_key.pem
 gitHubAppId: {{ GITHUB_APP_ID }}
+
+toolTesterBucket: {{ TOOLTESTER_BUCKET_NAME }}
 
 limitConfig:
   workflowLimit: 50
