@@ -6,7 +6,7 @@ cd compose_setup
 s3_url_db_backup='s3://oicr.backups.dockstore/{{ DOMAIN_NAME }}/database/'`date +%Y-%m-%d`
 s3_url_config_backup='s3://oicr.backups.dockstore/{{ DOMAIN_NAME }}/config/'`date +%Y-%m-%d`
 temp_dir=`mktemp -d`
-output_file=ds-webservice_${2:-prod}_`date +%Y-%m-%dT%H-%M-%S%z`.sql
+output_file=ds-webservice_{{ DOMAIN_NAME }}_`date +%Y-%m-%dT%H-%M-%S%z`.sql
 
 /usr/local/bin/docker-compose exec -T --user postgres postgres pg_dump --no-owner > $temp_dir/$output_file
 
