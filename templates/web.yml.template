@@ -71,10 +71,10 @@ database:
   driverClass: org.postgresql.Driver
 
   # the username
-  user: postgres
+  user: dockstore
 
   # the password
-  password: postgres
+  password: dockstore
 
   # the JDBC URL
   url: jdbc:postgresql://postgres:5432/postgres
