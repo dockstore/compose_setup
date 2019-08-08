@@ -23,7 +23,7 @@ discourseCategoryId: {{ DISCOURSE_CATEGORY_ID }}
 
 zenodoClientID: {{ ZENODO_CLIENT_ID }}
 zenodoClientSecret: {{ ZENODO_CLIENT_SECRET }}
-zenodoRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}:443/auth/zenodo.org
+zenodoRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}/auth/zenodo.org
 zenodoUrl: {{ ZENODO_URL }}
 
 gitHubAppPrivateKeyFile: /dockstore_github_app_private_key.pem
