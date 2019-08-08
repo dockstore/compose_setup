@@ -143,3 +143,6 @@ uiConfig:
 
   gitHubAppInstallationUrl: https://github.com/apps/{{ GITHUB_APP_NAME }}
 
+  zenodoAuthUrl: {{ ZENODO_URL }}/oauth/authorize
+  zenodoRedirectPath: /auth/zenodo.org
+  zenodoScope: deposit:write deposit:actions
