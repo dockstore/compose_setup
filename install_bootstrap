@@ -36,7 +36,6 @@ DISCOURSE_CATEGORY_ID=''
 GITHUB_APP_PRIVATE_KEY_FILE=''
 GITHUB_APP_ID=''
 GITHUB_APP_NAME=''
-GOOGLE_VERIFICATION_NAME=''
 TAG_MANAGER_ID=''
 GITLAB_CLIENT_ID=''
 GITLAB_CLIENT_SECRET=''
@@ -45,7 +44,6 @@ GOOGLE_CLIENT_SECRET=''
 LOGSTASH=''
 LOGSTASH_HOST=''
 TERRA_IMPORT_URL=''
-GOOGLE_VERIFICATION_NAME=''
 AUTHORIZER_TYPE=''
 EXTERNAL_GOOGLE_CLIENT_PREFIX1=''
 SAM_PATH=''
@@ -71,7 +69,6 @@ function template()
     mustache dockstore_launcher_config/compose.config templates/elasticsearch.yml > config/elasticsearch.yml
     mustache dockstore_launcher_config/compose.config templates/metricbeat.yml > config/metricbeat.yml
     mustache dockstore_launcher_config/compose.config templates/essnapshot_backup.sh > scripts/essnapshot_backup.sh
-    mustache dockstore_launcher_config/compose.config templates/search_verification.html > config/${GOOGLE_VERIFICATION_NAME}.html
     
     mustache dockstore_launcher_config/compose.config templates/jvm.options.es.template > config/jvm.options.es
     mustache dockstore_launcher_config/compose.config templates/jvm.options.logstash.template > config/jvm.options.logstash
@@ -265,9 +262,6 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         ask_question "What is the name of the GitHub App?" "$GITHUB_APP_NAME" "github_app_name" $github_app_name
 
 
-        google_verification_name='google_verification_name'
-        ask_question "What is your Google verification code for search console (looks like google74e52839b1bxxxxxx)?" "$GOOGLE_VERIFICATION_NAME" "google_verification_name" $google_verification_name
-
         tag_manager_id='tag_manager_id'
         ask_question "What is your Google tag manager id?" "$TAG_MANAGER_ID" "tag_manager_id" $tag_manager_id
 
@@ -322,7 +316,6 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "GITHUB_APP_ID": "${github_app_id}",
 "GITHUB_APP_NAME": "${github_app_name}",
 "TOOLTESTER_BUCKET_NAME": "${tooltester_bucket_name}",
-"GOOGLE_VERIFICATION_NAME":"${google_verification_name}",
 "TAG_MANAGER_ID":"${tag_manager_id}",
 "GITLAB_CLIENT_ID":"${gitlab_client_id}",
 "GITLAB_CLIENT_SECRET":"${gitlab_client_secret}",
