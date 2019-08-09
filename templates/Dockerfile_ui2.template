@@ -31,4 +31,3 @@ RUN bash -i -c 'NODE_OPTIONS="--max-old-space-size=4096" npm run build.prod'
 FROM nginx:1.13.1
 
 COPY --from=builder /dockstore-ui2/dist /usr/share/nginx/html2
-COPY config/{{ GOOGLE_VERIFICATION_NAME }}.html /usr/share/nginx/html2/{{ GOOGLE_VERIFICATION_NAME }}.html
