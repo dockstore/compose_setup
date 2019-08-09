@@ -91,31 +91,6 @@ services:
         awslogs-group: ${LOG_GROUP_NAME}
         awslogs-stream: "nginx_http"
 
-
-  nginx_dockstore:
-    build:
-      context: .
-      dockerfile: config/Dockerfile_ui2
-      args:
-        CI: ${CI}
-    restart: always
-    depends_on:
-      - webservice
-    ports:
-      - "8443:8080"
-      - "443:4200"
-    volumes:
-      - ./config/default.nginx_https.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./config/default.nginx_https.shared.conf:/etc/nginx/conf.d/default.nginx_https.shared.conf:ro
-      - certs:/etc/letsencrypt
-      - certs-data:/data/letsencrypt
-  #    - ./self-signed:/self-signed
-    logging:
-      driver: "awslogs"
-      options:
-        awslogs-group: ${LOG_GROUP_NAME}
-        awslogs-stream: "nginx_dockstore"
-
 # re-enable if we go down the route of these metrics going into ELK
 #  metricbeat:
 #    image: docker.elastic.co/beats/metricbeat:6.4.0
