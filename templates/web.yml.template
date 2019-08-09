@@ -11,11 +11,11 @@ bitbucketClientSecret: {{ BITBUCKET_CLIENT_SECRET }}
 
 gitlabClientID: {{ GITLAB_CLIENT_ID }}
 gitlabClientSecret: {{ GITLAB_CLIENT_SECRET }}
-gitlabRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}:443/auth/gitlab.com
+gitlabRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ EXTERNAL_DOMAIN_NAME }}:443/auth/gitlab.com
 
 googleClientID: {{ GOOGLE_CLIENT_ID }}
 googleClientSecret: {{ GOOGLE_CLIENT_SECRET }}
-googleRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}:443
+googleRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ EXTERNAL_DOMAIN_NAME }}:443
 
 discourseKey: {{ DISCOURSE_KEY }}
 discourseUrl: {{ DISCOURSE_URL }}
@@ -23,7 +23,7 @@ discourseCategoryId: {{ DISCOURSE_CATEGORY_ID }}
 
 zenodoClientID: {{ ZENODO_CLIENT_ID }}
 zenodoClientSecret: {{ ZENODO_CLIENT_SECRET }}
-zenodoRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}/auth/zenodo.org
+zenodoRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ EXTERNAL_DOMAIN_NAME }}/auth/zenodo.org
 zenodoUrl: {{ ZENODO_URL }}
 
 gitHubAppPrivateKeyFile: /dockstore_github_app_private_key.pem
@@ -50,7 +50,7 @@ samconfiguration:
 # the following values describe where the webservice is being run (and on what port and using what scheme) to configure swagger
 externalConfig:
   basePath: /api/
-  hostname: {{ DOMAIN_NAME }}
+  hostname: {{ EXTERNAL_DOMAIN_NAME }}
   scheme: http{{#HTTPS}}s{{/HTTPS}}
   port:
 

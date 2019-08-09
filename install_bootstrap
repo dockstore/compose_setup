@@ -28,6 +28,7 @@ QUAY_CLIENT_ID=''
 QUAY_CLIENT_SECRET=''
 BITBUCKET_CLIENT_ID=''
 BITBUCKET_CLIENT_SECRET=''
+EXTERNAL_DOMAIN_NAME=''
 DOMAIN_NAME=''
 HTTPS=''
 DISCOURSE_URL=''
@@ -235,7 +236,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         ask_question "What is your google client secret?" "$GOOGLE_CLIENT_SECRET" "Dockstore version" $google_client_secret
 
         domain_name='domain_name'
-        ask_question "What is the domain name for this server (can be an ip address for development)?" "$DOMAIN_NAME" "Domain name" $domain_name
+        ask_question "What is the webservice domain name for this server?" "$DOMAIN_NAME" "Domain name" $domain_name
+        external_domain_name='external_domain_name'
+	ask_question "What is the external domain name for this site (this is what a user would use in a web browser)?" "$EXTERNAL_DOMAIN_NAME" "External domain name" $external_domain_name
         https='https'
         ask_question "Are you using https (true or false)?" "$HTTPS" "https" $https
 
@@ -313,6 +316,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "BITBUCKET_CLIENT_ID":"${bitbucket_client_id}",
 "BITBUCKET_CLIENT_SECRET":"${bitbucket_client_secret}",
 "DOMAIN_NAME":"${domain_name}",
+"EXTERNAL_DOMAIN_NAME":"${external_domain_name}",
 "HTTPS":${https},
 "DISCOURSE_URL":"${discourse_url}",
 "DISCOURSE_KEY":"${discourse_key}",
