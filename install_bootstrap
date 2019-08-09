@@ -76,6 +76,7 @@ function template()
     mustache dockstore_launcher_config/compose.config templates/jvm.options.es.template > config/jvm.options.es
     mustache dockstore_launcher_config/compose.config templates/jvm.options.logstash.template > config/jvm.options.logstash
     mustache dockstore_launcher_config/compose.config templates/postgres_backup.sh.template > scripts/postgres_backup.sh
+    chmod a+rx scripts/postgres_backup.sh
     # .env file
     mustache dockstore_launcher_config/compose.config templates/env.template > .env
 
