@@ -65,10 +65,9 @@ server {
         proxy_pass     http://webservice:8080/$uri;
     }
 
+    # UI is now on s3, should no longer be receiving requests
     location / {
-        root   /usr/share/nginx/html2;
-        index  index.html index.htm;
-        try_files $uri $uri/ /index.html =404;
+        return 404;
     }
 
     error_page   500 502 503 504  /50x.html;
