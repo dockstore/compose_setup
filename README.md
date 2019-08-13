@@ -46,10 +46,10 @@ rebuild your docker images without affecting existing running containers
 
 ```
 @monthly	docker run -it --rm -v composesetup_certs:/etc/letsencrypt -v composesetup_certs-data:/data/letsencrypt certbot/certbot renew && docker-compose restart nginx_https && curl -sm 30 k.wdt.io/denis.yuen@oicr.on.ca/staging.https.renew?c=0_0_1_*_* 
-@daily 		(echo '['`date`'] Nightly Back-up' && /home/ubuntu/compose_setup/scripts/postgres_backup.sh) |  tee /home/ubuntu/compose_setup/scripts/ds_backup.log
+@daily 		(echo '['`date`'] Nightly Back-up' && /home/ubuntu/compose_setup/scripts/postgres_backup.sh) 2>&1 | tee -a /home/ubuntu/compose_setup/scripts/ds_backup.log
 ```
 
-This relies upon an IAM role for the appropriate S3 bucket. 
+This relies upon an IAM role for the appropriate S3 bucket. You will also need the AWS cli installed via ` sudo apt-get install awscli`. Note that this may not be readily apparent since a cron has a limited $PATH and it seems easy to accidentally get the awscli installed for specific users. 
 
 ### Loading Up a Database ###
 
