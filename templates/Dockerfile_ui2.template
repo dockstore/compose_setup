@@ -2,32 +2,16 @@ FROM ubuntu:18.04 as builder
 
 RUN apt update \
     && apt install -yq \
-    openjdk-11-jre \
-    git \
     wget \
     && apt clean
 
-# install nvm
-RUN wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+# Download index.html for UI we will be serving
+RUN wget -qO- https://gui.dockstore.org/{{ DOCKSTORE_UI2_VERSION }}/index.html
 
-# cache busting in order to get the up-to-date Git repo
-RUN touch {{ DOCKSTORE_UI2_VERSION }}.out
-
-RUN git clone https://github.com/dockstore/dockstore-ui2.git
-WORKDIR /dockstore-ui2
-RUN git checkout {{ DOCKSTORE_UI2_VERSION }}
-
-# install node version from .nvmrc file
-run bash -i -c 'nvm install'
-
-# inherit $CI in order to suppress Cypress TTY output when running on CI server
-ARG CI
-ENV CI $CI
-RUN bash -i -c 'npm ci'
-
-# build
-RUN bash -i -c 'NODE_OPTIONS="--max-old-space-size=4096" npm run build.prod'
-
+# Insert full qualified paths.
+RUN sed -i 's/manifest.json/https:\/\/gui.dockstore.org\/{{ DOCKSTORE_UI2_VERSION }}/manifest.json/' index.html
+RUN sed -i 's/styles\./https:\/\/gui.dockstore.org\/{{ DOCKSTORE_UI2_VERSION }}/styles\./' index.html
+RUN sed -i 's/src="/src="https:\/\/gui.dockstore.org\/{{ DOCKSTORE_UI2_VERSION }}\//' index.html
 FROM nginx:1.13.1
 
-COPY --from=builder /dockstore-ui2/dist /usr/share/nginx/html2
+COPY --from=builder index.html /usr/share/nginx/html2
