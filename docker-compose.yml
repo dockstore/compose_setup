@@ -92,7 +92,9 @@ services:
 
 
   nginx_dockstore:
-    image: nginx:1.13.1
+    build:
+      context: .
+      dockerfile: config/Dockerfile_ui2
     restart: always
     depends_on:
       - webservice

@@ -205,7 +205,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         ask_question "What version of Dockstore do you wish to deploy?" "$DOCKSTORE_VERSION" "Dockstore version" $dockstore_version
 
         dockstore_ui2_version='dockstore_ui2_version'
-        ask_question "What version of Dockstore UI 2 do you wish to deploy?" "$DOCKSTORE_UI2_VERSION" "Dockstore version" $dockstore_ui2_version
+        ask_question "What version of Dockstore UI 2 do you wish to deploy? This version must already be availble on https://gui.dockstore.org!" "$DOCKSTORE_UI2_VERSION" "Dockstore version" $dockstore_ui2_version
 
         github_client2_id='github_client2_id'
         ask_question "What is your github client id for UI2?" "$GITHUB_CLIENT2_ID" "Dockstore version" $github_client2_id
