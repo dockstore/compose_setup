@@ -6,12 +6,11 @@ RUN apt update \
     && apt clean
 
 # Download index.html for UI we will be serving
-RUN wget -qO- https://gui.dockstore.org/{{ DOCKSTORE_UI2_VERSION }}/index.html
+RUN wget -qO index.html https://gui.dockstore.org/{{ UI2_HASH }}/index.html
+RUN wget -qO manifest.json https://gui.dockstore.org/{{ UI2_HASH }}/manifest.json
 
-# Insert full qualified paths.
-RUN sed -i 's/manifest.json/https:\/\/gui.dockstore.org\/{{ DOCKSTORE_UI2_VERSION }}/manifest.json/' index.html
-RUN sed -i 's/styles\./https:\/\/gui.dockstore.org\/{{ DOCKSTORE_UI2_VERSION }}/styles\./' index.html
-RUN sed -i 's/src="/src="https:\/\/gui.dockstore.org\/{{ DOCKSTORE_UI2_VERSION }}\//' index.html
 FROM nginx:1.13.1
 
-COPY --from=builder index.html /usr/share/nginx/html2
+RUN mkdir /usr/share/nginx/html2
+COPY --from=builder /index.html /usr/share/nginx/html2
+COPY --from=builder /manifest.json /usr/share/nginx/html2
