@@ -21,7 +21,6 @@ run_dockstore_launcher=''
 PUBLIC_LAUNCHER_IP_ADDRESS=''
 PRODUCTION=''
 DOCKSTORE_VERSION=''
-DOCKSTORE_UI2_VERSION=''
 UI2_HASH=''
 GITHUB_CLIENT2_ID=''
 GITHUB_CLIENT2_SECRET=''
@@ -205,10 +204,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         dockstore_version='dockstore_version'
         ask_question "What version of Dockstore do you wish to deploy?" "$DOCKSTORE_VERSION" "Dockstore version" $dockstore_version
 
-        dockstore_ui2_version='dockstore_ui2_version'
-        ask_question "What version of Dockstore UI 2 do you wish to deploy? This version must already be availble on https://gui.dockstore.org!" "$DOCKSTORE_UI2_VERSION" "Dockstore version" $dockstore_ui2_version
         ui2_hash='ui2_hash'
-	ask_question "What Dockstore UI 2 CDN hash do you want to use (ex: 2.4.0-beta.3-70bb93a )?" "$UI2_HASH" "Dockstore hash" $ui2_hash
+      	ask_question "What Dockstore UI 2 CDN hash do you want to use (ex: 2.4.0-beta.3-70bb93a )?" "$UI2_HASH" "Dockstore hash" $ui2_hash
 
         github_client2_id='github_client2_id'
         ask_question "What is your github client id for UI2?" "$GITHUB_CLIENT2_ID" "Dockstore version" $github_client2_id
@@ -303,7 +300,6 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "PUBLIC_LAUNCHER_IP_ADDRESS":"`curl http://169.254.169.254/latest/meta-data/public-ipv4`",
 "PRODUCTION":${production},
 "DOCKSTORE_VERSION":"${dockstore_version}",
-"DOCKSTORE_UI2_VERSION":"${dockstore_ui2_version}",
 "UI2_HASH":"${ui2_hash}",
 "GITHUB_CLIENT2_ID":"${github_client2_id}",
 "GITHUB_CLIENT2_SECRET":"${github_client2_secret}",
