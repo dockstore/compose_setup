@@ -28,11 +28,10 @@ services:
     restart: always
     volumes:
       - esdata1:/usr/share/elasticsearch/data
+      - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     expose:
       - "9200"
       - "9300"
-    volumes:
-      - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     logging:
       driver: "awslogs"
       options:
@@ -96,8 +95,6 @@ services:
     build:
       context: .
       dockerfile: config/Dockerfile_ui2
-      args:
-        CI: ${CI}
     restart: always
     depends_on:
       - webservice

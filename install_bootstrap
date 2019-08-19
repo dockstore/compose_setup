@@ -21,7 +21,7 @@ run_dockstore_launcher=''
 PUBLIC_LAUNCHER_IP_ADDRESS=''
 PRODUCTION=''
 DOCKSTORE_VERSION=''
-DOCKSTORE_UI2_VERSION=''
+UI2_HASH=''
 GITHUB_CLIENT2_ID=''
 GITHUB_CLIENT2_SECRET=''
 QUAY_CLIENT_ID=''
@@ -36,7 +36,6 @@ DISCOURSE_CATEGORY_ID=''
 GITHUB_APP_PRIVATE_KEY_FILE=''
 GITHUB_APP_ID=''
 GITHUB_APP_NAME=''
-GOOGLE_VERIFICATION_NAME=''
 TAG_MANAGER_ID=''
 GITLAB_CLIENT_ID=''
 GITLAB_CLIENT_SECRET=''
@@ -45,7 +44,6 @@ GOOGLE_CLIENT_SECRET=''
 LOGSTASH=''
 LOGSTASH_HOST=''
 TERRA_IMPORT_URL=''
-GOOGLE_VERIFICATION_NAME=''
 AUTHORIZER_TYPE=''
 EXTERNAL_GOOGLE_CLIENT_PREFIX1=''
 SAM_PATH=''
@@ -71,11 +69,11 @@ function template()
     mustache dockstore_launcher_config/compose.config templates/elasticsearch.yml > config/elasticsearch.yml
     mustache dockstore_launcher_config/compose.config templates/metricbeat.yml > config/metricbeat.yml
     mustache dockstore_launcher_config/compose.config templates/essnapshot_backup.sh > scripts/essnapshot_backup.sh
-    mustache dockstore_launcher_config/compose.config templates/search_verification.html > config/${GOOGLE_VERIFICATION_NAME}.html
     
     mustache dockstore_launcher_config/compose.config templates/jvm.options.es.template > config/jvm.options.es
     mustache dockstore_launcher_config/compose.config templates/jvm.options.logstash.template > config/jvm.options.logstash
     mustache dockstore_launcher_config/compose.config templates/postgres_backup.sh.template > scripts/postgres_backup.sh
+    chmod a+rx scripts/postgres_backup.sh
     # .env file
     mustache dockstore_launcher_config/compose.config templates/env.template > .env
 
@@ -206,8 +204,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         dockstore_version='dockstore_version'
         ask_question "What version of Dockstore do you wish to deploy?" "$DOCKSTORE_VERSION" "Dockstore version" $dockstore_version
 
-        dockstore_ui2_version='dockstore_ui2_version'
-        ask_question "What version of Dockstore UI 2 do you wish to deploy?" "$DOCKSTORE_UI2_VERSION" "Dockstore version" $dockstore_ui2_version
+        ui2_hash='ui2_hash'
+      	ask_question "What Dockstore UI 2 CDN hash do you want to use (ex: 2.4.0-beta.3-70bb93a )?" "$UI2_HASH" "Dockstore hash" $ui2_hash
 
         github_client2_id='github_client2_id'
         ask_question "What is your github client id for UI2?" "$GITHUB_CLIENT2_ID" "Dockstore version" $github_client2_id
@@ -264,9 +262,6 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         ask_question "What is the name of the GitHub App?" "$GITHUB_APP_NAME" "github_app_name" $github_app_name
 
 
-        google_verification_name='google_verification_name'
-        ask_question "What is your Google verification code for search console (looks like google74e52839b1bxxxxxx)?" "$GOOGLE_VERIFICATION_NAME" "google_verification_name" $google_verification_name
-
         tag_manager_id='tag_manager_id'
         ask_question "What is your Google tag manager id?" "$TAG_MANAGER_ID" "tag_manager_id" $tag_manager_id
 
@@ -305,7 +300,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "PUBLIC_LAUNCHER_IP_ADDRESS":"`curl http://169.254.169.254/latest/meta-data/public-ipv4`",
 "PRODUCTION":${production},
 "DOCKSTORE_VERSION":"${dockstore_version}",
-"DOCKSTORE_UI2_VERSION":"${dockstore_ui2_version}",
+"UI2_HASH":"${ui2_hash}",
 "GITHUB_CLIENT2_ID":"${github_client2_id}",
 "GITHUB_CLIENT2_SECRET":"${github_client2_secret}",
 "QUAY_CLIENT_ID":"${quay_client_id}",
@@ -321,7 +316,6 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "GITHUB_APP_ID": "${github_app_id}",
 "GITHUB_APP_NAME": "${github_app_name}",
 "TOOLTESTER_BUCKET_NAME": "${tooltester_bucket_name}",
-"GOOGLE_VERIFICATION_NAME":"${google_verification_name}",
 "TAG_MANAGER_ID":"${tag_manager_id}",
 "GITLAB_CLIENT_ID":"${gitlab_client_id}",
 "GITLAB_CLIENT_SECRET":"${gitlab_client_secret}",

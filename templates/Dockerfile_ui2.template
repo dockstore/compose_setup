@@ -2,33 +2,15 @@ FROM ubuntu:18.04 as builder
 
 RUN apt update \
     && apt install -yq \
-    openjdk-11-jre \
-    git \
     wget \
     && apt clean
 
-# install nvm
-RUN wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
-
-# cache busting in order to get the up-to-date Git repo
-RUN touch {{ DOCKSTORE_UI2_VERSION }}.out
-
-RUN git clone https://github.com/dockstore/dockstore-ui2.git
-WORKDIR /dockstore-ui2
-RUN git checkout {{ DOCKSTORE_UI2_VERSION }}
-
-# install node version from .nvmrc file
-run bash -i -c 'nvm install'
-
-# inherit $CI in order to suppress Cypress TTY output when running on CI server
-ARG CI
-ENV CI $CI
-RUN bash -i -c 'npm ci'
-
-# build
-RUN bash -i -c 'NODE_OPTIONS="--max-old-space-size=4096" npm run build.prod'
+# Download index.html for UI we will be serving
+RUN wget -qO index.html https://gui.dockstore.org/{{ UI2_HASH }}/index.html
+RUN wget -qO manifest.json https://gui.dockstore.org/{{ UI2_HASH }}/manifest.json
 
 FROM nginx:1.13.1
 
-COPY --from=builder /dockstore-ui2/dist /usr/share/nginx/html2
-COPY config/{{ GOOGLE_VERIFICATION_NAME }}.html /usr/share/nginx/html2/{{ GOOGLE_VERIFICATION_NAME }}.html
+RUN mkdir /usr/share/nginx/html2
+COPY --from=builder /index.html /usr/share/nginx/html2
+COPY --from=builder /manifest.json /usr/share/nginx/html2
