@@ -33,6 +33,7 @@ HTTPS=''
 DISCOURSE_URL=''
 DISCOURSE_KEY=''
 DISCOURSE_CATEGORY_ID=''
+DOCUMENTATION_URL=''
 GITHUB_APP_PRIVATE_KEY_FILE=''
 GITHUB_APP_ID=''
 GITHUB_APP_NAME=''
@@ -237,6 +238,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         https='https'
         ask_question "Are you using https (true or false)?" "$HTTPS" "https" $https
 
+        documentation_url='documentation_url'
+        ask_question "What is your Documentation URL (ex. https://docs.dockstore.org/en/develop)?" "$DOCUMENTATION_URL" "documentation_url" $documentation_url
+
         discourse_url='discourse_url'
         ask_question "What is your Discourse URL (ends with a /)?" "$DISCOURSE_URL" "discourse_url" $discourse_url
         discourse_key='discourse_key'
@@ -249,7 +253,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         zenodo_client_secret='zenodo_client_secret'
         ask_question "What is your zenodo client secret?" "$ZENODO_CLIENT_SECRET" "zenodo_client_secret" $zenodo_client_secret
         zenodo_url='zenodo_url'
-	ask_question "What is the zenodo url (https://sandbox.zenodo.org for staging, https://zenodo.org for production)?" "$ZENODO_URL" "zenodo_url" $zenodo_url
+	    ask_question "What is the zenodo url (https://sandbox.zenodo.org for staging, https://zenodo.org for production)?" "$ZENODO_URL" "zenodo_url" $zenodo_url
 
         tooltester_bucket_name='tooltester_bucket_name'
         ask_question "What is the name of the bucket holding tooltester logs?" "$TOOLTESTER_BUCKET_NAME" "tooltester_bucket_name" $tooltester_bucket_name
@@ -312,6 +316,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "DISCOURSE_URL":"${discourse_url}",
 "DISCOURSE_KEY":"${discourse_key}",
 "DISCOURSE_CATEGORY_ID":"${discourse_category_id}",
+"DOCUMENTATION_URL":"${documentation_url}",
 "GITHUB_APP_PRIVATE_KEY_FILE": "${github_app_private_key_file}",
 "GITHUB_APP_ID": "${github_app_id}",
 "GITHUB_APP_NAME": "${github_app_name}",
