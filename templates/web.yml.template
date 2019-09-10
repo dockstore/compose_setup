@@ -146,3 +146,5 @@ uiConfig:
   zenodoAuthUrl: {{ ZENODO_URL }}/oauth/authorize
   zenodoRedirectPath: /auth/zenodo.org
   zenodoScope: deposit:write deposit:actions
+
+  documentationUrl: {{ DOCUMENTATION_URL }}
