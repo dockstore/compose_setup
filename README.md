@@ -58,6 +58,10 @@ The docker-compose setup uses a mount from the host to keep the postgres databas
 However, this does require a convoluted way to add content to the DB as follows
 
 ```
+docker-compose down
+# needed since dropping the schema can still leave some user information behind
+sudo rm -Rf postgres-data/
+nohup docker-compose up --force-recreate --remove-orphans &
 docker cp /tmp/backup.sql <container>:/tmp
 docker exec -ti <container> /bin/bash
 su - postgres
@@ -66,6 +70,9 @@ DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 \quit
 psql -f  /tmp/backup.sql 
+# run migration using newly loaded DB
+docker-compose down
+nohup docker-compose up --force-recreate --remove-orphans &
 ```
 
 Note that database migration is run once during the startup process and is controlled via the `DATABASE_GENERATED` variable. Answer `yes` if you are working as a developer and want to start work from scratch from an empty database. Answer `no` if you are working as an administrator and/or wish to start Dockstore from a production or staging copy of the database.
