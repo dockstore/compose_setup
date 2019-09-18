@@ -65,6 +65,11 @@ server {
         proxy_pass     http://webservice:8080/$uri;
     }
 
+    location /robots.txt {
+        root   /usr/share/nginx/html2;
+        return robots.txt;
+    }
+
     location / {
         root   /usr/share/nginx/html2;
         index  index.html index.htm;

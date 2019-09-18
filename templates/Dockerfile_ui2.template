@@ -14,3 +14,4 @@ FROM nginx:1.13.1
 RUN mkdir /usr/share/nginx/html2
 COPY --from=builder /index.html /usr/share/nginx/html2
 COPY --from=builder /manifest.json /usr/share/nginx/html2
+COPY config/robots.txt /usr/share/nginx/html2
