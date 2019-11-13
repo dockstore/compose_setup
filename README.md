@@ -20,7 +20,7 @@ Change --staging as necessary and the domain names as necessary to match where y
 
 ```
 docker run -it --rm -v composesetup_certs:/etc/letsencrypt -v composesetup_certs-data:/data/letsencrypt   certbot/certbot renew
-docker-compose restart nginx_https
+docker-compose restart nginx_dockstore
 ```
 
 2. Call the install\_bootstrap script. This templates the contents of `templates` using mustache to the `config` directory while recording your answers for future use. Note that this will also
@@ -31,12 +31,12 @@ rebuild your docker images without affecting existing running containers
     2. The discourse URL is needed to link Dockstore to a discussion forum 
     3. the Google verification code and tag manager ID are used if you want to properly track visitors to Dockstore and what pages they browse to
 
-4. The bootstrap script can also rebuild your Docker images and spin them up although you may wish to disable this while doing development. Keep in mind the following handy commands:
-    1. `nohup docker-compose up --force-recreate --remove-orphans &` will re-create all containers known to docker-compose and delete those volumes that no longer are associated with running containers
-    2. `docker system prune` for cleaning out old containers and images
-    3. `install_boostrap --script` will template and build everything using your previous answers (useful for quick iteration) 
-
-If using with logstash in a container (for development), use `-f docker-compose.yml -f docker-compose.dev.yml` flags after each `docker-compose` command to merge docker-compose files (e.g. `docker-compose -f docker-compse.yml -f docker-compose.dev.yml build`) 
+4. The bootstrap script can also rebuild your Docker images. Keep in mind the following handy commands:
+    1. `install_bootstrap --script` will template and build everything using your previous answers (useful for quick iteration) 
+    2. `docker-compose down` will bring all containers down safely 
+    3. `nohup docker-compose up --force-recreate --remove-orphans >/dev/null 2>&1 &` will re-create all containers known to docker-compose and delete those volumes that no longer are associated with running containers
+    4. `docker system prune` for cleaning out old containers and images
+    5. To watch the logs `docker-compose logs --follow` while debugging
 
 5. After following the instructions in the bootstrap script and starting up the site with `docker-compose`, you can browse to the Dockstore site hosted at port 443 by default. `https://<domain-name>` if you specified https or `http://<domain-name>:443` if you did not. 
 
@@ -46,10 +46,10 @@ If using with logstash in a container (for development), use `-f docker-compose.
 
 ```
 @monthly	docker run -it --rm -v composesetup_certs:/etc/letsencrypt -v composesetup_certs-data:/data/letsencrypt certbot/certbot renew && docker-compose restart nginx_https && curl -sm 30 k.wdt.io/denis.yuen@oicr.on.ca/staging.https.renew?c=0_0_1_*_* 
-@daily 		(echo '['`date`'] Nightly Back-up' && /home/ubuntu/compose_setup/scripts/postgres_backup.sh) |  tee /home/ubuntu/compose_setup/scripts/ds_backup.log
+@daily 		(echo '['`date`'] Nightly Back-up' && /home/ubuntu/compose_setup/scripts/postgres_backup.sh) 2>&1 | tee -a /home/ubuntu/compose_setup/scripts/ds_backup.log
 ```
 
-This relies upon an IAM role for the appropriate S3 bucket. 
+This relies upon an IAM role for the appropriate S3 bucket. You will also need the AWS cli installed via ` sudo apt-get install awscli`. Note that this may not be readily apparent since a cron has a limited $PATH and it seems easy to accidentally get the awscli installed for specific users. 
 
 ### Loading Up a Database ###
 
@@ -58,16 +58,51 @@ The docker-compose setup uses a mount from the host to keep the postgres databas
 However, this does require a convoluted way to add content to the DB as follows
 
 ```
+docker-compose down
+# needed since dropping the schema can still leave some user information behind
+sudo rm -Rf postgres-data/
+nohup docker-compose up --force-recreate --remove-orphans &
 docker cp /tmp/backup.sql <container>:/tmp
 docker exec -ti <container> /bin/bash
 su - postgres
+psql
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 \quit
 psql -f  /tmp/backup.sql 
+# run migration using newly loaded DB
+docker-compose down
+nohup docker-compose up --force-recreate --remove-orphans &
 ```
 
 Note that database migration is run once during the startup process and is controlled via the `DATABASE_GENERATED` variable. Answer `yes` if you are working as a developer and want to start work from scratch from an empty database. Answer `no` if you are working as an administrator and/or wish to start Dockstore from a production or staging copy of the database.
+
+### Modifying the Database ###
+
+If direct modification of the database is required, e.g, a curator needs to modify the value of some row/column that is not accessible via the API, you can use the same steps as above, except for dropping the schema.
+
+This should be exercised with extreme caution, and with someone looking over your shoulder, as you have the potential to unintentionally overwrite or delete data. If you wish to proceed:
+
+```
+# Assuming you copied a file `fix.sql` to the /tmp directory:
+docker cp /tmp/fix.sql <container>:/tmp
+docker exec -ti <container> /bin/bash
+su - postgres
+psql -f  /tmp/fix.sql 
+```
+
+## Logging Usage
+
+If using with logstash in a container (for development), use `-f docker-compose.yml -f docker-compose.dev.yml` flags after each `docker-compose` command to merge docker-compose files (e.g. `docker-compose -f docker-compse.yml -f docker-compose.dev.yml build`) 
+
+For example to deploy just logging 
+
+```
+docker-compose  -f docker-compose.dev.yml build
+nohup docker-compose -f docker-compose.dev.yml up --force-recreate --remove-orphans >/dev/null 2>&1 &
+docker-compose -f docker-compose.dev.yml down
+docker-compose -f docker-compose.dev.yml kill
+```
 
 ### Kibana Dashboard Setup ###
 Import the [export.json](export.json) Dashboard from compose\_setup/export.json by going to Kibana's management => saved objects => import.  See https://www.elastic.co/guide/en/kibana/current/managing-saved-objects.html for more info, especially the 2nd warning.

@@ -1,0 +1,6 @@
+xpack.security.enabled: false
+elastalert-kibana-plugin.serverHost: elastalert
+server.name: kibana
+server.host: "0"
+elasticsearch.url: http://elasticsearch-logstash:9200
+xpack.monitoring.ui.container.elasticsearch.enabled: true

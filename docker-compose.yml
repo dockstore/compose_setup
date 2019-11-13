@@ -1,14 +1,18 @@
 version: '2'
 
-
 services:
   postgres:
-    image: postgres:9.6.10
+    image: postgres:10.10
     restart: always
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
     expose: 
       - "5432"
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "postgres"
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:5.6.3
@@ -21,13 +25,18 @@ services:
         soft: -1
         hard: -1
     mem_limit: 1g
+    restart: always
     volumes:
       - esdata1:/usr/share/elasticsearch/data
+      - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     expose:
       - "9200"
       - "9300"
-    volumes:
-      - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "elasticsearch"
 
   migration: 
     build:
@@ -39,6 +48,11 @@ services:
       - log_volume:/dockstore_logs
       - ./config/web.yml:/web.yml
     command: ["dockerize", "-wait", "tcp://postgres:5432", "-timeout", "60s", "./init_migration.sh"]
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "migration"
 
   webservice: 
     build:
@@ -52,16 +66,13 @@ services:
     volumes:
       - log_volume:/dockstore_logs
       - ./config/web.yml:/web.yml
-
-  ui2:
-    build:
-      context: .
-      dockerfile: config/Dockerfile_ui2
-    volumes:
-      - log_volume:/dockstore_logs
-      - ./config/dockstore.model.ts:/dockstore-ui2/src/app/shared/dockstore.model.ts
-      - ./config/index.html:/dockstore-ui2/src/index.html
-      - ui2_content:/dockstore-ui2/real_dist
+    expose:
+      - "8081"
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "webservice"
 
   nginx_http:
     image: nginx:1.13.1
@@ -72,26 +83,60 @@ services:
       - ./config/default.nginx_http.conf:/etc/nginx/conf.d/default.conf:ro
       - certs:/etc/letsencrypt
       - certs-data:/data/letsencrypt
+  #    - ./self-signed:/self-signed
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "nginx_http"
 
-  nginx_https: 
-    image: nginx:1.13.1
+
+  nginx_dockstore:
+    build:
+      context: .
+      dockerfile: config/Dockerfile_ui2
     restart: always
     depends_on:
-      - ui2
       - webservice
     ports:
       - "8443:8080"
       - "443:4200"
     volumes:
-      - ui2_content:/usr/share/nginx/html2:ro
       - ./config/default.nginx_https.conf:/etc/nginx/conf.d/default.conf:ro
       - ./config/default.nginx_https.shared.conf:/etc/nginx/conf.d/default.nginx_https.shared.conf:ro
       - certs:/etc/letsencrypt
       - certs-data:/data/letsencrypt
+  #    - ./self-signed:/self-signed
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: ${LOG_GROUP_NAME}
+        awslogs-stream: "nginx_dockstore"
+
+# re-enable if we go down the route of these metrics going into ELK
+#  metricbeat:
+#    image: docker.elastic.co/beats/metricbeat:6.4.0
+#    user: root
+#    restart: always
+#    depends_on:
+#      - webservice
+#      - postgres
+#    volumes:
+#      - /proc:/hostfs/proc:ro
+#      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+#      - /:/hostfs:ro
+#      - ./config/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
+#    command:
+#      - "--strict.perms=false"
+#      - "-system.hostfs=/hostfs"
+#    logging:
+#      driver: "awslogs"
+#      options:
+#        awslogs-group: ${LOG_GROUP_NAME}
+#        awslogs-stream: "metricbeat"
 
 volumes:
   log_volume: 
-  ui2_content:
   certs:
   certs-data:
   esdata1:

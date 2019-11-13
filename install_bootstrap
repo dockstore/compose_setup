@@ -19,8 +19,9 @@ MSG
 
 run_dockstore_launcher=''
 PUBLIC_LAUNCHER_IP_ADDRESS=''
+PRODUCTION=''
 DOCKSTORE_VERSION=''
-DOCKSTORE_UI2_VERSION=''
+UI2_HASH=''
 GITHUB_CLIENT2_ID=''
 GITHUB_CLIENT2_SECRET=''
 QUAY_CLIENT_ID=''
@@ -30,7 +31,12 @@ BITBUCKET_CLIENT_SECRET=''
 DOMAIN_NAME=''
 HTTPS=''
 DISCOURSE_URL=''
-GOOGLE_VERIFICATION_NAME=''
+DISCOURSE_KEY=''
+DISCOURSE_CATEGORY_ID=''
+DOCUMENTATION_URL=''
+GITHUB_APP_PRIVATE_KEY_FILE=''
+GITHUB_APP_ID=''
+GITHUB_APP_NAME=''
 TAG_MANAGER_ID=''
 GITLAB_CLIENT_ID=''
 GITLAB_CLIENT_SECRET=''
@@ -38,22 +44,22 @@ GOOGLE_CLIENT_ID=''
 GOOGLE_CLIENT_SECRET=''
 LOGSTASH=''
 LOGSTASH_HOST=''
-ENABLE_CWL_VIEWER=''
-ENABLE_LAUNCH_WITH_FIRECLOUD=''
-FIRECLOUD_IMPORT_URL=''
-GOOGLE_VERIFICATION_NAME=''
+TERRA_IMPORT_URL=''
 AUTHORIZER_TYPE=''
 EXTERNAL_GOOGLE_CLIENT_PREFIX1=''
 SAM_PATH=''
 DATABASE_GENERATED=''
+SLACK_URL=''
+TOOLTESTER_BUCKET_NAME=''
+ZENODO_CLIENT_ID=''
+ZENODO_CLIENT_SECRET=''
+ZENODO_URL=''
 
 function template()
 {
     mkdir -p config
     mustache dockstore_launcher_config/compose.config templates/Dockerfile_webservice.template > config/Dockerfile_webservice
     mustache dockstore_launcher_config/compose.config templates/Dockerfile_ui2.template > config/Dockerfile_ui2
-    mustache dockstore_launcher_config/compose.config templates/dockstore.model.ts.template > config/dockstore.model.ts
-    mustache dockstore_launcher_config/compose.config templates/index.html.template > config/index.html
     mustache dockstore_launcher_config/compose.config templates/web.yml.template > config/web.yml
     mustache dockstore_launcher_config/compose.config templates/default.nginx_http.conf.template > config/default.nginx_http.conf
     mustache dockstore_launcher_config/compose.config templates/default.nginx_https.conf.template > config/default.nginx_https.conf
@@ -61,10 +67,19 @@ function template()
 
     mustache dockstore_launcher_config/compose.config templates/init_webservice.sh.template > config/init_webservice.sh
     mustache dockstore_launcher_config/compose.config templates/init_migration.sh.template > config/init_migration.sh
-    mustache dockstore_launcher_config/compose.config templates/init_ui2.sh.template > config/init_ui2.sh
     mustache dockstore_launcher_config/compose.config templates/elasticsearch.yml > config/elasticsearch.yml
-    mustache dockstore_launcher_config/compose.config templates/search_verification.html > config/${GOOGLE_VERIFICATION_NAME}.html
-    mustache dockstore_launcher_config/compose.config templates/logsToElastic.conf > config/logsToElastic.conf
+    mustache dockstore_launcher_config/compose.config templates/metricbeat.yml > config/metricbeat.yml
+    mustache dockstore_launcher_config/compose.config templates/essnapshot_backup.sh > scripts/essnapshot_backup.sh
+    
+    mustache dockstore_launcher_config/compose.config templates/jvm.options.es.template > config/jvm.options.es
+    mustache dockstore_launcher_config/compose.config templates/jvm.options.logstash.template > config/jvm.options.logstash
+    mustache dockstore_launcher_config/compose.config templates/postgres_backup.sh.template > scripts/postgres_backup.sh
+    chmod a+rx scripts/postgres_backup.sh
+    # .env file
+    mustache dockstore_launcher_config/compose.config templates/env.template > .env
+
+    mkdir -p config/rules
+    for f in $(ls templates/rules/); do mustache dockstore_launcher_config/compose.config templates/rules/$f > config/rules/$f; done
 }
 
 # Ask the user a question and save the answer.
@@ -185,12 +200,13 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
     read run_dockstore_launcher
     # If the user would like to run dockstore_launcher, then we have to get some config settings from them OR read them from an existing file
     if [ "${run_dockstore_launcher^^}" = 'Y' ] ; then
-
+	production='production'
+	ask_question "Are you deploying on production (true or false)?" "$PRODUCTION" "Dockstore version" $production
         dockstore_version='dockstore_version'
         ask_question "What version of Dockstore do you wish to deploy?" "$DOCKSTORE_VERSION" "Dockstore version" $dockstore_version
 
-        dockstore_ui2_version='dockstore_ui2_version'
-        ask_question "What version of Dockstore UI 2 do you wish to deploy?" "$DOCKSTORE_UI2_VERSION" "Dockstore version" $dockstore_ui2_version
+        ui2_hash='ui2_hash'
+      	ask_question "What Dockstore UI 2 CDN hash do you want to use (ex: 2.4.0-beta.3-70bb93a )?" "$UI2_HASH" "Dockstore hash" $ui2_hash
 
         github_client2_id='github_client2_id'
         ask_question "What is your github client id for UI2?" "$GITHUB_CLIENT2_ID" "Dockstore version" $github_client2_id
@@ -222,10 +238,33 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         https='https'
         ask_question "Are you using https (true or false)?" "$HTTPS" "https" $https
 
+        documentation_url='documentation_url'
+        ask_question "What is your Documentation URL (ex. https://docs.dockstore.org/en/develop)?" "$DOCUMENTATION_URL" "documentation_url" $documentation_url
+
         discourse_url='discourse_url'
         ask_question "What is your Discourse URL (ends with a /)?" "$DISCOURSE_URL" "discourse_url" $discourse_url
-        google_verification_name='google_verification_name'
-        ask_question "What is your Google verification code for search console (looks like google74e52839b1bxxxxxx)?" "$GOOGLE_VERIFICATION_NAME" "google_verification_name" $google_verification_name
+        discourse_key='discourse_key'
+        ask_question "What is your Discourse key?" "$DISCOURSE_KEY" "discourse_key" $discourse_key
+        discourse_category_id='discourse_category_id'
+        ask_question "What is your Discourse category id (10 for staging, 11 for production)?" "$DISCOURSE_CATEGORY_ID" "discourse_category_id" $discourse_category_id
+
+        zenodo_client_id='zenodo_client_id'
+        ask_question "What is your zenodo client id?" "$ZENODO_CLIENT_ID" "zenodo_client_id" $zenodo_client_id
+        zenodo_client_secret='zenodo_client_secret'
+        ask_question "What is your zenodo client secret?" "$ZENODO_CLIENT_SECRET" "zenodo_client_secret" $zenodo_client_secret
+        zenodo_url='zenodo_url'
+	    ask_question "What is the zenodo url (https://sandbox.zenodo.org for staging, https://zenodo.org for production)?" "$ZENODO_URL" "zenodo_url" $zenodo_url
+
+        tooltester_bucket_name='tooltester_bucket_name'
+        ask_question "What is the name of the bucket holding tooltester logs?" "$TOOLTESTER_BUCKET_NAME" "tooltester_bucket_name" $tooltester_bucket_name
+
+        github_app_private_key_file='github_app_private_key_file'
+        ask_question "What is the absolute path to the private key file?" "$GITHUB_APP_PRIVATE_KEY_FILE" "github_app_private_key_file" $github_app_private_key_file
+        github_app_id='github_app_id'
+        ask_question "What is the id of the GitHub App?" "$GITHUB_APP_ID" "github_app_id" $github_app_id
+        github_app_name='github_app_name'
+        ask_question "What is the name of the GitHub App?" "$GITHUB_APP_NAME" "github_app_name" $github_app_name
+
 
         tag_manager_id='tag_manager_id'
         ask_question "What is your Google tag manager id?" "$TAG_MANAGER_ID" "tag_manager_id" $tag_manager_id
@@ -236,14 +275,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         logstash_host='logstash_host'
         ask_question "If you are using logstash, where is it hosted (ex: logstash)?" "$LOGSTASH_HOST" "logstash_host" $logstash_host
 
-        enable_cwl_viewer='enable_cwl_viewer'
-        ask_question "Do you want to enable CWL Viewer in DAG (true or false)?" "$ENABLE_CWL_VIEWER" "enable_cwl_viewer" $enable_cwl_viewer
-
-        enable_launch_with_firecloud='enable_launch_with_firecloud'
-        ask_question "Do you want to enable Launch with FireCloud (true or false)?" "$ENABLE_LAUNCH_WITH_FIRECLOUD" "enable_launch_with_firecloud" $enable_launch_with_firecloud
-
-        firecloud_import_url='firecloud_import_url'
-        ask_question "What is the Launch with FireCloud base url? Unless it's a staging FC enviornment, it should be https://portal.firecloud.org/#import/dockstore" "$FIRECLOUD_IMPORT_URL" "firecloud_import_url" $firecloud_import_url
+        terra_import_url='terra_import_url'
+        ask_question "What is the Launch with Terra base url? For prod it should be https://app.terra.bio/#import-tool/dockstore; for staging it should be https://bvdp-saturn-dev.appspot.com/#import-tool/dockstore" "$TERRA_IMPORT_URL" "terra_import_url" $terra_import_url
 
         authorizer_type='authorizer_type'
         ask_question "What kind of authorizer should we use? (sam, or inmemory)" "$AUTHORIZER_TYPE" "authorizer_type" $authorizer_type
@@ -253,6 +286,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 
         sam_path='sam_path'
         ask_question "What is the path for the sam instance you wish to point at?" "$SAM_PATH" "sam_path" $sam_path
+
+        slack_url='slack_url'
+        ask_question "What is the slack URL for notifications?" "$SLACK_URL" "slack_url" $slack_url
 
         database_generated='database_generated'
         ask_question "Do you want to run migration assuming a generated database as opposed to a production DB (true or false)?" "$DATABASE_GENERATED" "database_generated" $database_generated
@@ -266,8 +302,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         cat > dockstore_launcher_config/compose.config <<CONFIG
 {
 "PUBLIC_LAUNCHER_IP_ADDRESS":"`curl http://169.254.169.254/latest/meta-data/public-ipv4`",
+"PRODUCTION":${production},
 "DOCKSTORE_VERSION":"${dockstore_version}",
-"DOCKSTORE_UI2_VERSION":"${dockstore_ui2_version}",
+"UI2_HASH":"${ui2_hash}",
 "GITHUB_CLIENT2_ID":"${github_client2_id}",
 "GITHUB_CLIENT2_SECRET":"${github_client2_secret}",
 "QUAY_CLIENT_ID":"${quay_client_id}",
@@ -277,7 +314,13 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "DOMAIN_NAME":"${domain_name}",
 "HTTPS":${https},
 "DISCOURSE_URL":"${discourse_url}",
-"GOOGLE_VERIFICATION_NAME":"${google_verification_name}",
+"DISCOURSE_KEY":"${discourse_key}",
+"DISCOURSE_CATEGORY_ID":"${discourse_category_id}",
+"DOCUMENTATION_URL":"${documentation_url}",
+"GITHUB_APP_PRIVATE_KEY_FILE": "${github_app_private_key_file}",
+"GITHUB_APP_ID": "${github_app_id}",
+"GITHUB_APP_NAME": "${github_app_name}",
+"TOOLTESTER_BUCKET_NAME": "${tooltester_bucket_name}",
 "TAG_MANAGER_ID":"${tag_manager_id}",
 "GITLAB_CLIENT_ID":"${gitlab_client_id}",
 "GITLAB_CLIENT_SECRET":"${gitlab_client_secret}",
@@ -285,13 +328,15 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "GOOGLE_CLIENT_SECRET":"${google_client_secret}",
 "LOGSTASH":${logstash},
 "LOGSTASH_HOST":"${logstash_host}",
-"ENABLE_CWL_VIEWER":"${enable_cwl_viewer}",
-"ENABLE_LAUNCH_WITH_FIRECLOUD":"${enable_launch_with_firecloud}",
-"FIRECLOUD_IMPORT_URL":"${firecloud_import_url}",
+"TERRA_IMPORT_URL":"${terra_import_url}",
 "AUTHORIZER_TYPE":"${authorizer_type}",
 "EXTERNAL_GOOGLE_CLIENT_PREFIX1":"${external_google_client_prefix1}",
 "SAM_PATH":"${sam_path}",
-"DATABASE_GENERATED":${database_generated}
+"DATABASE_GENERATED":${database_generated},
+"ZENODO_CLIENT_ID":"${zenodo_client_id}",
+"ZENODO_CLIENT_SECRET":"${zenodo_client_secret}",
+"ZENODO_URL":"${zenodo_url}",
+"SLACK_URL":"${slack_url}"
 }
 CONFIG
     elif [ "${run_dockstore_launcher^^}" = 'N' ] ; then

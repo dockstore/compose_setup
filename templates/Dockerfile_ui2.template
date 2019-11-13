@@ -1,31 +1,16 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04 as builder
 
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y \
-    git \
-    curl \
-    maven \
+RUN apt update \
+    && apt install -yq \
     wget \
-    && apt-get clean
+    && apt clean
 
-#prerequisities
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
-RUN apt-get install -y nodejs
-RUN npm install -g @angular/cli@6.0.2 --unsafe
-#npm
-RUN touch {{ DOCKSTORE_UI2_VERSION }}.out
-RUN git clone https://github.com/dockstore/dockstore-ui2.git
-WORKDIR /dockstore-ui2
-RUN git checkout {{ DOCKSTORE_UI2_VERSION }}
+# Download index.html for UI we will be serving
+RUN wget -qO index.html https://gui.dockstore.org/{{ UI2_HASH }}/index.html
+RUN wget -qO manifest.json https://gui.dockstore.org/{{ UI2_HASH }}/manifest.json
 
-RUN npm install --production
-RUN wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.3.1/swagger-codegen-cli-2.3.1.jar -O swagger-codegen-cli.jar
-RUN java -jar swagger-codegen-cli.jar generate -i https://raw.githubusercontent.com/ga4gh/dockstore/{{ DOCKSTORE_VERSION  }}/dockstore-webservice/src/main/resources/swagger.yaml -l typescript-angular -o src/app/shared/swagger -c swagger-config.json
-RUN npm run-script prebuild
+FROM nginx:1.13.1
 
-ADD config/{{ GOOGLE_VERIFICATION_NAME }}.html {{ GOOGLE_VERIFICATION_NAME }}.html
-ADD config/init_ui2.sh init_ui2.sh
-RUN chmod a+x init_ui2.sh
-
-CMD ["./init_ui2.sh"]
+RUN mkdir /usr/share/nginx/html2
+COPY --from=builder /index.html /usr/share/nginx/html2
+COPY --from=builder /manifest.json /usr/share/nginx/html2

@@ -1,0 +1,26 @@
+actions:
+  1:
+    action: delete_snapshots
+    description: delete snapshots older than 20 days
+    options:
+      repository: 'my_backup'
+      disable_action: False
+      ignore_empty_list: True
+    filters:
+    - filtertype: age
+      source: creation_date
+      direction: older
+      unit: days
+      unit_count: 20
+  2:
+    action: delete_indices
+    description: delete indices older than 20 days
+    options:
+      ignore_empty_list: True
+    filters:
+    - filtertype: age
+      direction: older
+      source: name
+      unit_count: 20
+      unit: days
+      timestring: '%Y.%m.%d'

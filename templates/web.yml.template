@@ -2,10 +2,8 @@ template: Hello, %s!
 quayClientID: {{ QUAY_CLIENT_ID }} 
 # port should match the port where the UI is being hosted, 9000 by default
 quayRedirectURI: dev-only
-githubClientID: 
-  - {{ GITHUB_CLIENT2_ID }}
-githubClientSecret: 
-  - {{ GITHUB_CLIENT2_SECRET }}
+githubClientID: {{ GITHUB_CLIENT2_ID }}
+githubClientSecret: {{ GITHUB_CLIENT2_SECRET }}
 # port should match the port where the UI is being hosted, 9000 by default
 githubRedirectURI: dev-only
 bitbucketClientID: {{ BITBUCKET_CLIENT_ID }}
@@ -18,6 +16,20 @@ gitlabRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}:443/auth/gitlab
 googleClientID: {{ GOOGLE_CLIENT_ID }}
 googleClientSecret: {{ GOOGLE_CLIENT_SECRET }}
 googleRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}:443
+
+discourseKey: {{ DISCOURSE_KEY }}
+discourseUrl: {{ DISCOURSE_URL }}
+discourseCategoryId: {{ DISCOURSE_CATEGORY_ID }}
+
+zenodoClientID: {{ ZENODO_CLIENT_ID }}
+zenodoClientSecret: {{ ZENODO_CLIENT_SECRET }}
+zenodoRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}/auth/zenodo.org
+zenodoUrl: {{ ZENODO_URL }}
+
+gitHubAppPrivateKeyFile: /dockstore_github_app_private_key.pem
+gitHubAppId: {{ GITHUB_APP_ID }}
+
+toolTesterBucket: {{ TOOLTESTER_BUCKET_NAME }}
 
 limitConfig:
   workflowLimit: 50
@@ -59,10 +71,10 @@ database:
   driverClass: org.postgresql.Driver
 
   # the username
-  user: postgres
+  user: dockstore
 
   # the password
-  password: postgres
+  password: dockstore
 
   # the JDBC URL
   url: jdbc:postgresql://postgres:5432/postgres
@@ -89,6 +101,11 @@ database:
   # whether or not idle connections should be validated
   checkConnectionWhileIdle: false
 
+  removeAbandoned: true
+  abandonWhenPercentageFull: 80
+  logAbandonedConnections: true
+  removeAbandonedTimeout: 5 minutes
+
 {{#LOGSTASH}}
 server:
   requestLog:
@@ -97,5 +114,37 @@ server:
     appenders:
       - type: logstash
         host: {{ LOGSTASH_HOST }}
-        port: 5055
+        port: {{#PRODUCTION}}5055{{/PRODUCTION}}{{^PRODUCTION}}5066{{/PRODUCTION}}
 {{/LOGSTASH}}
+
+uiConfig:
+  dnaStackImportUrl: https://app.dnastack.com/#/app/workflow/import/dockstore
+  dnaNexusImportUrl: https://platform.dnanexus.com/panx/tools/import-workflow
+  terraImportUrl: {{ TERRA_IMPORT_URL }}
+
+  gitHubAuthUrl: https://github.com/login/oauth/authorize
+  gitHubRedirectPath: /auth/github.com
+  gitHubScope: read:org,user:email
+
+  quayIoAuthUrl: https://quay.io/oauth/authorize
+  quayIoRedirectPath: /auth/quay.io
+  quayIoScope: repo:read,user:read
+
+  bitBucketAuthUrl: https://bitbucket.org/site/oauth2/authorize
+
+  gitlabAuthUrl: https://gitlab.com/oauth/authorize
+  gitlabRedirectPath: /auth/gitlab.com
+  gitlabScope: api
+
+  googleScope: profile email
+  tagManagerId: {{ TAG_MANAGER_ID }} 
+
+  cwlVisualizerUri: https://view.commonwl.org
+
+  gitHubAppInstallationUrl: https://github.com/apps/{{ GITHUB_APP_NAME }}
+
+  zenodoAuthUrl: {{ ZENODO_URL }}/oauth/authorize
+  zenodoRedirectPath: /auth/zenodo.org
+  zenodoScope: deposit:write deposit:actions
+
+  documentationUrl: {{ DOCUMENTATION_URL }}
