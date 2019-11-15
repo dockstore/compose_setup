@@ -21,6 +21,9 @@ RUN apt-get update \
 RUN locale-gen en_US.UTF-8
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
+# Set the workdir to not be root to avoid a WOMTool issue
+WORKDIR /home
+
 # install dockstore services
 RUN wget --no-verbose https://artifacts.oicr.on.ca/artifactory/collab-release/io/dockstore/dockstore-webservice/{{ DOCKSTORE_VERSION }}/dockstore-webservice-{{ DOCKSTORE_VERSION }}.jar
 
