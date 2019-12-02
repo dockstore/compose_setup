@@ -158,3 +158,4 @@ uiConfig:
   zenodoScope: deposit:write deposit:actions
 
   documentationUrl: {{ DOCUMENTATION_URL }}
+  featuredContentUrl: {{ FEATURED_CONTENT_URL }}
