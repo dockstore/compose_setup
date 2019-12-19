@@ -68,12 +68,15 @@ su - postgres
 psql
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
+ALTER DATABASE postgres OWNER to dockstore;
+ALTER SCHEMA public OWNER to dockstore;
 \quit
-psql -f  /tmp/backup.sql 
+psql postgres -U dockstore -f  /tmp/backup.sql 
 # run migration using newly loaded DB
 docker-compose down
 nohup docker-compose up --force-recreate --remove-orphans &
 ```
+
 
 Note that database migration is run once during the startup process and is controlled via the `DATABASE_GENERATED` variable. Answer `yes` if you are working as a developer and want to start work from scratch from an empty database. Answer `no` if you are working as an administrator and/or wish to start Dockstore from a production or staging copy of the database.
 
