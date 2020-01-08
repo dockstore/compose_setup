@@ -8,6 +8,7 @@ RUN apt update \
 # Download index.html for UI we will be serving
 RUN wget -qO index.html https://gui.dockstore.org/{{ UI2_HASH }}/index.html
 RUN wget -qO manifest.json https://gui.dockstore.org/{{ UI2_HASH }}/manifest.json
+RUN wget -qO robots.txt https://gui.dockstore.org/{{ UI2_HASH }}/robots.txt
 
 FROM nginx:1.13.1
 
