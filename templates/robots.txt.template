@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}/robots.txt;
