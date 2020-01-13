@@ -62,6 +62,7 @@ server {
 
     location /robots.txt {
         root   /usr/share/nginx/html2;
+        rewrite ^ /robots.txt break;
     }
 
     location / {
