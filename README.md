@@ -3,8 +3,7 @@ This project documents how to setup Dockstore staging and production using compo
 Log issues and see general documentation at [dockstore](https://github.com/ga4gh/dockstore/issues) and [docs.dockstore.org](https://docs.dockstore.org/) respectively
 
 Ports 80 and 8443 are exposed over http. These ports should not be exposed to the public. A separately [configured load
-balancer](https://github.com/dockstore/dockstore-deploy) is responsible for SSL termination and fowarding traffic to this instance. Previously this repo
-handled the SSL termination with nginx and LetsEncrypt.
+balancer](https://github.com/dockstore/dockstore-deploy) is responsible for SSL termination and fowarding traffic to this instance. Previously this repo handled the SSL termination with nginx and LetsEncrypt.
 
 ## Prerequisities
 
