@@ -66,6 +66,7 @@ services:
       - ./config/init_webservice.sh:/home/init_webservice.sh,x
 # TODO: get this working
 #- ${GITHUB_APP_PRIVATE_KEY_FILE}:./dockstore_github_app_private_key.pem
+    command: ["dockerize", "-wait", "tcp://postgres:5432", "-timeout", "60s", "/home/init_webservice.sh"]
     expose:
       - "8081"
     logging:
