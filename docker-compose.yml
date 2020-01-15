@@ -64,7 +64,8 @@ services:
       - log_volume:/dockstore_logs
       - ./config/web.yml:/home/web.yml
       - ./config/init_webservice.sh:/home/init_webservice.sh,x
-      - ${GITHUB_APP_PRIVATE_KEY_FILE}:./dockstore_github_app_private_key.pem
+# TODO: get this working
+#- ${GITHUB_APP_PRIVATE_KEY_FILE}:./dockstore_github_app_private_key.pem
     expose:
       - "8081"
     logging:
