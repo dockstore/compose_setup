@@ -59,11 +59,12 @@ su - postgres
 psql
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
+CREATE USER dockstore WITH password 'dockstore';
 ALTER DATABASE postgres OWNER to dockstore;
 ALTER SCHEMA public OWNER to dockstore;
 \quit
 psql postgres -U dockstore -f  /tmp/backup.sql 
-# run migration using newly loaded DB
+# exit container (ctrl+d) and then run migration using newly loaded DB
 docker-compose down
 nohup docker-compose up --force-recreate --remove-orphans &
 ```
