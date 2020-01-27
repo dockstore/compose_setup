@@ -64,7 +64,7 @@ services:
       - log_volume:/dockstore_logs
       - ./config/web.yml:/home/web.yml
       - ./config/init_webservice.sh:/home/init_webservice.sh
-      - ${GITHUB_APP_PRIVATE_KEY_FILE}:./dockstore_github_app_private_key.pem
+      - ${GITHUB_APP_PRIVATE_KEY_FILE}:/home/dockstore_github_app_private_key.pem
     command: ["dockerize", "-wait", "tcp://postgres:5432", "-timeout", "60s", "bash", "/home/init_webservice.sh"]
     expose:
       - "8081"
