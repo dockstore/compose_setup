@@ -11,7 +11,7 @@ map $sent_http_content_type $expires {
 # https://aws.amazon.com/premiumsupport/knowledge-center/elb-capture-client-ip-addresses/
 log_format  custom  '$http_x_forwarded_for - $remote_user [$time_local] "$request" '
                     '$status $body_bytes_sent "$http_referer" '
-                    '"$http_user_agent" "$remote_addr"';
+                    '"$http_user_agent" $remote_addr $upstream_response_time';
 # workaround for the way we're including conf https://serverfault.com/questions/729128/overriding-nginx-access-log-directive-duplicate-log-entries
 access_log  off;
 
