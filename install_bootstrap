@@ -54,16 +54,17 @@ TOOLTESTER_BUCKET_NAME=''
 ZENODO_CLIENT_ID=''
 ZENODO_CLIENT_SECRET=''
 ZENODO_URL=''
+FEATURED_CONTENT_URL=''
 
 function template()
 {
     mkdir -p config
     mustache dockstore_launcher_config/compose.config templates/Dockerfile_webservice.template > config/Dockerfile_webservice
     mustache dockstore_launcher_config/compose.config templates/Dockerfile_ui2.template > config/Dockerfile_ui2
+    mustache dockstore_launcher_config/compose.config templates/robots.txt.template > config/robots.txt
     mustache dockstore_launcher_config/compose.config templates/web.yml.template > config/web.yml
     mustache dockstore_launcher_config/compose.config templates/default.nginx_http.conf.template > config/default.nginx_http.conf
-    mustache dockstore_launcher_config/compose.config templates/default.nginx_https.conf.template > config/default.nginx_https.conf
-    mustache dockstore_launcher_config/compose.config templates/default.nginx_https.shared.conf.template > config/default.nginx_https.shared.conf
+    mustache dockstore_launcher_config/compose.config templates/default.nginx_http.shared.conf.template > config/default.nginx_http.shared.conf
 
     mustache dockstore_launcher_config/compose.config templates/init_webservice.sh.template > config/init_webservice.sh
     mustache dockstore_launcher_config/compose.config templates/init_migration.sh.template > config/init_migration.sh
@@ -248,6 +249,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         discourse_category_id='discourse_category_id'
         ask_question "What is your Discourse category id (10 for staging, 11 for production)?" "$DISCOURSE_CATEGORY_ID" "discourse_category_id" $discourse_category_id
 
+        featured_content_url='featured_content_url'
+        ask_question "What is your Featured Content URL (ex. https://s3.amazonaws.com/dockstore.featured.content.staging/develop/feat-content.html for staging, https://s3.amazonaws.com/dockstore.featured.content.staging/production/feat-content.html for production)?" "$FEATURED_CONTENT_URL" "featured_content_url" $featured_content_url
+
         zenodo_client_id='zenodo_client_id'
         ask_question "What is your zenodo client id?" "$ZENODO_CLIENT_ID" "zenodo_client_id" $zenodo_client_id
         zenodo_client_secret='zenodo_client_secret'
@@ -317,6 +321,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "DISCOURSE_KEY":"${discourse_key}",
 "DISCOURSE_CATEGORY_ID":"${discourse_category_id}",
 "DOCUMENTATION_URL":"${documentation_url}",
+"FEATURED_CONTENT_URL":"${featured_content_url}",
 "GITHUB_APP_PRIVATE_KEY_FILE": "${github_app_private_key_file}",
 "GITHUB_APP_ID": "${github_app_id}",
 "GITHUB_APP_NAME": "${github_app_name}",
