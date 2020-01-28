@@ -59,7 +59,6 @@ FEATURED_CONTENT_URL=''
 function template()
 {
     mkdir -p config
-    mustache dockstore_launcher_config/compose.config templates/Dockerfile_webservice.template > config/Dockerfile_webservice
     mustache dockstore_launcher_config/compose.config templates/Dockerfile_ui2.template > config/Dockerfile_ui2
     mustache dockstore_launcher_config/compose.config templates/robots.txt.template > config/robots.txt
     mustache dockstore_launcher_config/compose.config templates/web.yml.template > config/web.yml
