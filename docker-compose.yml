@@ -39,7 +39,7 @@ services:
         awslogs-stream: "elasticsearch"
 
   migration: 
-    image: quay.io/dockstore-testing/dockstore-webservice:${DOCKSTORE_VERSION}
+    image: quay.io/dockstore/dockstore-webservice:${DOCKSTORE_VERSION}
     depends_on:
       - postgres
     volumes:
@@ -54,7 +54,7 @@ services:
         awslogs-stream: "migration"
 
   webservice: 
-    image: quay.io/dockstore-testing/dockstore-webservice:${DOCKSTORE_VERSION}
+    image: quay.io/dockstore/dockstore-webservice:${DOCKSTORE_VERSION}
     restart: always
     depends_on:
       - postgres
