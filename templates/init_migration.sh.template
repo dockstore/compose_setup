@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Make the script's directory the working directory, which is also where
-the webservice JAR is.
+# Make the script's directory the working directory, which is also where the webservice JAR is.
 cd "$(dirname "$0")"
 
 {{#DATABASE_GENERATED}}
