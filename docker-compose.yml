@@ -39,15 +39,14 @@ services:
         awslogs-stream: "elasticsearch"
 
   migration: 
-    build:
-      context: .
-      dockerfile: config/Dockerfile_webservice
+    image: quay.io/dockstore/dockstore-webservice:${DOCKSTORE_VERSION}
     depends_on:
       - postgres
     volumes:
       - log_volume:/dockstore_logs
       - ./config/web.yml:/home/web.yml
-    command: ["dockerize", "-wait", "tcp://postgres:5432", "-timeout", "60s", "/home/init_migration.sh"]
+      - ./config/init_migration.sh:/home/init_migration.sh
+    command: ["dockerize", "-wait", "tcp://postgres:5432", "-timeout", "60s", "bash", "/home/init_migration.sh"]
     logging:
       driver: "awslogs"
       options:
@@ -55,9 +54,7 @@ services:
         awslogs-stream: "migration"
 
   webservice: 
-    build:
-      context: .
-      dockerfile: config/Dockerfile_webservice
+    image: quay.io/dockstore/dockstore-webservice:${DOCKSTORE_VERSION}
     restart: always
     depends_on:
       - postgres
@@ -66,6 +63,9 @@ services:
     volumes:
       - log_volume:/dockstore_logs
       - ./config/web.yml:/home/web.yml
+      - ./config/init_webservice.sh:/home/init_webservice.sh
+      - ${GITHUB_APP_PRIVATE_KEY_FILE}:/home/dockstore_github_app_private_key.pem
+    command: ["dockerize", "-wait", "tcp://postgres:5432", "-timeout", "60s", "bash", "/home/init_webservice.sh"]
     expose:
       - "8081"
     logging:
