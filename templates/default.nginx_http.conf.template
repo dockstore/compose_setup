@@ -47,6 +47,12 @@ server {
         #proxy_pass 	http://webservice:8080/swagger.json;
         rewrite ^/(.*)$ http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME}}/api/swagger.json permanent;
     }
+    
+    # used to redirect swagger.json as retrieved by swagger ui without changes
+    location = /openapi.yaml {
+        #proxy_pass 	http://webservice:8080/openapi.yaml;
+        rewrite ^/(.*)$ http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME}}/api/openapi.yaml permanent;
+    }
 
     # used when port 8443 was unreachable from google
     location = /sitemap.txt {
