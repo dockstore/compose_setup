@@ -4,16 +4,7 @@ There are 3 different sets of metric logs being sent to logstash's elasticsearch
 2. Dropwizard Metrics => Metricbeats => elasticsearch
 3. Postgres Metrics => Metricbeats => elasticsearch
 
-## Additional Security Setup
-
-### HTTPS Renewal
-`/home/ubuntu/certbot-auto renew &> /home/ubuntu/logs/certbot-auto.log`
-
-### Password Generation
-Use `htpasswd -c ./nginx/kibana.htpasswd user1` to set up a password for nginx.  If the password doesn't work, try using a different type of encryption.
-
 ## Ports
-- Port 9200 must be opened for metricbeats to send data to elasticsearch directly
 - Port 5055 must be opened for the production webservice to send data to logstash
 - Port 5066 must be opened for the staging webservice to send data to logstash
 - Port 5601 must be opened for developers to view the kibana dashboard
