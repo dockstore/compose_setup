@@ -12,4 +12,4 @@ java -Ddw.database.user=postgres -Ddw.database.password=postgres -jar dockstore-
 # this particular migration needs to run as postgres because only postgres can surrender ownership
 java -Ddw.database.user=postgres -Ddw.database.password=postgres -jar dockstore-webservice-*.jar db migrate web.yml --include 1.7.0.relinquish
 # future migrations will start here and should be run as dockstore
-java -Ddw.database.user=dockstore -Ddw.database.password=dockstore -jar dockstore-webservice-*.jar db migrate web.yml --include 1.8.0 | tee --append /dockstore_logs/webservice.out
+java -Ddw.database.user=dockstore -Ddw.database.password=dockstore -jar dockstore-webservice-*.jar db migrate web.yml --include 1.8.0,1.9.0 | tee --append /dockstore_logs/webservice.out
