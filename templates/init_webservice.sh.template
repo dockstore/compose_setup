@@ -2,5 +2,7 @@
 
 # Make the script's directory the working directory, which is also where the webservice JAR is.
 cd "$(dirname "$0")"
+mkdir ../language-plugins
+wget -P ../language-plugins -O galaxy-plugin-${GALAXY_PlUGIN_VERSION}.jar https://artifacts.oicr.on.ca/artifactory/collab-release/com/github/galaxyproject/dockstore-galaxy-interface/dockstore-galaxy-interface/${GALAXY_PLUGIN_VERSION}/dockstore-galaxy-interface-${GALAXY_PLUGIN_VERSION}.jar
 
 java -jar dockstore-webservice-*.jar server web.yml | tee --append /dockstore_logs/webservice.out
