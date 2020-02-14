@@ -45,6 +45,8 @@ GOOGLE_CLIENT_SECRET=''
 LOGSTASH=''
 LOGSTASH_HOST=''
 TERRA_IMPORT_URL=''
+BD_CATALYST_SEVEN_BRIDGES_IMPORT_URL=''
+BD_CATALYST_TERRA_IMPORT_URL=''
 AUTHORIZER_TYPE=''
 EXTERNAL_GOOGLE_CLIENT_PREFIX1=''
 SAM_PATH=''
@@ -282,6 +284,12 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         terra_import_url='terra_import_url'
         ask_question "What is the Launch with Terra base url? For prod it should be https://app.terra.bio/#import-tool/dockstore; for staging it should be https://bvdp-saturn-dev.appspot.com/#import-tool/dockstore" "$TERRA_IMPORT_URL" "terra_import_url" $terra_import_url
 
+        bdcatalyst_seven_bridges_import_url='bdcatalyst_seven_bridges_import_url'
+        ask_question "What is the Launch with BD Catalyst for Seven Bridges url? It should be https://sb.biodatacatalyst.nhlbi.nih.gov/integration/trs/import for both staging and production" "$BD_CATALYST_SEVEN_BRIDGES_IMPORT_URL" "bdcatalyst_seven_bridges_import_url" $bdcatalyst_seven_bridges_import_url
+
+        bdcatalyst_terra_import_url='bdcatalyst_terra_import_url'
+        ask_question "What is the Launch with BD Catalyst for Terra url? For staging it should be https://dev.terra.biodatacatalyst.nhlbi.nih.gov/#import-tool/dockstore; for production it should be https://terra.biodatacatalyst.nhlbi.nih.gov/#import-tool/dockstore" "$BD_CATALYST_TERRA_IMPORT_URL" "bdcatalyst_terra_import_url" $bdcatalyst_terra_import_url
+
         authorizer_type='authorizer_type'
         ask_question "What kind of authorizer should we use? (sam, or inmemory)" "$AUTHORIZER_TYPE" "authorizer_type" $authorizer_type
 
@@ -334,6 +342,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "LOGSTASH":${logstash},
 "LOGSTASH_HOST":"${logstash_host}",
 "TERRA_IMPORT_URL":"${terra_import_url}",
+"BD_CATALYST_SEVEN_BRIDGES_IMPORT_URL":"${bdcatalyst_seven_bridges_import_url}",
+"BD_CATALYST_TERRA_IMPORT_URL":"${bdcatalyst_terra_import_url}",
 "AUTHORIZER_TYPE":"${authorizer_type}",
 "EXTERNAL_GOOGLE_CLIENT_PREFIX1":"${external_google_client_prefix1}",
 "SAM_PATH":"${sam_path}",

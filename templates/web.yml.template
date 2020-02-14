@@ -131,6 +131,9 @@ uiConfig:
   dnaStackImportUrl: https://app.dnastack.com/#/app/workflow/import/dockstore
   dnaNexusImportUrl: https://platform.dnanexus.com/panx/tools/import-workflow
   terraImportUrl: {{ TERRA_IMPORT_URL }}
+  bdCatalystTerraImportUrl: {{ BD_CATALYST_TERRA_IMPORT_URL }}
+  bdCatalystSevenBridgesImportUrl: {{ BD_CATALYST_SEVEN_BRIDGES_IMPORT_URL }}
+
 
   gitHubAuthUrl: https://github.com/login/oauth/authorize
   gitHubRedirectPath: /auth/github.com
