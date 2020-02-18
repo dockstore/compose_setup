@@ -55,7 +55,6 @@ ZENODO_CLIENT_ID=''
 ZENODO_CLIENT_SECRET=''
 ZENODO_URL=''
 FEATURED_CONTENT_URL=''
-GALAXY_PLUGIN_VERSION=''
 
 function template()
 {
@@ -108,6 +107,21 @@ function ask_question()
     done
     # Set the user's value in the reference. See here: http://stackoverflow.com/a/14852461/192801 to get an idea of how this works.
     eval "${!4}=\"${answer}\""
+}
+
+function ask_galaxy_version()
+{
+    question_str=$1
+    val_name=$2
+    answer=''
+
+    read -ep "$question_str"$'\n' answer
+    eval "${!3}=\"${answer}\""
+}
+
+function download_galaxy()
+{
+
 }
 
 user_dockstore_version=latest
@@ -203,6 +217,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
     if [ "${run_dockstore_launcher^^}" = 'Y' ] ; then
 	production='production'
 	ask_question "Are you deploying on production (true or false)?" "$PRODUCTION" "Dockstore version" $production
+	    ask_galaxy_version "What version of galaxy would you like to use?" $galaxy_plugin_version
         dockstore_version='dockstore_version'
         ask_question "What version of Dockstore do you wish to deploy?" "$DOCKSTORE_VERSION" "Dockstore version" $dockstore_version
 
@@ -297,8 +312,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         database_generated='database_generated'
         ask_question "Do you want to run migration assuming a generated database as opposed to a production DB (true or false)?" "$DATABASE_GENERATED" "database_generated" $database_generated
 
-        galaxy_plugin_version='galaxy_plugin_version'
-        ask_question "What version of galaxy do you want to use? Latest is 0.0.2" "$GALAXY_PLUGIN_VERSION" "galaxy_plugin_version" $galaxy_plugin_version
+        # galaxy_plugin_version='galaxy_plugin_version'
+        # ask_question "What version of galaxy do you want to use? If none, leave blank" "$GALAXY_PLUGIN_VERSION" "galaxy_plugin_version" $galaxy_plugin_version
 
         # Now write a config for this file.
         [[ -f dockstore_launcher_config/compose.config ]] || mkdir -p dockstore_launcher_config
@@ -345,7 +360,6 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "ZENODO_CLIENT_SECRET":"${zenodo_client_secret}",
 "ZENODO_URL":"${zenodo_url}",
 "SLACK_URL":"${slack_url}"
-"GALAXY_PLUGIN_VERSION":"${galaxy_plugin_version}"
 }
 CONFIG
     elif [ "${run_dockstore_launcher^^}" = 'N' ] ; then
@@ -355,6 +369,8 @@ CONFIG
 done
 
 template
+
+# download_galaxy
 
 docker-compose build
 
