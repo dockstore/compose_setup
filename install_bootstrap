@@ -112,16 +112,22 @@ function ask_question()
 function ask_galaxy_version()
 {
     question_str=$1
-    val_name=$2
     answer=''
 
     read -ep "$question_str"$'\n' answer
-    eval "${!3}=\"${answer}\""
+    eval "${!2}=\"${answer}\""
 }
 
 function download_galaxy()
 {
-
+    if [[ -n ${answer// /} ]]
+    then
+        FILE=../language-plugins/dockstore-galaxy-interface-${answer// /}.jar
+        if [[ ! -f "$FILE" ]]
+        then
+        	wget -nc -P ../language-plugins/ https://artifacts.oicr.on.ca/artifactory/collab-release/com/github/galaxyproject/dockstore-galaxy-interface/dockstore-galaxy-interface/${answer// /}/dockstore-galaxy-interface-${answer// /}.jar
+        fi
+    fi
 }
 
 user_dockstore_version=latest
@@ -217,7 +223,11 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
     if [ "${run_dockstore_launcher^^}" = 'Y' ] ; then
 	production='production'
 	ask_question "Are you deploying on production (true or false)?" "$PRODUCTION" "Dockstore version" $production
-	    ask_galaxy_version "What version of galaxy would you like to use?" $galaxy_plugin_version
+
+	galaxy_plugin_version='galaxy_plugin_version'
+	ask_galaxy_version "What version of galaxy would you like to use? Latest is 0.0.2. Leave blank if you don't want to use a version" $galaxy_plugin_version
+	download_galaxy
+
         dockstore_version='dockstore_version'
         ask_question "What version of Dockstore do you wish to deploy?" "$DOCKSTORE_VERSION" "Dockstore version" $dockstore_version
 
