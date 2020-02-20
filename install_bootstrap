@@ -55,6 +55,7 @@ ZENODO_CLIENT_ID=''
 ZENODO_CLIENT_SECRET=''
 ZENODO_URL=''
 FEATURED_CONTENT_URL=''
+GALAXY_PLUGIN_VERSION=''
 
 function template()
 {
@@ -109,25 +110,38 @@ function ask_question()
     eval "${!4}=\"${answer}\""
 }
 
+# Make more generic
+# Store previous answer in config
+# Only have one version at a time
 function ask_galaxy_version()
 {
     question_str=$1
+    prev_val=$2
     answer=''
 
-    read -ep "$question_str"$'\n' answer
-    eval "${!2}=\"${answer}\""
+    if [[ -n $prev_val ]] ; then
+        read -ep "${question_str} Previous value: "$'\n' -i "$prev_val" answer
+    else
+        read -ep "$question_str"$'\n' answer
+
+    if [[ -z ${answer// /} ]] ; then
+        answer="NONE"
+    eval "${!3}=\"${answer}\""
+    echo
 }
 
 function download_galaxy()
 {
-    if [[ -n ${answer// /} ]]
+    find ../language-plugins -regextype posix-extended -regex '.*dockstore-galaxy-interface.*' -delete
+    if [[ ${GALAXY_PLUGIN_VERSION} != 'NONE']]
     then
-        FILE=../language-plugins/dockstore-galaxy-interface-${answer// /}.jar
-        if [[ ! -f "$FILE" ]]
-        then
-        	wget -nc -P ../language-plugins/ https://artifacts.oicr.on.ca/artifactory/collab-release/com/github/galaxyproject/dockstore-galaxy-interface/dockstore-galaxy-interface/${answer// /}/dockstore-galaxy-interface-${answer// /}.jar
-        fi
+        wget -nc -P ../language-plugins/ https://artifacts.oicr.on.ca/artifactory/collab-release/com/github/galaxyproject/dockstore-galaxy-interface/dockstore-galaxy-interface/${GALAXY_PLUGIN_VERSION}/dockstore-galaxy-interface-${GALAXY_PLUGIN_VERSION}.jar
     fi
+}
+
+function download_language_plugin()
+{
+
 }
 
 user_dockstore_version=latest
@@ -224,9 +238,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 	production='production'
 	ask_question "Are you deploying on production (true or false)?" "$PRODUCTION" "Dockstore version" $production
 
-	galaxy_plugin_version='galaxy_plugin_version'
-	ask_galaxy_version "What version of galaxy would you like to use? Latest is 0.0.2. Leave blank if you don't want to use a version" $galaxy_plugin_version
-	download_galaxy
+        galaxy_plugin_version='galaxy_plugin_version'
+        ask_galaxy_version "What version of galaxy would you like to use? See list of versions availabe here https://artifacts.oicr.on.ca/artifactory/collab-release/com/github/galaxyproject/dockstore-galaxy-interface/dockstore-galaxy-interface/ Latest is 0.0.2. Leave blank if you don't want to use a version" $GALAXY_PLUGIN_VERSION $galaxy_plugin_version
+        download_galaxy
 
         dockstore_version='dockstore_version'
         ask_question "What version of Dockstore do you wish to deploy?" "$DOCKSTORE_VERSION" "Dockstore version" $dockstore_version
@@ -370,6 +384,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "ZENODO_CLIENT_SECRET":"${zenodo_client_secret}",
 "ZENODO_URL":"${zenodo_url}",
 "SLACK_URL":"${slack_url}"
+"GALAXY_PLUGIN_VERSION":"${galaxy_plugin_version}"
 }
 CONFIG
     elif [ "${run_dockstore_launcher^^}" = 'N' ] ; then
