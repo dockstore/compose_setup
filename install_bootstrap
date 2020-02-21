@@ -134,6 +134,7 @@ function ask_optional_question()
 # Delete any galaxy plugin versions already in folder and download if a version has been specified.
 function download_galaxy()
 {
+    mkdir ../language-plugins
     find ../language-plugins -regextype posix-extended -regex '.*dockstore-galaxy-interface.*' -delete
     if [ "$GALAXY_PLUGIN_VERSION" != 'NONE' ]
     then
