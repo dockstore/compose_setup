@@ -110,9 +110,10 @@ function ask_question()
     eval "${!4}=\"${answer}\""
 }
 
-# Make more generic
-# Store previous answer in config
-# Only have one version at a time
+# Ask user a question that they can leave blank. If blank, save as NONE in config.
+# $1 - the question string
+# $2 - the previous value
+# $3 - reference to the user's answer
 function ask_optional_question()
 {
     question_str=$1
@@ -130,6 +131,7 @@ function ask_optional_question()
     eval "${!3}=\"${answer}\""
 }
 
+# Delete any galaxy plugin versions already in folder and download if a version has been specified.
 function download_galaxy()
 {
     find ../language-plugins -regextype posix-extended -regex '.*dockstore-galaxy-interface.*' -delete
@@ -234,7 +236,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 	ask_question "Are you deploying on production (true or false)?" "$PRODUCTION" "Dockstore version" $production
 
         galaxy_plugin_version='galaxy_plugin_version'
-        ask_optional_question "What version of galaxy would you like to use? See list of versions availabe here https://artifacts.oicr.on.ca/artifactory/collab-release/com/github/galaxyproject/dockstore-galaxy-interface/dockstore-galaxy-interface/ Latest is 0.0.2. Leave blank or type NONE if you don't want to use a version." "$GALAXY_PLUGIN_VERSION" $galaxy_plugin_version
+        ask_optional_question "What version of galaxy would you like to use? See list of versions availabe here https://artifacts.oicr.on.ca/artifactory/collab-release/com/github/galaxyproject/dockstore-galaxy-interface/dockstore-galaxy-interface/ Latest is 0.0.2. Leave blank or as NONE if you don't want to use a version." "$GALAXY_PLUGIN_VERSION" $galaxy_plugin_version
 
         dockstore_version='dockstore_version'
         ask_question "What version of Dockstore do you wish to deploy?" "$DOCKSTORE_VERSION" "Dockstore version" $dockstore_version
@@ -389,6 +391,8 @@ CONFIG
 done
 
 template
+
+download_galaxy
 
 docker-compose build
 
