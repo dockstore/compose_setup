@@ -113,35 +113,30 @@ function ask_question()
 # Make more generic
 # Store previous answer in config
 # Only have one version at a time
-function ask_galaxy_version()
+function ask_optional_question()
 {
     question_str=$1
     prev_val=$2
     answer=''
-
     if [[ -n $prev_val ]] ; then
         read -ep "${question_str} Previous value: "$'\n' -i "$prev_val" answer
     else
         read -ep "$question_str"$'\n' answer
+    fi
 
     if [[ -z ${answer// /} ]] ; then
         answer="NONE"
+    fi
     eval "${!3}=\"${answer}\""
-    echo
 }
 
 function download_galaxy()
 {
     find ../language-plugins -regextype posix-extended -regex '.*dockstore-galaxy-interface.*' -delete
-    if [[ ${GALAXY_PLUGIN_VERSION} != 'NONE']]
+    if [ "$galaxy_plugin_version" != 'NONE' ]
     then
-        wget -nc -P ../language-plugins/ https://artifacts.oicr.on.ca/artifactory/collab-release/com/github/galaxyproject/dockstore-galaxy-interface/dockstore-galaxy-interface/${GALAXY_PLUGIN_VERSION}/dockstore-galaxy-interface-${GALAXY_PLUGIN_VERSION}.jar
+	wget -nc -P ../language-plugins/ https://artifacts.oicr.on.ca/artifactory/collab-release/com/github/galaxyproject/dockstore-galaxy-interface/dockstore-galaxy-interface/${galaxy_plugin_version}/dockstore-galaxy-interface-${galaxy_plugin_version}.jar
     fi
-}
-
-function download_language_plugin()
-{
-
 }
 
 user_dockstore_version=latest
@@ -239,8 +234,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 	ask_question "Are you deploying on production (true or false)?" "$PRODUCTION" "Dockstore version" $production
 
         galaxy_plugin_version='galaxy_plugin_version'
-        ask_galaxy_version "What version of galaxy would you like to use? See list of versions availabe here https://artifacts.oicr.on.ca/artifactory/collab-release/com/github/galaxyproject/dockstore-galaxy-interface/dockstore-galaxy-interface/ Latest is 0.0.2. Leave blank if you don't want to use a version" $GALAXY_PLUGIN_VERSION $galaxy_plugin_version
-        download_galaxy
+        ask_optional_question "What version of galaxy would you like to use? See list of versions availabe here https://artifacts.oicr.on.ca/artifactory/collab-release/com/github/galaxyproject/dockstore-galaxy-interface/dockstore-galaxy-interface/ Latest is 0.0.2. Leave blank if you don't want to use a version" "$GALAXY_PLUGIN_VERSION" $galaxy_plugin_version
 
         dockstore_version='dockstore_version'
         ask_question "What version of Dockstore do you wish to deploy?" "$DOCKSTORE_VERSION" "Dockstore version" $dockstore_version
@@ -327,6 +321,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         external_google_client_prefix1='external_google_client_prefix1'
         ask_question "What are the prefixes for google tokens we should accept?" "$EXTERNAL_GOOGLE_CLIENT_PREFIX1" "external_google_client_prefix1" $external_google_client_prefix1
 
+
         sam_path='sam_path'
         ask_question "What is the path for the sam instance you wish to point at?" "$SAM_PATH" "sam_path" $sam_path
 
@@ -383,7 +378,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "ZENODO_CLIENT_ID":"${zenodo_client_id}",
 "ZENODO_CLIENT_SECRET":"${zenodo_client_secret}",
 "ZENODO_URL":"${zenodo_url}",
-"SLACK_URL":"${slack_url}"
+"SLACK_URL":"${slack_url}",
 "GALAXY_PLUGIN_VERSION":"${galaxy_plugin_version}"
 }
 CONFIG
@@ -394,8 +389,6 @@ CONFIG
 done
 
 template
-
-# download_galaxy
 
 docker-compose build
 
