@@ -334,9 +334,6 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         database_generated='database_generated'
         ask_question "Do you want to run migration assuming a generated database as opposed to a production DB (true or false)?" "$DATABASE_GENERATED" "database_generated" $database_generated
 
-        # galaxy_plugin_version='galaxy_plugin_version'
-        # ask_question "What version of galaxy do you want to use? If none, leave blank" "$GALAXY_PLUGIN_VERSION" "galaxy_plugin_version" $galaxy_plugin_version
-
         # Now write a config for this file.
         [[ -f dockstore_launcher_config/compose.config ]] || mkdir -p dockstore_launcher_config
                # Note: You can't have ANY blank lines in .dockstore/dockstore.config because the python library that will eventually process it does not like blank lines and will fail.
