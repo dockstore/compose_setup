@@ -57,6 +57,7 @@ ZENODO_CLIENT_ID=''
 ZENODO_CLIENT_SECRET=''
 ZENODO_URL=''
 FEATURED_CONTENT_URL=''
+GALAXY_PLUGIN_VERSION=''
 
 function template()
 {
@@ -109,6 +110,48 @@ function ask_question()
     done
     # Set the user's value in the reference. See here: http://stackoverflow.com/a/14852461/192801 to get an idea of how this works.
     eval "${!4}=\"${answer}\""
+}
+
+# Ask user a question that they can leave blank. If blank, save as NONE in config.
+# $1 - the question string
+# $2 - the previous value
+# $3 - reference to the user's answer
+function ask_optional_question()
+{
+    question_str=$1
+    prev_val=$2
+    answer=''
+    if [[ -n $prev_val ]] ; then
+        read -ep "${question_str} Previous value: "$'\n' -i "$prev_val" answer
+    else
+        read -ep "$question_str"$'\n' answer
+    fi
+
+    if [[ -z ${answer// /} ]] ; then
+        answer=""
+    fi
+    eval "${!3}=\"${answer}\""
+}
+
+# Delete any galaxy plugin versions already in folder and download if a version has been specified.
+# Pass in command line arguments $* when called and check if --script was used
+function download_galaxy()
+{
+    if [ ! -d "../language-plugins" ] ; then
+        mkdir ../language-plugins
+    fi
+
+    find ../language-plugins -regextype posix-extended -regex '.*dockstore-galaxy-interface.*' -delete
+
+    if [[ "$#" == 1 ]] && [[ "$*" == "--script" ]] ; then
+        if [ ! -z "$GALAXY_PLUGIN_VERSION" ] ; then
+            wget -nc -P ../language-plugins/ https://artifacts.oicr.on.ca/artifactory/collab-release/com/github/galaxyproject/dockstore-galaxy-interface/dockstore-galaxy-interface/${GALAXY_PLUGIN_VERSION}/dockstore-galaxy-interface-${GALAXY_PLUGIN_VERSION}.jar
+        fi
+    else
+        if [ ! -z "$galaxy_plugin_version" ] ; then
+	        wget -nc -P ../language-plugins/ https://artifacts.oicr.on.ca/artifactory/collab-release/com/github/galaxyproject/dockstore-galaxy-interface/dockstore-galaxy-interface/${galaxy_plugin_version}/dockstore-galaxy-interface-${galaxy_plugin_version}.jar
+        fi
+    fi
 }
 
 user_dockstore_version=latest
@@ -204,6 +247,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
     if [ "${run_dockstore_launcher^^}" = 'Y' ] ; then
 	production='production'
 	ask_question "Are you deploying on production (true or false)?" "$PRODUCTION" "Dockstore version" $production
+        galaxy_plugin_version='galaxy_plugin_version'
+        ask_optional_question "What version of galaxy would you like to use? See list of versions availabe here https://artifacts.oicr.on.ca/artifactory/collab-release/com/github/galaxyproject/dockstore-galaxy-interface/dockstore-galaxy-interface/ Latest is 0.0.2. Leave blank if you don't want to use a version." "$GALAXY_PLUGIN_VERSION" $galaxy_plugin_version
+
         dockstore_version='dockstore_version'
         ask_question "What version of Dockstore do you wish to deploy?" "$DOCKSTORE_VERSION" "Dockstore version" $dockstore_version
 
@@ -295,6 +341,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         external_google_client_prefix1='external_google_client_prefix1'
         ask_question "What are the prefixes for google tokens we should accept?" "$EXTERNAL_GOOGLE_CLIENT_PREFIX1" "external_google_client_prefix1" $external_google_client_prefix1
 
+
         sam_path='sam_path'
         ask_question "What is the path for the sam instance you wish to point at?" "$SAM_PATH" "sam_path" $sam_path
 
@@ -350,7 +397,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "ZENODO_CLIENT_ID":"${zenodo_client_id}",
 "ZENODO_CLIENT_SECRET":"${zenodo_client_secret}",
 "ZENODO_URL":"${zenodo_url}",
-"SLACK_URL":"${slack_url}"
+"SLACK_URL":"${slack_url}",
+"GALAXY_PLUGIN_VERSION":"${galaxy_plugin_version}"
 }
 CONFIG
     elif [ "${run_dockstore_launcher^^}" = 'N' ] ; then
@@ -360,6 +408,8 @@ CONFIG
 done
 
 template
+
+download_galaxy "$*"
 
 docker-compose build
 
