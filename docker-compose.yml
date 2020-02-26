@@ -2,12 +2,14 @@ version: '2'
 
 services:
   postgres:
-    image: postgres:10.10
+    image: postgres:11.6
     restart: always
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
     expose: 
       - "5432"
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
     logging:
       driver: "awslogs"
       options:
