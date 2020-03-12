@@ -165,7 +165,7 @@ uiConfig:
 
   orcidAuthUrl: {{ ORCID_URL }}/oauth/authorize
   orcidRedirectPath: /auth/orcid.org
-  orcidScope: /autorize
+  orcidScope: /authorize
 
   documentationUrl: {{ DOCUMENTATION_URL }}
   featuredContentUrl: {{ FEATURED_CONTENT_URL }}
