@@ -163,7 +163,7 @@ uiConfig:
   zenodoRedirectPath: /auth/zenodo.org
   zenodoScope: deposit:write deposit:actions
 
-  orcIdAuthUrl: {{ ORCID_URL }}/oauth/authorize
+  orcidAuthUrl: {{ ORCID_URL }}/oauth/authorize
   orcidRedirectPath: /auth/orcid.org
   orcidScope: /autorize
 
