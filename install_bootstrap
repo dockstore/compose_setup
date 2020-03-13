@@ -18,46 +18,49 @@ DOCKSTORE INSTALLATION BOOTSTRAPPER
 MSG
 
 run_dockstore_launcher=''
-PUBLIC_LAUNCHER_IP_ADDRESS=''
-PRODUCTION=''
-DOCKSTORE_VERSION=''
-UI2_HASH=''
-GITHUB_CLIENT2_ID=''
-GITHUB_CLIENT2_SECRET=''
-QUAY_CLIENT_ID=''
-QUAY_CLIENT_SECRET=''
+AUTHORIZER_TYPE=''
+BD_CATALYST_SEVEN_BRIDGES_IMPORT_URL=''
+BD_CATALYST_TERRA_IMPORT_URL=''
 BITBUCKET_CLIENT_ID=''
 BITBUCKET_CLIENT_SECRET=''
-DOMAIN_NAME=''
-HTTPS=''
-DISCOURSE_URL=''
-DISCOURSE_KEY=''
+DATABASE_GENERATED=''
 DISCOURSE_CATEGORY_ID=''
+DISCOURSE_KEY=''
+DISCOURSE_URL=''
+DOCKSTORE_VERSION=''
 DOCUMENTATION_URL=''
-GITHUB_APP_PRIVATE_KEY_FILE=''
+DOMAIN_NAME=''
+EXTERNAL_GOOGLE_CLIENT_PREFIX1=''
+FEATURED_CONTENT_URL=''
+GALAXY_PLUGIN_VERSION=''
 GITHUB_APP_ID=''
 GITHUB_APP_NAME=''
-TAG_MANAGER_ID=''
+GITHUB_APP_PRIVATE_KEY_FILE=''
+GITHUB_CLIENT2_ID=''
+GITHUB_CLIENT2_SECRET=''
 GITLAB_CLIENT_ID=''
 GITLAB_CLIENT_SECRET=''
 GOOGLE_CLIENT_ID=''
 GOOGLE_CLIENT_SECRET=''
+HTTPS=''
 LOGSTASH=''
 LOGSTASH_HOST=''
-TERRA_IMPORT_URL=''
-BD_CATALYST_SEVEN_BRIDGES_IMPORT_URL=''
-BD_CATALYST_TERRA_IMPORT_URL=''
-AUTHORIZER_TYPE=''
-EXTERNAL_GOOGLE_CLIENT_PREFIX1=''
+ORCID_CLIENT_ID=''
+ORCID_CLIENT_SECRET=''
+ORCID_URL=''
+PRODUCTION=''
+PUBLIC_LAUNCHER_IP_ADDRESS=''
+QUAY_CLIENT_ID=''
+QUAY_CLIENT_SECRET=''
 SAM_PATH=''
-DATABASE_GENERATED=''
 SLACK_URL=''
+TAG_MANAGER_ID=''
+TERRA_IMPORT_URL=''
 TOOLTESTER_BUCKET_NAME=''
+UI2_HASH=''
 ZENODO_CLIENT_ID=''
 ZENODO_CLIENT_SECRET=''
 ZENODO_URL=''
-FEATURED_CONTENT_URL=''
-GALAXY_PLUGIN_VERSION=''
 
 function template()
 {
@@ -306,6 +309,13 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         zenodo_url='zenodo_url'
 	    ask_question "What is the zenodo url (https://sandbox.zenodo.org for staging, https://zenodo.org for production)?" "$ZENODO_URL" "zenodo_url" $zenodo_url
 
+        orcid_client_id='orcid_client_id'
+        ask_question "What is your orcid client id?" "$ORCID_CLIENT_ID" "orcid_client_id" $orcid_client_id
+        orcid_client_secret='orcid_client_secret'
+        ask_question "What is your orcid client secret?" "$ORCID_CLIENT_SECRET" "orcid_client_secret" $orcid_client_secret
+        orcid_url='orcid_url'
+	    ask_question "What is the orcid url (https://sandbox.orcid.org for staging, https://orcid.org for production)?" "$ORCID_URL" "orcid_url" $orcid_url
+
         tooltester_bucket_name='tooltester_bucket_name'
         ask_question "What is the name of the bucket holding tooltester logs?" "$TOOLTESTER_BUCKET_NAME" "tooltester_bucket_name" $tooltester_bucket_name
 
@@ -394,6 +404,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "EXTERNAL_GOOGLE_CLIENT_PREFIX1":"${external_google_client_prefix1}",
 "SAM_PATH":"${sam_path}",
 "DATABASE_GENERATED":${database_generated},
+"ORCID_CLIENT_ID":${orcid_client_id},
+"ORCID_CLIENT_SECRET":${orcid_client_secret},
+"ORCID_URL":${orcid_url},
 "ZENODO_CLIENT_ID":"${zenodo_client_id}",
 "ZENODO_CLIENT_SECRET":"${zenodo_client_secret}",
 "ZENODO_URL":"${zenodo_url}",

@@ -26,6 +26,9 @@ zenodoClientSecret: {{ ZENODO_CLIENT_SECRET }}
 zenodoRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}/auth/zenodo.org
 zenodoUrl: {{ ZENODO_URL }}
 
+orcidClientID: {{ ORCID_CLIENT_ID }}
+orcidClientSecret: {{ ORCID_CLIENT_SECRET }}
+
 gitHubAppPrivateKeyFile: /home/dockstore_github_app_private_key.pem
 gitHubAppId: {{ GITHUB_APP_ID }}
 
@@ -159,6 +162,10 @@ uiConfig:
   zenodoAuthUrl: {{ ZENODO_URL }}/oauth/authorize
   zenodoRedirectPath: /auth/zenodo.org
   zenodoScope: deposit:write deposit:actions
+
+  orcidAuthUrl: {{ ORCID_URL }}/oauth/authorize
+  orcidRedirectPath: /auth/orcid.org
+  orcidScope: /authorize
 
   documentationUrl: {{ DOCUMENTATION_URL }}
   featuredContentUrl: {{ FEATURED_CONTENT_URL }}
