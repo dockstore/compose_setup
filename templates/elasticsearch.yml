@@ -1,4 +1,6 @@
 http.host: 0.0.0.0
+#default is 100mb
+http.max_content_length: 1000mb
 
 # Uncomment the following lines for a production cluster deployment
 #transport.host: 0.0.0.0
