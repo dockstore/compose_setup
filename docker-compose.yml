@@ -24,7 +24,7 @@ services:
       memlock:
         soft: -1
         hard: -1
-    mem_limit: 4g
+    mem_limit: 3g
     restart: always
     volumes:
       - esdata1:/usr/share/elasticsearch/data
