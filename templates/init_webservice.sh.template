@@ -3,4 +3,4 @@
 # Make the script's directory the working directory, which is also where the webservice JAR is.
 cd "$(dirname "$0")"
 
-java -jar dockstore-webservice-*.jar server web.yml | tee --append /dockstore_logs/webservice.out
+java -XX:MaxRAMPercentage=50.0 -jar dockstore-webservice-*.jar server web.yml | tee --append /dockstore_logs/webservice.out
