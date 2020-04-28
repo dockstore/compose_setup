@@ -109,7 +109,10 @@ database:
   maxSize: 32
 
   # whether or not idle connections should be validated
-  checkConnectionWhileIdle: false
+  checkConnectionWhileIdle: true
+  checkConnectionOnBorrow: true
+  checkConnectionOnConnect: true
+  checkConnectionOnReturn: true
 
   removeAbandoned: true
   abandonWhenPercentageFull: 80
