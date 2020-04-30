@@ -50,13 +50,12 @@ server {
 
     # used to redirect swagger.json as retrieved by swagger ui without changes
     location = /swagger.json {
-        #proxy_pass     http://webservice:8080/swagger.json;
         rewrite ^/(.*)$ http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME}}/api/swagger.json permanent;
     }
 
     # used when port 8443 was unreachable from google
     location = /sitemap.txt {
-        proxy_pass      http://$webservice:8080/metadata/sitemap;
+        proxy_pass     http://$webservice:8080/metadata/sitemap;
     }
 
     location = /rss.xml {
