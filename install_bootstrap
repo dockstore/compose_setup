@@ -301,7 +301,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         ask_question "What is your Discourse category id (10 for staging, 11 for production)?" "$DISCOURSE_CATEGORY_ID" "discourse_category_id" $discourse_category_id
 
         featured_content_url='featured_content_url'
-        ask_question "What is your Featured Content URL (ex. https://s3.amazonaws.com/dockstore.featured.content.staging/develop/feat-content.html for staging, https://s3.amazonaws.com/dockstore.featured.content.staging/production/feat-content.html for production)?" "$FEATURED_CONTENT_URL" "featured_content_url" $featured_content_url
+        ask_question "What is your Featured Content URL (ex. https://s3.amazonaws.com/dockstore.featured.content/develop/feat-content.html for staging, https://s3.amazonaws.com/dockstore.featured.content/production/feat-content.html for production)?" "$FEATURED_CONTENT_URL" "featured_content_url" $featured_content_url
 
         zenodo_client_id='zenodo_client_id'
         ask_question "What is your zenodo client id?" "$ZENODO_CLIENT_ID" "zenodo_client_id" $zenodo_client_id
