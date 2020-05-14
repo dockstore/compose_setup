@@ -1,20 +1,6 @@
 version: '2'
 
 services:
-  postgres:
-    image: postgres:11.6
-    restart: always
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
-    logging:
-      driver: "awslogs"
-      options:
-        awslogs-group: ${LOG_GROUP_NAME}
-        awslogs-stream: "postgres"
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:5.6.3
@@ -43,8 +29,6 @@ services:
 
   migration: 
     image: quay.io/dockstore/dockstore-webservice:${DOCKSTORE_VERSION}
-    depends_on:
-      - postgres
     volumes:
       - log_volume:/dockstore_logs
       - ./config/web.yml:/home/web.yml
@@ -60,7 +44,6 @@ services:
     image: quay.io/dockstore/dockstore-webservice:${DOCKSTORE_VERSION}
     restart: always
     depends_on:
-      - postgres
       - elasticsearch
       - migration
     volumes:
@@ -103,7 +86,6 @@ services:
 #    restart: always
 #    depends_on:
 #      - webservice
-#      - postgres
 #    volumes:
 #      - /proc:/hostfs/proc:ro
 #      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
