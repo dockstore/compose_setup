@@ -84,10 +84,10 @@ database:
   driverClass: org.postgresql.Driver
 
   # the username
-  user: {{ DBUSER }}
+  user: dockstore
 
   # the password
-  password: {{ DBPASSWORD }}
+  password: {{ DOCKSTORE_DBPASSWORD }}
 
   # the JDBC URL
   url: jdbc:postgresql://{{ DATABASE_DOMAIN }}:5432/postgres

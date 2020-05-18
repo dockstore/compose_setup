@@ -25,11 +25,10 @@ BITBUCKET_CLIENT_ID=''
 BITBUCKET_CLIENT_SECRET=''
 DATABASE_DOMAIN=''
 DATABASE_GENERATED=''
-DBUSER=''
-DBPASSWORD=''
 DISCOURSE_CATEGORY_ID=''
 DISCOURSE_KEY=''
 DISCOURSE_URL=''
+DOCKSTORE_DBPASSWORD=''
 DOCKSTORE_VERSION=''
 DOCUMENTATION_URL=''
 DOMAIN_NAME=''
@@ -51,6 +50,7 @@ LOGSTASH_HOST=''
 ORCID_CLIENT_ID=''
 ORCID_CLIENT_SECRET=''
 ORCID_URL=''
+POSTGRES_DBPASSWORD=''
 PRODUCTION=''
 PUBLIC_LAUNCHER_IP_ADDRESS=''
 QUAY_CLIENT_ID=''
@@ -266,12 +266,11 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         database_domain='database_domain'
         ask_question "What is the domain of the Postgres instance? It is \"postgres\" if running as a container locally." "$DATABASE_DOMAIN" "database_domain" $database_domain
 
-        database_user='database_user'
-        ask_question "What is the database username?" "$DBUSER" "database_user" $database_user
+        postgres_database_password='postgres_database_password'
+        ask_question "What is the postgres user's database password?" "$POSTGRES_DBPASSWORD" "postgres_database_password" $postgres_database_password
 
-        database_password='database_password'
-        ask_question "What is the database password?" "$DBPASSWORD" "database_password" $database_password
-
+        dockstore_database_password='dockstore_database_password'
+        ask_question "What is the dockstore user's database password?" "$POSTGRES_DBPASSWORD" "dockstore_database_password" $dockstore_database_password
 
         github_client2_id='github_client2_id'
         ask_question "What is your github client id for UI2?" "$GITHUB_CLIENT2_ID" "Dockstore version" $github_client2_id
@@ -427,8 +426,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "SLACK_URL":"${slack_url}",
 "GALAXY_PLUGIN_VERSION":"${galaxy_plugin_version}",
 "DATABASE_DOMAIN":"${database_domain}",
-"DBUSER":"${database_user}",
-"DBPASSWORD":"${database_password}"
+"POSTGRES_DBPASSWORD":"${postgres_database_password}",
+"DOCKSTORE_DBPASSWORD":"${dockstore_database_password}"
 }
 CONFIG
     elif [ "${run_dockstore_launcher^^}" = 'N' ] ; then
