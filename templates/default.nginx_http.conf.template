@@ -19,7 +19,7 @@ access_log  off;
 server_tokens off;
 
 # Don't allow page to be rendered inside a frame or iframe
-add_header X-Frame-Options SAMEORIGIN;
+add_header X-Frame-Options DENY;
 
 # Enable cross-site scripting filter (XSS)
 # (handled by the browser; usually enabled by default,
