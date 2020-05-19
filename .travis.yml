@@ -2,6 +2,11 @@ sudo: required
 services:
 - docker
 
+addons:
+  apt:
+    packages:
+    - nginx
+
 before_install:
 - gem install mustache
 
@@ -10,3 +15,5 @@ language: bash
 install:
 - travis_wait 30 bash install_bootstrap --script
 - docker-compose version
+- sudo nginx -t -c config/default.nginx_http.conf
+- sudo nginx -t -c config/default.nginx_http.shared.conf
