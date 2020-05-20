@@ -15,5 +15,6 @@ language: bash
 install:
 - travis_wait 30 bash install_bootstrap --script
 - docker-compose version
-- sudo nginx -t -c $PWD/config/default.nginx_http.conf
-- sudo nginx -t -c $PWD/config/default.nginx_http.shared.conf
+# validate the nginx configuration files using nginx via docker
+- docker run -v $PWD/config/default.nginx_http.conf:/etc/nginx/conf.d/default.conf nginx:1.13.1 nginx -t -c /etc/nginx/nginx.conf
+- docker run -v $PWD/config/default.nginx_http.shared.conf:/etc/nginx/conf.d/default.conf nginx:1.13.1 nginx -t -c /etc/nginx/nginx.conf
