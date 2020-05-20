@@ -15,6 +15,9 @@ log_format  custom  '$http_x_forwarded_for - $remote_user [$time_local] "$reques
 # workaround for the way we're including conf https://serverfault.com/questions/729128/overriding-nginx-access-log-directive-duplicate-log-entries
 access_log  off;
 
+# Don't send nginx version number
+server_tokens off;
+
 # nginx caches ips on startup, so doesn't survive webservice restarts
 # https://www.nginx.com/blog/dns-service-discovery-nginx-plus/
 # https://stackoverflow.com/questions/46660436/nginx-does-not-automatically-pick-up-dns-changes-in-swarm/46664433#46664433
