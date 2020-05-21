@@ -26,7 +26,6 @@ add_header X-Frame-Options DENY;
 # this header will re-enable the filter if disabled by user.)
 add_header X-XSS-Protection "1; mode=block";
 
-
 # nginx caches ips on startup, so doesn't survive webservice restarts
 # https://www.nginx.com/blog/dns-service-discovery-nginx-plus/
 # https://stackoverflow.com/questions/46660436/nginx-does-not-automatically-pick-up-dns-changes-in-swarm/46664433#46664433
