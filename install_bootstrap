@@ -23,10 +23,12 @@ BD_CATALYST_SEVEN_BRIDGES_IMPORT_URL=''
 BD_CATALYST_TERRA_IMPORT_URL=''
 BITBUCKET_CLIENT_ID=''
 BITBUCKET_CLIENT_SECRET=''
+DATABASE_DOMAIN=''
 DATABASE_GENERATED=''
 DISCOURSE_CATEGORY_ID=''
 DISCOURSE_KEY=''
 DISCOURSE_URL=''
+DOCKSTORE_DBPASSWORD=''
 DOCKSTORE_VERSION=''
 DOCUMENTATION_URL=''
 DOMAIN_NAME=''
@@ -48,6 +50,7 @@ LOGSTASH_HOST=''
 ORCID_CLIENT_ID=''
 ORCID_CLIENT_SECRET=''
 ORCID_URL=''
+POSTGRES_DBPASSWORD=''
 PRODUCTION=''
 PUBLIC_LAUNCHER_IP_ADDRESS=''
 QUAY_CLIENT_ID=''
@@ -260,6 +263,15 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         ui2_hash='ui2_hash'
       	ask_question "What Dockstore UI 2 CDN hash do you want to use (ex: 2.4.0-beta.3-70bb93a )?" "$UI2_HASH" "Dockstore hash" $ui2_hash
 
+        database_domain='database_domain'
+        ask_question "What is the domain of the Postgres instance? It is \"postgres\" if running as a container locally." "$DATABASE_DOMAIN" "database_domain" $database_domain
+
+        postgres_database_password='postgres_database_password'
+        ask_question "What is the postgres user's database password?" "$POSTGRES_DBPASSWORD" "postgres_database_password" $postgres_database_password
+
+        dockstore_database_password='dockstore_database_password'
+        ask_question "What is the dockstore user's database password?" "$POSTGRES_DBPASSWORD" "dockstore_database_password" $dockstore_database_password
+
         github_client2_id='github_client2_id'
         ask_question "What is your github client id for UI2?" "$GITHUB_CLIENT2_ID" "Dockstore version" $github_client2_id
         github_client2_secret='github_client2_secret'
@@ -405,14 +417,17 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "EXTERNAL_GOOGLE_CLIENT_PREFIX1":"${external_google_client_prefix1}",
 "SAM_PATH":"${sam_path}",
 "DATABASE_GENERATED":${database_generated},
-"ORCID_CLIENT_ID":${orcid_client_id},
-"ORCID_CLIENT_SECRET":${orcid_client_secret},
-"ORCID_URL":${orcid_url},
+"ORCID_CLIENT_ID":"${orcid_client_id}",
+"ORCID_CLIENT_SECRET":"${orcid_client_secret}",
+"ORCID_URL":"${orcid_url}",
 "ZENODO_CLIENT_ID":"${zenodo_client_id}",
 "ZENODO_CLIENT_SECRET":"${zenodo_client_secret}",
 "ZENODO_URL":"${zenodo_url}",
 "SLACK_URL":"${slack_url}",
-"GALAXY_PLUGIN_VERSION":"${galaxy_plugin_version}"
+"GALAXY_PLUGIN_VERSION":"${galaxy_plugin_version}",
+"DATABASE_DOMAIN":"${database_domain}",
+"POSTGRES_DBPASSWORD":"${postgres_database_password}",
+"DOCKSTORE_DBPASSWORD":"${dockstore_database_password}"
 }
 CONFIG
     elif [ "${run_dockstore_launcher^^}" = 'N' ] ; then
