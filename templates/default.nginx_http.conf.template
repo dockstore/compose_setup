@@ -27,7 +27,7 @@ add_header X-Frame-Options DENY;
 add_header X-XSS-Protection "1; mode=block";
 
 # Explicitly list domains allowed to serve content for this site
-add_header Content-Security-Policy "default-src https: 'self' 'unsafe-inline' 'unsafe-eval' https://gui.dockstore.org https://fonts.googleapis.com; img-src 'self' https://gui.dockstore.org https://*.gravatar.com; object-src 'none';"
+add_header Content-Security-Policy "default-src https: 'self' 'unsafe-inline' 'unsafe-eval' https://gui.dockstore.org https://fonts.googleapis.com; img-src 'self' https://gui.dockstore.org https://*.gravatar.com; object-src 'none';";
 
 # nginx caches ips on startup, so doesn't survive webservice restarts
 # https://www.nginx.com/blog/dns-service-discovery-nginx-plus/
