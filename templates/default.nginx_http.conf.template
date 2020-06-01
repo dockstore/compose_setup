@@ -21,6 +21,10 @@ server_tokens off;
 # Don't allow page to be rendered inside a frame or iframe
 add_header X-Frame-Options DENY;
 
+# Certificate Transparency is a way of cross-referencing certificates with a log of all certificates issued,
+# to make sure they are authentic. This will become obsolete in June 2021.
+add_header Expect-CT 'enforce, max-age=604800';
+
 # Enable cross-site scripting filter (XSS)
 # (handled by the browser; usually enabled by default,
 # this header will re-enable the filter if disabled by user.)
