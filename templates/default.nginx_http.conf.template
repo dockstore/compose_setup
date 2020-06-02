@@ -37,7 +37,7 @@ add_header Content-Security-Policy-Report-Only "style-src 'report-sample' 'self'
 add_header Content-Security-Policy-Report-Only "connect-src 'self' https://s3.amazonaws.com https://api.github.com https://view.commonwl.org;";
 add_header Content-Security-Policy-Report-Only "font-src 'self' https://fonts.gstatic.com https://gui.dockstore.org;";
 add_header Content-Security-Policy-Report-Only "frame-src 'self' https://discuss.dockstore.org;";
-add_header Content-Security-Policy-Report-Only "img-src 'self' data: https://*.githubusercontent.com https://gui.dockstore.org https://i.imgur.com https://img.shields.io https://quay.io https://via.placeholder.com https://www.googletagmanager.com https://www.gravatar.com;";
+add_header Content-Security-Policy-Report-Only "img-src 'self' data: https://avatars0.githubusercontent.com https://avatars1.githubusercontent.com https://avatars3.githubusercontent.com https://camo.githubusercontent.com https://gui.dockstore.org https://i.imgur.com https://img.shields.io https://quay.io https://via.placeholder.com https://www.googletagmanager.com https://www.gravatar.com;";
 
 # nginx caches ips on startup, so doesn't survive webservice restarts
 # https://www.nginx.com/blog/dns-service-discovery-nginx-plus/
