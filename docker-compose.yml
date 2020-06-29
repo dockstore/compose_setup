@@ -1,18 +1,6 @@
 version: '2'
 
 services:
-  postgres:
-    image: postgres:10.10
-    restart: always
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data
-    expose: 
-      - "5432"
-    logging:
-      driver: "awslogs"
-      options:
-        awslogs-group: ${LOG_GROUP_NAME}
-        awslogs-stream: "postgres"
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:5.6.3
@@ -40,15 +28,12 @@ services:
         awslogs-stream: "elasticsearch"
 
   migration: 
-    build:
-      context: .
-      dockerfile: config/Dockerfile_webservice
-    depends_on:
-      - postgres
+    image: quay.io/dockstore/dockstore-webservice:${DOCKSTORE_VERSION}
     volumes:
       - log_volume:/dockstore_logs
       - ./config/web.yml:/home/web.yml
-    command: ["dockerize", "-wait", "tcp://postgres:5432", "-timeout", "60s", "/home/init_migration.sh"]
+      - ./config/init_migration.sh:/home/init_migration.sh
+    command: ["bash", "/home/init_migration.sh"]
     logging:
       driver: "awslogs"
       options:
@@ -56,17 +41,18 @@ services:
         awslogs-stream: "migration"
 
   webservice: 
-    build:
-      context: .
-      dockerfile: config/Dockerfile_webservice
+    image: quay.io/dockstore/dockstore-webservice:${DOCKSTORE_VERSION}
     restart: always
     depends_on:
-      - postgres
       - elasticsearch
       - migration
     volumes:
       - log_volume:/dockstore_logs
       - ./config/web.yml:/home/web.yml
+      - ./config/init_webservice.sh:/home/init_webservice.sh
+      - ${GITHUB_APP_PRIVATE_KEY_FILE}:/home/dockstore_github_app_private_key.pem
+      - ../language-plugins/:/root/.dockstore/language-plugins
+    command: ["bash", "/home/init_webservice.sh"]
     expose:
       - "8081"
     logging:
@@ -100,7 +86,6 @@ services:
 #    restart: always
 #    depends_on:
 #      - webservice
-#      - postgres
 #    volumes:
 #      - /proc:/hostfs/proc:ro
 #      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
