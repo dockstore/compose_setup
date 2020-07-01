@@ -73,6 +73,7 @@ services:
     volumes:
       - ./config/default.nginx_http.conf:/etc/nginx/conf.d/default.conf:ro
       - ./config/default.nginx_http.shared.conf:/etc/nginx/conf.d/default.nginx_http.shared.conf:ro
+      - ./config/default.nginx_http.security.conf:/etc/nginx/conf.d/default.nginx_http.security.conf:ro
     logging:
       driver: "awslogs"
       options:
