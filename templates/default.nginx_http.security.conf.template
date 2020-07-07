@@ -1,0 +1,24 @@
+# Don't send nginx version number
+server_tokens off;
+
+# Don't allow page to be rendered inside a frame or iframe
+add_header X-Frame-Options DENY;
+
+# Certificate Transparency is a way of cross-referencing certificates with a log of all certificates issued,
+# to make sure they are authentic. This will become obsolete in June 2021.
+add_header Expect-CT 'enforce, max-age=604800';
+
+# Enable cross-site scripting filter (XSS)
+# (handled by the browser; usually enabled by default,
+# this header will re-enable the filter if disabled by user.)
+add_header X-XSS-Protection "1; mode=block";
+
+# Explicitly list domains allowed to serve content for this site
+add_header Content-Security-Policy-Report-Only "report-uri https://dockstore-security.org/csp-report;";
+add_header Content-Security-Policy-Report-Only "default-src 'self'; object-src 'none'; base-uri 'self'; manifest-src 'self'; media-src 'self'; worker-src 'none';";
+add_header Content-Security-Policy-Report-Only "script-src 'report-sample' 'self' https://discuss.dockstore.org https://gui.dockstore.org https://platform.twitter.com https://www.google-analytics.com https://www.googletagmanager.com;";
+add_header Content-Security-Policy-Report-Only "style-src 'report-sample' 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com https://gui.dockstore.org;";
+add_header Content-Security-Policy-Report-Only "connect-src 'self' https://s3.amazonaws.com https://api.github.com https://view.commonwl.org;";
+add_header Content-Security-Policy-Report-Only "font-src 'self' https://fonts.gstatic.com https://gui.dockstore.org;";
+add_header Content-Security-Policy-Report-Only "frame-src 'self' https://discuss.dockstore.org;";
+add_header Content-Security-Policy-Report-Only "img-src 'self' data: https://avatars0.githubusercontent.com https://avatars1.githubusercontent.com https://avatars3.githubusercontent.com https://camo.githubusercontent.com https://gui.dockstore.org https://i.imgur.com https://img.shields.io https://quay.io https://via.placeholder.com https://www.googletagmanager.com https://www.gravatar.com;";
