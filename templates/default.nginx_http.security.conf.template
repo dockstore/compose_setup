@@ -13,6 +13,10 @@ add_header Expect-CT 'enforce, max-age=604800';
 # this header will re-enable the filter if disabled by user.)
 add_header X-XSS-Protection "1; mode=block";
 
+# Enable a referrer policy that protects users' privacy while still enabling
+# Dockstore to see how users interact with the site.
+add_header Referrer-Policy "same-origin";
+
 # Explicitly list domains allowed to serve content for this site
 add_header Content-Security-Policy-Report-Only "report-uri https://api.dockstore-security.org/csp-report;";
 add_header Content-Security-Policy-Report-Only "default-src 'self'; object-src 'none'; base-uri 'self'; manifest-src 'self'; media-src 'self'; worker-src 'none';";
