@@ -181,3 +181,6 @@ uiConfig:
 
   documentationUrl: {{ DOCUMENTATION_URL }}
   featuredContentUrl: {{ FEATURED_CONTENT_URL }}
+
+  composeSetupVersion: {{ COMPOSE_SETUP_VERSION }}
+  deployCommitId: {{ DEPLOY_COMMIT_ID }}
