@@ -26,7 +26,7 @@ BITBUCKET_CLIENT_SECRET=''
 COMPOSE_SETUP_VERSION=''
 DATABASE_DOMAIN=''
 DATABASE_GENERATED=''
-DEPLOY_COMMIT_ID=''
+DEPLOY_VERSION=''
 DISCOURSE_CATEGORY_ID=''
 DISCOURSE_KEY=''
 DISCOURSE_URL=''
@@ -321,8 +321,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         compose_setup_version='compose_setup_version'
         ask_question "What is the compose setup version (commit id or tag)?" "$COMPOSE_SETUP_VERSION" "compose_setup_version" $compose_setup_version
 
-        deploy_commit_id='deploy_commit_id'
-        ask_question "What is the commit id of the dockstore-deploy repo?" "$DEPLOY_COMMIT_ID" "deploy_commit_id" $deploy_commit_id
+        deploy_version='deploy_version'
+        ask_question "What is the commit id of the dockstore-deploy repo?" "$DEPLOY_VERSION" "deploy_version" $deploy_version
 
         zenodo_client_id='zenodo_client_id'
         ask_question "What is your zenodo client id?" "$ZENODO_CLIENT_ID" "zenodo_client_id" $zenodo_client_id
@@ -404,7 +404,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "COMPOSE_SETUP_VERSION":"${compose_setup_version}",
 "DOMAIN_NAME":"${domain_name}",
 "HTTPS":${https},
-"DEPLOY_COMMIT_ID":"${deploy_commit_id}",
+"DEPLOY_VERSION":"${deploy_version}",
 "DISCOURSE_URL":"${discourse_url}",
 "DISCOURSE_KEY":"${discourse_key}",
 "DISCOURSE_CATEGORY_ID":"${discourse_category_id}",

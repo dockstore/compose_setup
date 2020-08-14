@@ -183,4 +183,4 @@ uiConfig:
   featuredContentUrl: {{ FEATURED_CONTENT_URL }}
 
   composeSetupVersion: {{ COMPOSE_SETUP_VERSION }}
-  deployCommitId: {{ DEPLOY_COMMIT_ID }}
+  deployVersion: {{ DEPLOY_VERSION }}
