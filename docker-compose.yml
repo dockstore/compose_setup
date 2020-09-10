@@ -53,8 +53,8 @@ services:
       - ${GITHUB_APP_PRIVATE_KEY_FILE}:/home/dockstore_github_app_private_key.pem
       - ../language-plugins/:/root/.dockstore/language-plugins
     command: ["bash", "/home/init_webservice.sh"]
-    expose:
-      - "8081"
+    ports:
+      - "8081:8081"
     logging:
       driver: "awslogs"
       options:
