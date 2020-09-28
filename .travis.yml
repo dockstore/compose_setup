@@ -9,7 +9,7 @@ addons:
 
 language: node_js
 node_js:
-  - "10"
+  - "10.13"
 
 before_install:
 - gem install mustache
