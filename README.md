@@ -2,7 +2,7 @@
 This project documents how to setup Dockstore staging and production using composed Docker containers. 
 Log issues and see general documentation at [dockstore](https://github.com/ga4gh/dockstore/issues) and [docs.dockstore.org](https://docs.dockstore.org/) respectively
 
-Ports 80 and 8443 are exposed over http. These ports should not be exposed to the public. A separately [configured load
+Port 80 is exposed over http. This port should not be exposed to the public. A separately [configured load
 balancer](https://github.com/dockstore/dockstore-deploy) is responsible for SSL termination and forwarding traffic to this instance. Previously this repo handled the SSL termination with nginx and LetsEncrypt.
 
 ## Prerequisities
@@ -10,7 +10,7 @@ balancer](https://github.com/dockstore/dockstore-deploy) is responsible for SSL 
 1. Tested on Ubuntu 16.04.3 LTS
 1. At least 20GB of disk space, 4GB of RAM, and two CPUs
 1. Docker setup following [https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) including the post-installation steps for running without sudo
-1. The running Dockstore website will require ports 80, 8443, and 443 by default
+1. The running Dockstore website will require ports 80 and 443 by default
 1. A client id and client secret for each of the integrations you wish to setup, github and quay.io as a minimum probably. You will need client ids and secrets for each integration as documented at the [Dockstore Primer](https://wiki.oicr.on.ca/display/SEQWARE/Dockstore+Primer#DockstorePrimer-SettingupDockstoreonyourcomputerfordevelopment(AssumingUbuntu)).
 
 ## Usage
