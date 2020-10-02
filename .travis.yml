@@ -7,10 +7,14 @@ addons:
     packages:
     - nginx
 
+language: node_js
+node_js:
+  - "12.18.1"
+
 before_install:
 - gem install mustache
-
-language: bash
+- npm install
+- npm run install-git-secrets
 
 install:
 - travis_wait 30 bash install_bootstrap --script

@@ -1,0 +1,19 @@
+{
+  "name": "compose_setup",
+  "version": "1.9.0",
+  "license": "Apache License 2.0",
+  "description": "This project documents how to setup Dockstore staging and production using composed Docker containers.  Log issues and see general documentation at [dockstore](https://github.com/ga4gh/dockstore/issues) and [docs.dockstore.org](https://docs.dockstore.org/) respectively",
+  "scripts": {
+    "install-git-secrets": "./scripts/install-git-secrets.sh"
+  },
+  "dependencies": {
+    "husky": "^3.0.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "git secrets --pre_commit_hook -- ${HUSKY_GIT_PARAMS}",
+      "commit-msg": "git secrets --commit_msg_hook -- ${HUSKY_GIT_PARAMS}",
+      "prepare-commit-msg": "git secrets --prepare_commit_msg_hook -- ${HUSKY_GIT_PARAMS}"
+    }
+  }
+}
