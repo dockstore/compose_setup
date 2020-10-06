@@ -22,3 +22,6 @@ add_header Content-Security-Policy-Report-Only "report-uri https://api.dockstore
 
 # Hide server header
 proxy_hide_header Server;
+
+# Protect against MIME sniffing
+add_header X-Content-Type-Options "nosniff";
