@@ -25,3 +25,5 @@ proxy_hide_header Server;
 
 # Protect against MIME sniffing
 add_header X-Content-Type-Options "nosniff";
+
+add_header Strict-Transport-Security $hsts_header;

@@ -7,6 +7,11 @@ map $sent_http_content_type $expires {
     application/octet-stream   604800;
     ~image/                    604800;
 }
+# Only set Strict-Transport-Security for https requests
+map $http_x_forwarded_proto $hsts_header {
+  default '';
+  https "max-age=31536000; includeSubDomains; preload;";
+}
 
 # https://aws.amazon.com/premiumsupport/knowledge-center/elb-capture-client-ip-addresses/
 log_format  custom  '$http_x_forwarded_for - $remote_user [$time_local] "$request" '
@@ -46,8 +51,6 @@ server {
     gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon application/javascript;
 
     expires $expires;
-
-    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
     # used to redirect swagger.json as retrieved by swagger ui without changes
     location = /swagger.json {
