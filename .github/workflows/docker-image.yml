@@ -3,11 +3,18 @@ name: Validate everything
 on: push
 
 jobs:
+  scan_secrets:
+   runs-on: ubuntu-latest
+   steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+       node-version: '12'
+    - run: npm install
+    - run: npm install-git-secrets
 
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - name: Set up Ruby 2.6
       uses: actions/setup-ruby@v1
