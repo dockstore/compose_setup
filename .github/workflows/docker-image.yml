@@ -11,7 +11,7 @@ jobs:
       with:
        node-version: '12'
     - run: npm install
-    - run: npm install-git-secrets
+    - run: npm run install-git-secrets
 
   build:
     runs-on: ubuntu-latest
