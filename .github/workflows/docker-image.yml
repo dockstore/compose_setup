@@ -18,10 +18,7 @@ jobs:
       with:
         ruby-version: 2.6
     - name: Build environment
-      run: |
-        gem install mustache
-        npm install
-        npm run install-git-secrets
+      run: gem install mustache
     - uses: actions/checkout@v2
     - name: Run script to generate templates
       run: bash install_bootstrap --script
