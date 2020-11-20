@@ -11,4 +11,3 @@ script.allowed_contexts: none
 rest.action.multi.allow_explicit_index: true
 # default off, not idea, but matches elastic search 5.
 xpack.security.enabled: false
-xpack.monitoring.enabled: false 
