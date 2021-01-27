@@ -96,7 +96,7 @@ database:
   user: dockstore
 
   # the password
-  password: {{ DOCKSTORE_DBPASSWORD }}
+  password: {{{ DOCKSTORE_DBPASSWORD }}}
 
   # the JDBC URL
   url: jdbc:postgresql://{{ DATABASE_DOMAIN }}:5432/postgres
