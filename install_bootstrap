@@ -34,6 +34,11 @@ DOCKSTORE_DBPASSWORD=''
 DOCKSTORE_VERSION=''
 DOCUMENTATION_URL=''
 DOMAIN_NAME=''
+ELASTICSEARCH_DOMAIN=''
+ELASTICSEARCH_PASSWORD=''
+ELASTICSEARCH_PORT=''
+ELASTICSEARCH_PROTOCOL=''
+ELASTICSEARCH_USER=''
 EXTERNAL_GOOGLE_CLIENT_PREFIX1=''
 FEATURED_CONTENT_URL=''
 GALAXY_PLUGIN_VERSION=''
@@ -315,6 +320,21 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         discourse_category_id='discourse_category_id'
         ask_question "What is your Discourse category id (10 for staging, 11 for production)?" "$DISCOURSE_CATEGORY_ID" "discourse_category_id" $discourse_category_id
 
+        elasticsearch_domain='elasticsearch_domain'
+        ask_question "What is the domain name of the elasticsearch server (can be an localhost for development)?" "$ELASTICSEARCH_DOMAIN" "Elasticsearch domain name" $elasticsearch_domain
+
+        elasticsearch_protocol='elasticsearch_protocol'
+        ask_question "What is the protocol of the elasticsearch server (http or https)?" "$ELASTICSEARCH_PROTOCOL" "Elasticsearch protocol" $elasticsearch_protocol
+
+        elasticsearch_port='elasticsearch_port'
+        ask_question "What is the port of the elasticsearch server (9200 for local dev, 443 for https)?" "$ELASTICSEARCH_PORT" "Elasticsearch port" $elasticsearch_port
+
+        elasticsearch_user='elasticsearch_user'
+        ask_question "What is the master user of the elasticsearch server?" "$ELASTICSEARCH_USER" "Elasticsearch user" $elasticsearch_user
+
+        elasticsearch_password='elasticsearch_password'
+        ask_question "What is the master user's password on the elasticsearch server?" "$ELASTICSEARCH_PASSWORD" "Elasticsearch password" $elasticsearch_password
+
         featured_content_url='featured_content_url'
         ask_question "What is your Featured Content URL (ex. https://s3.amazonaws.com/dockstore.featured.content/develop/feat-content.html for staging, https://s3.amazonaws.com/dockstore.featured.content/production/feat-content.html for production)?" "$FEATURED_CONTENT_URL" "featured_content_url" $featured_content_url
 
@@ -403,6 +423,11 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "BITBUCKET_CLIENT_SECRET":"${bitbucket_client_secret}",
 "COMPOSE_SETUP_VERSION":"${compose_setup_version}",
 "DOMAIN_NAME":"${domain_name}",
+"ELASTICSEARCH_DOMAIN"="${elasticsearch_domain}",
+"ELASTICSEARCH_PASSWORD"="${elasticsearch_password}",
+"ELASTICSEARCH_PORT"="${elasticsearch_port}",
+"ELASTICSEARCH_PROTOCOL"="${elasticsearch_protocol}",
+"ELASTICSEARCH_USER"="${elasticsearch_user}",
 "HTTPS":${https},
 "DEPLOY_VERSION":"${deploy_version}",
 "DISCOURSE_URL":"${discourse_url}",
