@@ -43,7 +43,7 @@ esconfiguration:
   hostname: {{ ELASTICSEARCH_DOMAIN }}
   protocol: {{ ELASTICSEARCH_PROTOCOL }}
   user: {{ ELASTICSEARCH_USER }}
-  password: {{ ELASTICSEARCH_PASSWORD }}
+  password: {{{ ELASTICSEARCH_PASSWORD }}}
 
 authorizerType: {{ AUTHORIZER_TYPE }}
 externalGoogleClientIdPrefixes:
