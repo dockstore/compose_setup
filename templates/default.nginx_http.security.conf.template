@@ -2,7 +2,7 @@
 server_tokens off;
 
 # Don't allow page to be rendered inside a frame or iframe
-add_header X-Frame-Options DENY;
+add_header X-Frame-Options DENY always;
 
 # Certificate Transparency is a way of cross-referencing certificates with a log of all certificates issued,
 # to make sure they are authentic. This will become obsolete in June 2021.
@@ -15,15 +15,15 @@ add_header X-XSS-Protection "1; mode=block" always;
 
 # Enable a referrer policy that protects users' privacy while still enabling
 # Dockstore to see how users interact with the site.
-add_header Referrer-Policy "same-origin";
+add_header Referrer-Policy "same-origin" always;
 
 # Explicitly list domains allowed to serve content for this site
-add_header Content-Security-Policy-Report-Only "report-uri https://api.dockstore-security.org/csp-report; default-src 'self'; object-src 'none'; base-uri 'self'; manifest-src 'self'; media-src 'self'; worker-src 'none'; script-src 'report-sample' 'self' 'unsafe-hashes' 'unsafe-inline' 'unsafe-eval' discuss.dockstore.org gui.dockstore.org *.twitter.com *.twimg.com www.google-analytics.com www.googletagmanager.com; style-src 'report-sample' 'self' 'unsafe-inline' cdnjs.cloudflare.com fonts.googleapis.com *.twitter.com *.twimg.com gui.dockstore.org; connect-src 'self' s3.amazonaws.com api.github.com view.commonwl.org www.google-analytics.com gui.dockstore.org; font-src 'self' fonts.gstatic.com gui.dockstore.org; frame-src 'self' discuss.dockstore.org platform.twitter.com; img-src data: 'self' avatars0.githubusercontent.com avatars1.githubusercontent.com avatars2.githubusercontent.com avatars3.githubusercontent.com camo.githubusercontent.com gui.dockstore.org i.imgur.com api.travis-ci.com img.shields.io quay.io via.placeholder.com *.wp.com *.googleusercontent.com www.googletagmanager.com www.google-analytics.com www.gravatar.com *.twitter.com *.twimg.com;";
+add_header Content-Security-Policy-Report-Only "report-uri https://api.dockstore-security.org/csp-report; default-src 'self'; object-src 'none'; base-uri 'self'; manifest-src 'self'; media-src 'self'; worker-src 'none'; script-src 'report-sample' 'self' 'unsafe-hashes' 'unsafe-inline' 'unsafe-eval' discuss.dockstore.org gui.dockstore.org *.twitter.com *.twimg.com www.google-analytics.com www.googletagmanager.com; style-src 'report-sample' 'self' 'unsafe-inline' cdnjs.cloudflare.com fonts.googleapis.com *.twitter.com *.twimg.com gui.dockstore.org; connect-src 'self' s3.amazonaws.com api.github.com view.commonwl.org www.google-analytics.com gui.dockstore.org; font-src 'self' fonts.gstatic.com gui.dockstore.org; frame-src 'self' discuss.dockstore.org platform.twitter.com; img-src data: 'self' avatars0.githubusercontent.com avatars1.githubusercontent.com avatars2.githubusercontent.com avatars3.githubusercontent.com camo.githubusercontent.com gui.dockstore.org i.imgur.com api.travis-ci.com img.shields.io quay.io via.placeholder.com *.wp.com *.googleusercontent.com www.googletagmanager.com www.google-analytics.com www.gravatar.com *.twitter.com *.twimg.com;" always;
 
 # Hide server header
 proxy_hide_header Server;
 
 # Protect against MIME sniffing
-add_header X-Content-Type-Options "nosniff";
+add_header X-Content-Type-Options "nosniff" always;
 
-add_header Strict-Transport-Security $hsts_header;
+add_header Strict-Transport-Security $hsts_header always;
