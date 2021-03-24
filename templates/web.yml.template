@@ -39,8 +39,11 @@ limitConfig:
   workflowVersionLimit: 50
 
 esconfiguration:
-  port: 9200
-  hostname: elasticsearch
+  port: {{ ELASTICSEARCH_PORT }}
+  hostname: {{ ELASTICSEARCH_DOMAIN }}
+  protocol: {{ ELASTICSEARCH_PROTOCOL }}
+  user: {{ ELASTICSEARCH_USER }}
+  password: {{{ ELASTICSEARCH_PASSWORD }}}
 
 authorizerType: {{ AUTHORIZER_TYPE }}
 externalGoogleClientIdPrefixes:
