@@ -180,7 +180,7 @@ uiConfig:
 
   orcidAuthUrl: {{ ORCID_URL }}/oauth/authorize
   orcidRedirectPath: /auth/orcid.org
-  orcidScope: /activities/update
+  orcidScope: {{ ORCID_SCOPE }}
 
   documentationUrl: {{ DOCUMENTATION_URL }}
   featuredContentUrl: {{ FEATURED_CONTENT_URL }}
