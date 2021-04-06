@@ -57,6 +57,7 @@ LOGSTASH_HOST=''
 ORCID_CLIENT_ID=''
 ORCID_CLIENT_SECRET=''
 ORCID_URL=''
+ORCID_SCOPE=''
 POSTGRES_DBPASSWORD=''
 PRODUCTION=''
 PUBLIC_LAUNCHER_IP_ADDRESS=''
@@ -357,6 +358,8 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         ask_question "What is your orcid client secret?" "$ORCID_CLIENT_SECRET" "orcid_client_secret" $orcid_client_secret
         orcid_url='orcid_url'
 	    ask_question "What is the orcid url (https://sandbox.orcid.org for staging, https://orcid.org for production)?" "$ORCID_URL" "orcid_url" $orcid_url
+        orcid_scope='orcid_scope'
+        ask_question "What is your orcid scope?" "$ORCID_SCOPE" "orcid_scope" $orcid_scope
 
         tooltester_bucket_name='tooltester_bucket_name'
         ask_question "What is the name of the bucket holding tooltester logs?" "$TOOLTESTER_BUCKET_NAME" "tooltester_bucket_name" $tooltester_bucket_name
@@ -456,6 +459,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "ORCID_CLIENT_ID":"${orcid_client_id}",
 "ORCID_CLIENT_SECRET":"${orcid_client_secret}",
 "ORCID_URL":"${orcid_url}",
+"ORCID_SCOPE": "${orcid_scope}",
 "ZENODO_CLIENT_ID":"${zenodo_client_id}",
 "ZENODO_CLIENT_SECRET":"${zenodo_client_secret}",
 "ZENODO_URL":"${zenodo_url}",
