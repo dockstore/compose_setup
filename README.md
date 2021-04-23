@@ -5,6 +5,8 @@ Log issues and see general documentation at [dockstore](https://github.com/ga4gh
 Port 80 is exposed over http. This port should not be exposed to the public. A separately [configured load
 balancer](https://github.com/dockstore/dockstore-deploy) is responsible for SSL termination and forwarding traffic to this instance. Previously this repo handled the SSL termination with nginx and LetsEncrypt.
 
+If you are looking for how to run Dockstore locally as a developer, you are probably in the wrong place and should take a look at https://github.com/dockstore/dockstore/blob/develop/docker-compose.yml
+
 ## Prerequisities
 
 1. Tested on Ubuntu 20.04
