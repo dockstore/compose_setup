@@ -340,7 +340,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         featured_content_url='featured_content_url'
         ask_question "What is your Featured Content URL (ex. https://content.dockstore.org/develop/feat-content.html for staging, https://content.dockstore.org/master/feat-content.html for production)?" "$FEATURED_CONTENT_URL" "featured_content_url" $featured_content_url
 	
-	featured_news_url='featured_news_url'
+        featured_news_url='featured_news_url'
         ask_question "What is your Featured News URL (ex. https://content.dockstore.org/develop/news.html for staging, https://content.dockstore.org/master/news.html for production)?" "$FEATURED_CONTENT_URL" "featured_content_url" $featured_content_url
 
         compose_setup_version='compose_setup_version'
