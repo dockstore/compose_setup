@@ -480,6 +480,8 @@ template
 
 download_galaxy "$*"
 
+python scripts/verify-webservice-image-digest.py $DOCKSTORE_VERSION
+
 docker-compose build
 
 echo "Exiting now."
