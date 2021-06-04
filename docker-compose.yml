@@ -3,7 +3,7 @@ version: '2'
 services:
 
   migration: 
-    image: quay.io/dockstore/dockstore-webservice:${DOCKSTORE_VERSION}
+    image: quay.io/dockstore/dockstore-webservice${DOCKSTORE_VERSION}
     volumes:
       - log_volume:/dockstore_logs
       - ./config/web.yml:/home/web.yml
@@ -16,7 +16,7 @@ services:
         awslogs-stream: "migration"
 
   webservice: 
-    image: quay.io/dockstore/dockstore-webservice:${DOCKSTORE_VERSION}
+    image: quay.io/dockstore/dockstore-webservice${DOCKSTORE_VERSION}
     restart: always
     depends_on:
       - migration
