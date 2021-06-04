@@ -5,12 +5,6 @@ This script is meant to help with verifying that the image created in CircleCI a
 match what we download via the Docker client. This ensures there has been no "registry poisoning"
 or modifications to our Docker image since we created it.
 
-This script is somewhat brittle and relies on the CircleCI step for building and publishing the
-Docker image to be named as it was when this was created.
-
-You must generate a CircleCI API token and provide it via the command line or an environment
-variable.
-
 Depending on how you have configured your Docker client you may need to run this script via sudo,
 it will download and inspect the Docker image as required.
 
