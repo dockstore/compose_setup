@@ -31,6 +31,7 @@ DISCOURSE_CATEGORY_ID=''
 DISCOURSE_KEY=''
 DISCOURSE_URL=''
 DOCKSTORE_DBPASSWORD=''
+DOCKSTORE_IMAGE_DIGEST=''
 DOCKSTORE_VERSION=''
 DOCUMENTATION_URL=''
 DOMAIN_NAME=''
@@ -268,7 +269,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 
         dockstore_version='dockstore_version'
         ask_question "What version of Dockstore do you wish to deploy?" "$DOCKSTORE_VERSION" "Dockstore version" $dockstore_version
-
+        dockstore_image_digest=$(scripts/webservice-image-digest.py $dockstore_version)
         ui2_hash='ui2_hash'
       	ask_question "What Dockstore UI 2 CDN hash do you want to use (ex: 2.4.0-beta.3-70bb93a )?" "$UI2_HASH" "Dockstore hash" $ui2_hash
 
@@ -416,6 +417,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 {
 "PUBLIC_LAUNCHER_IP_ADDRESS":"`curl http://169.254.169.254/latest/meta-data/public-ipv4`",
 "PRODUCTION":${production},
+"DOCKSTORE_IMAGE_DIGEST": "${dockstore_image_digest}",
 "DOCKSTORE_VERSION":"${dockstore_version}",
 "UI2_HASH":"${ui2_hash}",
 "GITHUB_CLIENT2_ID":"${github_client2_id}",
@@ -479,8 +481,6 @@ done
 template
 
 download_galaxy "$*"
-
-python scripts/verify-webservice-image-digest.py $DOCKSTORE_VERSION
 
 docker-compose build
 
