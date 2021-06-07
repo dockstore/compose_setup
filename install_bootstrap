@@ -193,7 +193,9 @@ while [[ "${install_dockstore_launcher^^}" != 'Y' &&  "${install_dockstore_launc
                 echo "Installing various apt packages"
                 # need to install regardless
 		set +e
-		sudo apt-get install wget curl ruby-mustache=1.0.2-1 jq git --yes &> install_wget_curl.log
+		sudo snap install jq
+		sudo apt-get install wget curl git --yes &> install_wget_curl.log
+		sudo gem install mustache
 		install_wget_result=$?
 		set -e
 
