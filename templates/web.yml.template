@@ -184,6 +184,7 @@ uiConfig:
 
   documentationUrl: {{ DOCUMENTATION_URL }}
   featuredContentUrl: {{ FEATURED_CONTENT_URL }}
+  featuredNewsUrl: {{ FEATURED_NEWS_URL }}
 
   composeSetupVersion: "{{ COMPOSE_SETUP_VERSION }}"
   deployVersion: "{{ DEPLOY_VERSION }}"
