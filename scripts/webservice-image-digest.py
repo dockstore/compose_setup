@@ -10,8 +10,6 @@ from Quay has not been changed since being built.
 
 import argparse
 import requests
-import subprocess
-
 
 parser = argparse.ArgumentParser(
   description='Gather an image digest for the Dockstore Webservice from S3 as created by CircleCI')
