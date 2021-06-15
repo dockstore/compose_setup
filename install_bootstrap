@@ -189,18 +189,26 @@ while [[ "${install_dockstore_launcher^^}" != 'Y' &&  "${install_dockstore_launc
 				read user_install_docker
 			done
 		fi
-                echo "Installing various apt packages"
-                # need to install regardless
-		set +e
-		sudo apt-get install wget curl ruby-mustache=1.0.2-1 jq git --yes &> install_wget_curl.log
-		install_wget_result=$?
-		set -e
+    echo "Installing various apt packages"
+    # need to install regardless
+    if ! command -v jq &> /dev/null
+    then
+        sudo snap install jq
+    fi
+    if ! command -v wget &> /dev/null
+    then
+        sudo apt install wget -y
+    fi
+    if ! command -v curl &> /dev/null
+    then
+        sudo apt install curl -y
+    fi
+    if ! command -v mustache &> /dev/null
+    then
+        sudo apt install ruby -y
+        sudo gem install mustache
+    fi
 
-		if [ $install_wget_result -ne  0 ] ; then
-			echo "It looks like there may have been a problem installing or updated wget and curl:"
-			cat install_wget_curl.log
-			exit 1
-		fi
 		if [ "${user_install_docker^^}" = 'Y' ] ; then
 			# Remove eXecute permission from /etc/grub.d/30_os-prober because sometimes the docker installer will hang when this hangs. This has happened in OpenStack
 			# and could happen elsewhere.
@@ -268,7 +276,6 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 
         dockstore_version='dockstore_version'
         ask_question "What version of Dockstore do you wish to deploy?" "$DOCKSTORE_VERSION" "Dockstore version" $dockstore_version
-
         ui2_hash='ui2_hash'
       	ask_question "What Dockstore UI 2 CDN hash do you want to use (ex: 2.4.0-beta.3-70bb93a )?" "$UI2_HASH" "Dockstore hash" $ui2_hash
 
@@ -411,7 +418,6 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
                # Note: You can't have ANY blank lines in .dockstore/dockstore.config because the python library that will eventually process it does not like blank lines and will fail.
         # we need to override the ethernet device on some systems
 
-                echo "Installing various apt packages"
         cat > dockstore_launcher_config/compose.config <<CONFIG
 {
 "PUBLIC_LAUNCHER_IP_ADDRESS":"`curl http://169.254.169.254/latest/meta-data/public-ipv4`",
@@ -426,11 +432,11 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "BITBUCKET_CLIENT_SECRET":"${bitbucket_client_secret}",
 "COMPOSE_SETUP_VERSION":"${compose_setup_version}",
 "DOMAIN_NAME":"${domain_name}",
-"ELASTICSEARCH_DOMAIN"="${elasticsearch_domain}",
-"ELASTICSEARCH_PASSWORD"="${elasticsearch_password}",
-"ELASTICSEARCH_PORT"="${elasticsearch_port}",
-"ELASTICSEARCH_PROTOCOL"="${elasticsearch_protocol}",
-"ELASTICSEARCH_USER"="${elasticsearch_user}",
+"ELASTICSEARCH_DOMAIN":"${elasticsearch_domain}",
+"ELASTICSEARCH_PASSWORD":"${elasticsearch_password}",
+"ELASTICSEARCH_PORT":"${elasticsearch_port}",
+"ELASTICSEARCH_PROTOCOL":"${elasticsearch_protocol}",
+"ELASTICSEARCH_USER":"${elasticsearch_user}",
 "HTTPS":${https},
 "DEPLOY_VERSION":"${deploy_version}",
 "DISCOURSE_URL":"${discourse_url}",
@@ -479,6 +485,11 @@ done
 template
 
 download_galaxy "$*"
+
+# We need to set the environment variable for the image digest
+source .env
+DOCKSTORE_IMAGE_DIGEST=$(scripts/webservice-image-digest.py $DOCKSTORE_VERSION)
+echo "DOCKSTORE_IMAGE_DIGEST=$DOCKSTORE_IMAGE_DIGEST" >> .env
 
 docker-compose build
 
