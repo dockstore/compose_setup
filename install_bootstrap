@@ -203,10 +203,6 @@ while [[ "${install_dockstore_launcher^^}" != 'Y' &&  "${install_dockstore_launc
     then
         sudo apt install curl -y
     fi
-    if ! command -v wget &> /dev/null
-    then
-        sudo apt install wget -y
-    fi
     if ! command -v mustache &> /dev/null
     then
         sudo apt install ruby -y
