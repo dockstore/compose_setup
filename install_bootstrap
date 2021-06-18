@@ -41,6 +41,7 @@ ELASTICSEARCH_PROTOCOL=''
 ELASTICSEARCH_USER=''
 EXTERNAL_GOOGLE_CLIENT_PREFIX1=''
 FEATURED_CONTENT_URL=''
+FEATURED_NEWS_URL=''
 GALAXY_PLUGIN_VERSION=''
 GITHUB_APP_ID=''
 GITHUB_APP_NAME=''
@@ -344,7 +345,10 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
         ask_question "What is the master user's password on the elasticsearch server?" "$ELASTICSEARCH_PASSWORD" "Elasticsearch password" $elasticsearch_password
 
         featured_content_url='featured_content_url'
-        ask_question "What is your Featured Content URL (ex. https://s3.amazonaws.com/dockstore.featured.content/develop/feat-content.html for staging, https://s3.amazonaws.com/dockstore.featured.content/production/feat-content.html for production)?" "$FEATURED_CONTENT_URL" "featured_content_url" $featured_content_url
+        ask_question "What is your Featured Content URL (ex. https://content.dockstore.org/develop/feat-content.html for staging, https://content.dockstore.org/master/feat-content.html for production)?" "$FEATURED_CONTENT_URL" "featured_content_url" $featured_content_url
+	
+        featured_news_url='featured_news_url'
+        ask_question "What is your Featured News URL (ex. https://content.dockstore.org/develop/news.html for staging, https://content.dockstore.org/master/news.html for production)?" "$FEATURED_CONTENT_URL" "featured_content_url" $featured_content_url
 
         compose_setup_version='compose_setup_version'
         ask_question "What is the compose setup version (commit id or tag)?" "$COMPOSE_SETUP_VERSION" "compose_setup_version" $compose_setup_version
