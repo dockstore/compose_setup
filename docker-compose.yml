@@ -2,33 +2,8 @@ version: '2'
 
 services:
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.3
-    environment:
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms2048m -Xmx2048m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    mem_limit: 3g
-    restart: always
-    volumes:
-      - esdata1:/usr/share/elasticsearch/data
-      - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./config/jvm.options.dockstore.es:/usr/share/elasticsearch/config/jvm.options
-    expose:
-      - "9200"
-      - "9300"
-    logging:
-      driver: "awslogs"
-      options:
-        awslogs-group: ${LOG_GROUP_NAME}
-        awslogs-stream: "elasticsearch"
-
   migration: 
-    image: quay.io/dockstore/dockstore-webservice:${DOCKSTORE_VERSION}
+    image: quay.io/dockstore/dockstore-webservice${DOCKSTORE_VERSION}
     volumes:
       - log_volume:/dockstore_logs
       - ./config/web.yml:/home/web.yml
@@ -41,10 +16,9 @@ services:
         awslogs-stream: "migration"
 
   webservice: 
-    image: quay.io/dockstore/dockstore-webservice:${DOCKSTORE_VERSION}
+    image: quay.io/dockstore/dockstore-webservice${DOCKSTORE_VERSION}
     restart: always
     depends_on:
-      - elasticsearch
       - migration
     volumes:
       - log_volume:/dockstore_logs

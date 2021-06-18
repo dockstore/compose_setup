@@ -39,8 +39,11 @@ limitConfig:
   workflowVersionLimit: 50
 
 esconfiguration:
-  port: 9200
-  hostname: elasticsearch
+  port: {{ ELASTICSEARCH_PORT }}
+  hostname: {{ ELASTICSEARCH_DOMAIN }}
+  protocol: {{ ELASTICSEARCH_PROTOCOL }}
+  user: {{ ELASTICSEARCH_USER }}
+  password: {{{ ELASTICSEARCH_PASSWORD }}}
 
 authorizerType: {{ AUTHORIZER_TYPE }}
 externalGoogleClientIdPrefixes:
@@ -96,7 +99,7 @@ database:
   user: dockstore
 
   # the password
-  password: {{ DOCKSTORE_DBPASSWORD }}
+  password: {{{ DOCKSTORE_DBPASSWORD }}}
 
   # the JDBC URL
   url: jdbc:postgresql://{{ DATABASE_DOMAIN }}:5432/postgres
@@ -104,7 +107,7 @@ database:
   # any properties specific to your JDBC driver:
   properties:
     charSet: UTF-8
-    hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate.dialect: org.hibernate.dialect.PostgreSQL10Dialect
     # create database as needed, disable in production
     hibernate.hbm2ddl.auto: validate
 
@@ -177,10 +180,11 @@ uiConfig:
 
   orcidAuthUrl: {{ ORCID_URL }}/oauth/authorize
   orcidRedirectPath: /auth/orcid.org
-  orcidScope: /authenticate
+  orcidScope: {{ ORCID_SCOPE }}
 
   documentationUrl: {{ DOCUMENTATION_URL }}
   featuredContentUrl: {{ FEATURED_CONTENT_URL }}
+  featuredNewsUrl: {{ FEATURED_NEWS_URL }}
 
-  composeSetupVersion: {{ COMPOSE_SETUP_VERSION }}
-  deployVersion: {{ DEPLOY_VERSION }}
+  composeSetupVersion: "{{ COMPOSE_SETUP_VERSION }}"
+  deployVersion: "{{ DEPLOY_VERSION }}"
