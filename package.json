@@ -7,7 +7,7 @@
     "install-git-secrets": "./scripts/install-git-secrets.sh"
   },
   "dependencies": {
-    "husky": "^3.0.5"
+    "husky": "^7.0.1"
   },
   "husky": {
     "hooks": {
