@@ -39,6 +39,7 @@ ELASTICSEARCH_PASSWORD=''
 ELASTICSEARCH_PORT=''
 ELASTICSEARCH_PROTOCOL=''
 ELASTICSEARCH_USER=''
+ELASTICSEARCH_MAX_CONCURRENT_SESSIONS=''
 EXTERNAL_GOOGLE_CLIENT_PREFIX1=''
 FEATURED_CONTENT_URL=''
 FEATURED_NEWS_URL=''
@@ -343,6 +344,9 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 
         elasticsearch_password='elasticsearch_password'
         ask_question "What is the master user's password on the elasticsearch server?" "$ELASTICSEARCH_PASSWORD" "Elasticsearch password" $elasticsearch_password
+
+        elasticsearch_max_concurrent_sessions='elasticsearch_max_concurrent_sessions'
+        ask_question "What is the max concurrent sessions the search endpoint should allow?" "$ELASTICSEARCH_MAX_CONCURRENT_SESSIONS" "Elasticsearch max concurrency" $elasticsearch_max_concurrent_sessions
 
         featured_content_url='featured_content_url'
         ask_question "What is your Featured Content URL (ex. https://content.dockstore.org/develop/feat-content.html for staging, https://content.dockstore.org/master/feat-content.html for production)?" "$FEATURED_CONTENT_URL" "featured_content_url" $featured_content_url
