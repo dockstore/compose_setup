@@ -445,6 +445,7 @@ while [[ "${run_dockstore_launcher^^}" != 'Y' &&  "${run_dockstore_launcher^^}" 
 "ELASTICSEARCH_PORT":"${elasticsearch_port}",
 "ELASTICSEARCH_PROTOCOL":"${elasticsearch_protocol}",
 "ELASTICSEARCH_USER":"${elasticsearch_user}",
+"ELASTICSEARCH_MAX_CONCURRENT_SESSIONS":"${elasticsearch_max_concurrent_sessions}""
 "HTTPS":${https},
 "DEPLOY_VERSION":"${deploy_version}",
 "DISCOURSE_URL":"${discourse_url}",
