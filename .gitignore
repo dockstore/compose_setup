@@ -4,3 +4,4 @@ dockstore_launcher_config
 essnapshot
 scripts/essnapshot_backup.sh
 scripts/postgres_backup.sh
+node_modules
