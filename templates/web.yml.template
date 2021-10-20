@@ -171,7 +171,7 @@ uiConfig:
 
   gitlabAuthUrl: https://gitlab.com/oauth/authorize
   gitlabRedirectPath: /auth/gitlab.com
-  gitlabScope: api
+  gitlabScope: read_api,read_user
 
   googleScope: profile email
   tagManagerId: {{ TAG_MANAGER_ID }} 
