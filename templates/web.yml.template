@@ -194,3 +194,9 @@ uiConfig:
 
   composeSetupVersion: "{{ COMPOSE_SETUP_VERSION }}"
   deployVersion: "{{ DEPLOY_VERSION }}"
+  cwlParsingLambdaVersion: {{ CWL_PARSING_LAMBDA_VERSION }}
+  wdlParsingLambdaVersion: {{ WDL_PARSING_LAMBDA_VERSION }}
+  nextflowParsingLambdaVersion: {{ NEXTFLOW_PARSING_LAMBDA_VERSION }}
+  galaxyParsingPluginVersion: {{ GALAXY_PLUGIN_VERSION }}
+  checkUrlLambdaVersion: {{ CHECK_URL_LAMDBA_VERSION }}
+  
