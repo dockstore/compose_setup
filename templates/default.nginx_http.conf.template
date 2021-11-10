@@ -102,5 +102,5 @@ server {
 
 server {
     listen 4200 default_server;
-    return 301 https://{{ DOMAIN_NAME }};
+    return 301 https://{{ DOMAIN_NAME }}/$request_uri;
 }
