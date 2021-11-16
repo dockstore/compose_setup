@@ -101,6 +101,19 @@ server {
 }
 
 server {
+    set $webservice "webservice";
     listen 4200 default_server;
-    return 301 https://{{ DOMAIN_NAME }}$request_uri;
+    if ($http_user_agent = "ELB-HealthChecker/2.0") {
+        rewrite ^(.*)$ /elbcheck/$1;
+    }
+    location / {
+        return 301 https://{{ DOMAIN_NAME }}$request_uri;
+    }
+    location /elbcheck/ {
+        rewrite ^/elbcheck/(.*)$ $1;
+        rewrite ^ $request_uri;
+        rewrite ^/api/(.*) $1 break;
+        return 400;
+        proxy_pass     http://$webservice:8080/$uri;
+    }
 }
