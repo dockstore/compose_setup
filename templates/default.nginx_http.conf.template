@@ -106,13 +106,10 @@ server {
     access_log  /var/log/nginx/access.log  custom;
     listen 4200 default_server;
 
-    if ($http_user_agent = "ELB-HealthChecker/2.0") {
-        rewrite ^(.*)$ /elbcheck;
-    }
-    location / {
+    if ($http_user_agent != "ELB-HealthChecker/2.0") {
         return 301 https://{{ DOMAIN_NAME }}$request_uri;
     }
-    location /elbcheck/ {
+    location / {
         # Send all ELB health checks to this endpoint
         proxy_pass     http://$webservice:8080/metadata/sourceControlList;
     }
