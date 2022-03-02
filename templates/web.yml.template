@@ -34,6 +34,8 @@ gitHubAppId: {{ GITHUB_APP_ID }}
 
 toolTesterBucket: {{ TOOLTESTER_BUCKET_NAME }}
 
+checkUrlLambdaUrl: {{ CHECK_URL_EXISTS_ENDPOINT }}
+
 limitConfig:
   workflowLimit: 50
   workflowVersionLimit: 50
@@ -44,6 +46,7 @@ esconfiguration:
   protocol: {{ ELASTICSEARCH_PROTOCOL }}
   user: {{ ELASTICSEARCH_USER }}
   password: {{{ ELASTICSEARCH_PASSWORD }}}
+  maxConcurrentSessions: {{ ELASTICSEARCH_MAX_CONCURRENT_SESSIONS }}
 
 authorizerType: {{ AUTHORIZER_TYPE }}
 externalGoogleClientIdPrefixes:
@@ -110,6 +113,9 @@ database:
     hibernate.dialect: org.hibernate.dialect.PostgreSQL10Dialect
     # create database as needed, disable in production
     hibernate.hbm2ddl.auto: validate
+    hibernate.jdbc.batch_size: 30
+    hibernate.order_inserts: true
+    hibernate.order_updates: true
 
   # the maximum amount of time to wait on an empty pool before throwing an exception
   maxWaitForConnection: 1s
@@ -165,7 +171,7 @@ uiConfig:
 
   gitlabAuthUrl: https://gitlab.com/oauth/authorize
   gitlabRedirectPath: /auth/gitlab.com
-  gitlabScope: api
+  gitlabScope: read_api read_user
 
   googleScope: profile email
   tagManagerId: {{ TAG_MANAGER_ID }} 
@@ -188,3 +194,9 @@ uiConfig:
 
   composeSetupVersion: "{{ COMPOSE_SETUP_VERSION }}"
   deployVersion: "{{ DEPLOY_VERSION }}"
+  cwlParsingLambdaVersion: {{ CWL_PARSING_LAMBDA_VERSION }}
+  wdlParsingLambdaVersion: {{ WDL_PARSING_LAMBDA_VERSION }}
+  nextflowParsingLambdaVersion: {{ NEXTFLOW_PARSING_LAMBDA_VERSION }}
+  galaxyParsingPluginVersion: {{ GALAXY_PLUGIN_VERSION }}
+  checkUrlLambdaVersion: {{ CHECK_URL_LAMDBA_VERSION }}
+  
