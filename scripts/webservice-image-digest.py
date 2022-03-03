@@ -20,6 +20,11 @@ args = parser.parse_args()
 
 DOCKER_TAG_BASE = "quay.io/dockstore/dockstore-webservice"
 
+def get_commit_from_tag_url(tag_url):
+  # takes a tag url and gets the commit hash it is pointed at
+  response = requests.get(tag_url)
+  return response.json()['object']['sha']
+
 def get_commit_from_github(tag_or_branch):
   # takes a tag or branch and returns the latest commit for a branch or commit for a tag
   # try tag
@@ -27,7 +32,7 @@ def get_commit_from_github(tag_or_branch):
   tag_url = "{}/{}/{}".format(base_url, "git/ref/tags", tag_or_branch)
   response = requests.get(tag_url)
   if (response.status_code == 200):
-    return response.json()['object']['sha']
+    return get_commit_from_tag_url(response.json()['object']['url'])
   # try branch
   branch_url = "{}/{}={}".format(base_url, "commits?sha", tag_or_branch)
   response = requests.get(branch_url)
@@ -41,6 +46,7 @@ def get_digest_from_s3(tag, commit):
   base_url = "https://gui.dockstore.org"
   response = requests.get("{}/{}-{}/image-digest.txt".format(base_url, tag, commit[0:7]))
   if (response.status_code != 200):
+    print("Expected a file at {}".format("{}/{}-{}/image-digest.txt".format(base_url, tag, commit[0:7])))
     print("The image-digest.txt was not found in S3, did the build succeed?")
     exit(1)
   # There is a newline at the end of the file we rstrip
