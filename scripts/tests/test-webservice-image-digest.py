@@ -30,7 +30,7 @@ class TestDigest(unittest.TestCase):
     def test_simple_tag(self):
         cmd = "{} {}".format(base_command, simple_tag)
         ret = subprocess.check_output(cmd, shell=True, universal_newlines=True).rstrip()
-        self.assertEqual(ret, "sha256:52cf6b09e89a238bfd1d98dd01139442d67fcaaa377c179f315dd06555f7bcae")
+        self.assertEqual(ret, "sha256:f21d00e9f01d54eb891c128fb88b76554cb0b47c775929dc05e39a03954e7b0b")
         pass
 
     def test_annotated_tag(self):
