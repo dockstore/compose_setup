@@ -32,7 +32,12 @@ def get_commit_from_github(tag_or_branch):
   tag_url = "{}/{}/{}".format(base_url, "git/ref/tags", tag_or_branch)
   response = requests.get(tag_url)
   if (response.status_code == 200):
-    return get_commit_from_tag_url(response.json()['object']['url'])
+    # simple tag
+    if (response.json()['object']['type'] == "commit"):
+      return response.json()['object']['sha']
+    else:
+      # annotated tag
+      return get_commit_from_tag_url(response.json()['object']['url'])
   # try branch
   branch_url = "{}/{}={}".format(base_url, "commits?sha", tag_or_branch)
   response = requests.get(branch_url)
