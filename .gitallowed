@@ -1,3 +1,4 @@
 #initial .gitallowed, in the future this is where git-secrets false-positives should be added
 
 scripts/tests/test-webservice-image-digest.py:.*sha256
+scripts/webservice-image-digest.py:.*sha256

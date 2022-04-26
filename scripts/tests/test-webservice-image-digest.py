@@ -16,6 +16,7 @@ script_location = "../webservice-image-digest.py"
 
 base_command = "python {}".format(script_location)
 branch = "develop"
+full_directory = "develop-b667562"
 simple_tag = "digest_test"
 annotated_tag = "1.12.0-beta.1"
 
@@ -27,6 +28,12 @@ class TestDigest(unittest.TestCase):
 #        ret = subprocess.check_output(cmd, shell=True, universal_newlines=True).rstrip()
 #        self.assertEqual(ret, "sha256:52cf6b09e89a238bfd1d98dd01139442d67fcaaa377c179f315dd06555f7bcae")
 #        pass
+
+    def test_full_directory(self):
+        cmd = "{} {}".format(base_command, full_directory)
+        ret = subprocess.check_output(cmd, shell=True, universal_newlines=True).rstrip()
+        self.assertEqual(ret, "sha256:08c67131daf6109fadb19d994d753ede7ae28e41c675322e2980327597bcb665")
+        pass
 
     def test_simple_tag(self):
         cmd = "{} {}".format(base_command, simple_tag)
