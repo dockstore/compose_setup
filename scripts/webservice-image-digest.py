@@ -18,6 +18,7 @@ sha256:08c67131daf6109fadb19d994d753ede7ae28e41c675322e2980327597bcb665
 
 import argparse
 import requests
+import string
 
 parser = argparse.ArgumentParser(
   description='Gather an image digest for the Dockstore Webservice from S3 as created by CircleCI')
@@ -69,7 +70,7 @@ if __name__ == "__main__":
   # slashes are replaced with _ in docker image tags
   # check to see if input includes a dash followed by 7 chars
   parsed = args.tag.split('-')
-  if len(parsed) == 2 and len(parsed[1]) == 7:
+  if len(parsed) == 2 and len(parsed[1]) == 7 and all(c in string.hexdigits for c in parsed[1]):
     directory = args.tag
   else:
     commit = get_commit_from_github(args.tag)
