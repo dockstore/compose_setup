@@ -4,12 +4,12 @@
 cd "$(dirname "$0")"
 
 {{#DATABASE_GENERATED}}
-java -Ddw.database.user=postgres -Ddw.database.password="{{{ POSTGRES_DBPASSWORD }}}" -jar dockstore-webservice-*.jar db migrate web.yml --include 1.3.0.generated,1.3.1.consistency,1.4.0,1.5.0,1.6.0,1.7.0 | tee --append /dockstore_logs/webservice.out
+java -Ddw.database.user=postgres -Ddw.database.password="{{{ POSTGRES_DBPASSWORD }}}" -jar /home/dockstore-webservice-*.jar db migrate web.yml --include 1.3.0.generated,1.3.1.consistency,1.4.0,1.5.0,1.6.0,1.7.0 | tee --append /dockstore_logs/webservice.out
 {{/DATABASE_GENERATED}}
 {{^DATABASE_GENERATED}}
-java -Ddw.database.user=postgres -Ddw.database.password="{{{ POSTGRES_DBPASSWORD }}}" -jar dockstore-webservice-*.jar db migrate web.yml --include 1.3.1.consistency,1.4.0,1.5.0,1.6.0,1.7.0 | tee --append /dockstore_logs/webservice.out
+java -Ddw.database.user=postgres -Ddw.database.password="{{{ POSTGRES_DBPASSWORD }}}" -jar /home/dockstore-webservice-*.jar db migrate web.yml --include 1.3.1.consistency,1.4.0,1.5.0,1.6.0,1.7.0 | tee --append /dockstore_logs/webservice.out
 {{/DATABASE_GENERATED}}
 # this particular migration needs to run as postgres because only postgres can surrender ownership
-java -Ddw.database.user=postgres -Ddw.database.password="{{{ POSTGRES_DBPASSWORD }}}" -jar dockstore-webservice-*.jar db migrate web.yml --include 1.7.0.relinquish
+java -Ddw.database.user=postgres -Ddw.database.password="{{{ POSTGRES_DBPASSWORD }}}" -jar /home/dockstore-webservice-*.jar db migrate web.yml --include 1.7.0.relinquish
 # future migrations will start here and should be run as dockstore
-java -Ddw.database.user=dockstore -Ddw.database.password="{{{ DOCKSTORE_DBPASSWORD }}}" -jar dockstore-webservice-*.jar db migrate web.yml --include 1.8.0,1.9.0,1.10.0,1.11.0,1.12.0,1.13.0 | tee --append /dockstore_logs/webservice.out
+java -Ddw.database.user=dockstore -Ddw.database.password="{{{ DOCKSTORE_DBPASSWORD }}}" -jar /home/dockstore-webservice-*.jar db migrate web.yml --include 1.8.0,1.9.0,1.10.0,1.11.0,1.12.0,1.13.0 | tee --append /dockstore_logs/webservice.out
