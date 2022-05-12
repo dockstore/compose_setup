@@ -23,11 +23,11 @@ access_log  off;
 # nginx caches ips on startup, so doesn't survive webservice restarts
 # https://www.nginx.com/blog/dns-service-discovery-nginx-plus/
 # https://stackoverflow.com/questions/46660436/nginx-does-not-automatically-pick-up-dns-changes-in-swarm/46664433#46664433
-resolver 127.0.0.11 valid=10s ipv6=off;
+resolver 127.0.0.11 valid=10s;
 
 server {
     {{#IS_FARGATE_DEPLOY}}
-    set $webservice "localhost";
+    set $webservice "127.0.0.1";
     {{/IS_FARGATE_DEPLOY}}
     {{^IS_FARGATE_DEPLOY}}
     set $webservice "webservice";
@@ -108,7 +108,7 @@ server {
 # Server block for access via IP instead of domain
 server {
     {{#IS_FARGATE_DEPLOY}}
-    set $webservice "localhost";
+    set $webservice "127.0.0.1";
     {{/IS_FARGATE_DEPLOY}}
     {{^IS_FARGATE_DEPLOY}}
     set $webservice "webservice";
