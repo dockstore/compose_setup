@@ -29,7 +29,7 @@ zenodoUrl: {{ ZENODO_URL }}
 orcidClientID: {{ ORCID_CLIENT_ID }}
 orcidClientSecret: {{ ORCID_CLIENT_SECRET }}
 
-gitHubAppPrivateKeyFile: /home/dockstore_github_app_private_key.pem
+gitHubAppPrivateKeyFile: {{ GITHUB_APP_PRIVATE_KEY_FILE }}
 gitHubAppId: {{ GITHUB_APP_ID }}
 
 toolTesterBucket: {{ TOOLTESTER_BUCKET_NAME }}
