@@ -198,5 +198,5 @@ uiConfig:
   wdlParsingLambdaVersion: {{ WDL_PARSING_LAMBDA_VERSION }}
   nextflowParsingLambdaVersion: {{ NEXTFLOW_PARSING_LAMBDA_VERSION }}
   galaxyParsingPluginVersion: {{ GALAXY_PLUGIN_VERSION }}
-  checkUrlLambdaVersion: {{ CHECK_URL_LAMDBA_VERSION }}
+  checkUrlLambdaVersion: {{ CHECK_URL_LAMBDA_VERSION }}
   
