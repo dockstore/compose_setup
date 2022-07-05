@@ -21,11 +21,12 @@ annotated_tag = "1.12.0-beta.1"
 
 class TestDigest(unittest.TestCase):
 
-    def test_branch(self):
-        cmd = "{} {}".format(base_command, branch)
-        ret = subprocess.check_output(cmd, shell=True, universal_newlines=True).rstrip()
-        self.assertEqual(ret, "sha256:52cf6b09e89a238bfd1d98dd01139442d67fcaaa377c179f315dd06555f7bcae")
-        pass
+# This test is turned off because there is no stable branch to test against
+#    def test_branch(self):
+#        cmd = "{} {}".format(base_command, branch)
+#        ret = subprocess.check_output(cmd, shell=True, universal_newlines=True).rstrip()
+#        self.assertEqual(ret, "sha256:52cf6b09e89a238bfd1d98dd01139442d67fcaaa377c179f315dd06555f7bcae")
+#        pass
 
     def test_simple_tag(self):
         cmd = "{} {}".format(base_command, simple_tag)
