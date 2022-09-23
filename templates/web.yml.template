@@ -29,7 +29,7 @@ zenodoUrl: {{ ZENODO_URL }}
 orcidClientID: {{ ORCID_CLIENT_ID }}
 orcidClientSecret: {{ ORCID_CLIENT_SECRET }}
 
-gitHubAppPrivateKeyFile: /home/dockstore_github_app_private_key.pem
+gitHubAppPrivateKeyFile: /dockstore/github-key/dockstore-github-private-key.pem
 gitHubAppId: {{ GITHUB_APP_ID }}
 
 toolTesterBucket: {{ TOOLTESTER_BUCKET_NAME }}
@@ -63,7 +63,7 @@ externalConfig:
   scheme: http{{#HTTPS}}s{{/HTTPS}}
   port:
 
-authenticationCachePolicy: maximumSize=10000, expireAfterAccess=10m
+authenticationCachePolicy: maximumSize=10000, expireAfterAccess=10s
 
 httpClient:
   timeout: 5500ms
@@ -199,5 +199,5 @@ uiConfig:
   wdlParsingLambdaVersion: {{ WDL_PARSING_LAMBDA_VERSION }}
   nextflowParsingLambdaVersion: {{ NEXTFLOW_PARSING_LAMBDA_VERSION }}
   galaxyParsingPluginVersion: {{ GALAXY_PLUGIN_VERSION }}
-  checkUrlLambdaVersion: {{ CHECK_URL_LAMDBA_VERSION }}
+  checkUrlLambdaVersion: {{ CHECK_URL_LAMBDA_VERSION }}
   
