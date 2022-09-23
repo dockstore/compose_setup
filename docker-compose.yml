@@ -5,7 +5,6 @@ services:
   migration: 
     image: quay.io/dockstore/dockstore-webservice@${DOCKSTORE_IMAGE_DIGEST}
     volumes:
-      - log_volume:/dockstore_logs
       - ./config/web.yml:/home/web.yml
       - ./config/init_migration.sh:/home/init_migration.sh
     command: ["bash", "/home/init_migration.sh"]
@@ -21,7 +20,6 @@ services:
     depends_on:
       - migration
     volumes:
-      - log_volume:/dockstore_logs
       - ./config/web.yml:/home/web.yml
       - ./config/init_webservice.sh:/home/init_webservice.sh
       - ${GITHUB_APP_PRIVATE_KEY_FILE}:/dockstore/github-key/dockstore-github-private-key.pem
@@ -75,6 +73,5 @@ services:
 #        awslogs-stream: "metricbeat"
 
 volumes:
-  log_volume: 
   esdata1:
     driver: local
