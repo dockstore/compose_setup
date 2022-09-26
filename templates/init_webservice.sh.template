@@ -2,6 +2,8 @@
 
 cd "$(dirname "$0")"
 
+service cron start
+
 java -XX:MaxRAMPercentage=50.0 -XX:+ExitOnOutOfMemoryError -jar /home/dockstore-webservice-*.jar server web.yml | tee --append /dockstore_logs/webservice.out
 
 
