@@ -23,7 +23,6 @@ services:
       - ./config/web.yml:/home/web.yml
       - ./config/init_webservice.sh:/home/init_webservice.sh
       - ${GITHUB_APP_PRIVATE_KEY_FILE}:/dockstore/github-key/dockstore-github-private-key.pem
-      - ../language-plugins/:/root/.dockstore/language-plugins
     command: ["bash", "/home/init_webservice.sh"]
     ports:
       - "8081:8081"
