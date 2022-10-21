@@ -58,7 +58,7 @@ def get_commit_from_github(tag_or_branch):
 def get_digest_from_s3(directory):
   # downloads the image-digest.txt from a directory in S3
   base_url = "https://gui.dockstore.org"
-  digest_url = "{}/{}/image-digest.txt".format(base_url, directory.replace("/","_"))
+  digest_url = "{}/{}/image-digest.txt".format(base_url, directory)
   response = requests.get(digest_url)
   if (response.status_code != 200):
     print("Expected a file at {}".format(digest_url))
