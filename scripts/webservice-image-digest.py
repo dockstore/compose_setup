@@ -58,9 +58,10 @@ def get_commit_from_github(tag_or_branch):
 def get_digest_from_s3(directory):
   # downloads the image-digest.txt from a directory in S3
   base_url = "https://gui.dockstore.org"
-  response = requests.get("{}/{}/image-digest.txt".format(base_url, directory))
+  digest_url = "{}/{}/image-digest.txt".format(base_url, directory.replace("/", "_"))
+  response = requests.get(digest_url)
   if (response.status_code != 200):
-    print("Expected a file at {}".format("{}/{}/image-digest.txt".format(base_url, directory)))
+    print("Expected a file at {}".format(digest_url))
     print("The image-digest.txt was not found in S3, did the build succeed?")
     exit(1)
   # There is a newline at the end of the file we rstrip
@@ -70,7 +71,7 @@ if __name__ == "__main__":
   # slashes are replaced with _ in docker image tags
   # check to see if input includes a dash followed by 7 chars
   parsed = args.tag.split('-')
-  if len(parsed) == 2 and len(parsed[1]) == 7 and all(c in string.hexdigits for c in parsed[1]):
+  if len(parsed) >= 2 and len(parsed[-1]) == 7 and all(c in string.hexdigits for c in parsed[-1]):
     directory = args.tag
   else:
     commit = get_commit_from_github(args.tag)
