@@ -66,18 +66,6 @@ function template()
     for f in $(ls templates/rules/); do mustache dockstore_launcher_config/compose.config templates/rules/$f > config/rules/$f; done
 }
 
-# Delete any galaxy plugin versions already in folder and download if a version has been specified.
-function download_galaxy()
-{
-    if [ ! -d "../language-plugins" ] ; then
-        mkdir ../language-plugins
-    fi
-
-    find ../language-plugins -regextype posix-extended -regex '.*dockstore-galaxy-interface.*' -delete
-    wget -nc -P ../language-plugins/ https://artifacts.oicr.on.ca/artifactory/collab-release/com/github/galaxyproject/dockstore-galaxy-interface/dockstore-galaxy-interface/${GALAXY_PLUGIN_VERSION}/dockstore-galaxy-interface-${GALAXY_PLUGIN_VERSION}.jar
-
-}
-
 #Read the config file if it exists
 if [ -f dockstore_launcher_config/compose.config ] ; then
     source <(jq -r 'to_entries|map("\(.key)=\"\(.value|tostring)\"")|.[]' dockstore_launcher_config/compose.config)
@@ -85,8 +73,7 @@ fi
 
 template
 
-download_galaxy "$*"
-
+if [ $IS_FARGATE_DEPLOY == "false" ]; then
 if [ $IS_FARGATE_DEPLOY == "false" ]; then
     # We need to set the environment variable for the image digest
     source .env
