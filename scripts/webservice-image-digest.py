@@ -59,7 +59,6 @@ def get_digest_from_s3(directory):
   # downloads the image-digest.txt from a directory in S3
   base_url = "https://gui.dockstore.org"
   response = requests.get("{}/{}/image-digest.txt".format(base_url, directory))
-  response = requests.get(digest_url)
   if (response.status_code != 200):
     print("Expected a file at {}".format("{}/{}/image-digest.txt".format(base_url, directory)))
     print("The image-digest.txt was not found in S3, did the build succeed?")

@@ -74,7 +74,6 @@ fi
 template
 
 if [ $IS_FARGATE_DEPLOY == "false" ]; then
-if [ $IS_FARGATE_DEPLOY == "false" ]; then
     # We need to set the environment variable for the image digest
     source .env
     DOCKSTORE_IMAGE_DIGEST=$(scripts/webservice-image-digest.py $DOCKSTORE_VERSION)
