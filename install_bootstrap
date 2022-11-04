@@ -25,7 +25,7 @@ function template()
     WEBSERVICE_DIRECTORY="config/webservice"
 
     mkdir -p ${NGINX_CONF_DIRECTORY}
-    mkdir -p ${NGINX_CONF_DIRECTORY}
+    mkdir -p ${NGINX_HTML2_DIRECTORY}
     mkdir -p ${WEBSERVICE_DIRECTORY}
 
     # Download index.html for UI we will be serving
