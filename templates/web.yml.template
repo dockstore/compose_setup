@@ -47,6 +47,7 @@ esconfiguration:
   user: {{ ELASTICSEARCH_USER }}
   password: {{{ ELASTICSEARCH_PASSWORD }}}
   maxConcurrentSessions: {{ ELASTICSEARCH_MAX_CONCURRENT_SESSIONS }}
+  refreshInterval: {{ ELASTICSEARCH_REFRESH_INTERVAL }}
 
 authorizerType: {{ AUTHORIZER_TYPE }}
 externalGoogleClientIdPrefixes:
