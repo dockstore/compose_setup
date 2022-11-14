@@ -1,7 +1,7 @@
 User-Agent: *
 {{#PRODUCTION}}
 Allow: /
-Sitemap: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}/sitemap.txt;
+Sitemap: https://{{ DOMAIN_NAME }}/sitemap.txt;
 {{/PRODUCTION}}
 {{^PRODUCTION}}
 Disallow: /

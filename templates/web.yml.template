@@ -11,11 +11,11 @@ bitbucketClientSecret: {{ BITBUCKET_CLIENT_SECRET }}
 
 gitlabClientID: {{ GITLAB_CLIENT_ID }}
 gitlabClientSecret: {{ GITLAB_CLIENT_SECRET }}
-gitlabRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}:443/auth/gitlab.com
+gitlabRedirectURI: https://{{ DOMAIN_NAME }}:443/auth/gitlab.com
 
 googleClientID: {{ GOOGLE_CLIENT_ID }}
 googleClientSecret: {{ GOOGLE_CLIENT_SECRET }}
-googleRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}:443
+googleRedirectURI: https://{{ DOMAIN_NAME }}:443
 
 discourseKey: {{ DISCOURSE_KEY }}
 discourseUrl: {{ DISCOURSE_URL }}
@@ -23,7 +23,7 @@ discourseCategoryId: {{ DISCOURSE_CATEGORY_ID }}
 
 zenodoClientID: {{ ZENODO_CLIENT_ID }}
 zenodoClientSecret: {{ ZENODO_CLIENT_SECRET }}
-zenodoRedirectURI: http{{#HTTPS}}s{{/HTTPS}}://{{ DOMAIN_NAME }}/auth/zenodo.org
+zenodoRedirectURI: https://{{ DOMAIN_NAME }}/auth/zenodo.org
 zenodoUrl: {{ ZENODO_URL }}
 
 orcidClientID: {{ ORCID_CLIENT_ID }}
@@ -60,7 +60,7 @@ samconfiguration:
 externalConfig:
   basePath: /api/
   hostname: {{ DOMAIN_NAME }}
-  scheme: http{{#HTTPS}}s{{/HTTPS}}
+  scheme: https
   port:
 
 authenticationCachePolicy: maximumSize=10000, expireAfterAccess=10s
