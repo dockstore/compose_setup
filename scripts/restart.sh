@@ -7,5 +7,5 @@ set -o nounset
 # Restarts stack by running commands from /home/ubuntu/compose_setup
 
 cd /home/ubuntu/compose_setup
-docker-compose down
-nohup docker-compose up --force-recreate --remove-orphans >/dev/null 2>&1 &
+docker compose down
+nohup docker compose up --force-recreate --remove-orphans >/dev/null 2>&1 &

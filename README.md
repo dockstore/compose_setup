@@ -35,15 +35,15 @@ Note that database migration is run once during the startup process and is contr
 
 ## Logging Usage
 
-If using with logstash in a container (for development), use `-f docker-compose.yml -f docker-compose.dev.yml` flags after each `docker-compose` command to merge docker-compose files (e.g. `docker-compose -f docker-compse.yml -f docker-compose.dev.yml build`) 
+If using with logstash in a container (for development), use `-f docker-compose.yml -f docker-compose.dev.yml` flags after each `docker compose` command to merge docker-compose files (e.g. `docker compose -f docker-compse.yml -f docker-compose.dev.yml build`)
 
 For example to deploy just logging 
 
 ```
-docker-compose  -f docker-compose.dev.yml build
-nohup docker-compose -f docker-compose.dev.yml up --force-recreate --remove-orphans >/dev/null 2>&1 &
-docker-compose -f docker-compose.dev.yml down
-docker-compose -f docker-compose.dev.yml kill
+docker compose  -f docker-compose.dev.yml build
+nohup docker compose -f docker-compose.dev.yml up --force-recreate --remove-orphans >/dev/null 2>&1 &
+docker compose -f docker-compose.dev.yml down
+docker compose -f docker-compose.dev.yml kill
 ```
 
 ### Kibana Dashboard Setup ###
@@ -65,7 +65,7 @@ If you believe the scan is a false-positive, add the line glob to .gitallowed.
 
 ## Handy docker-compose commands:
     1. `install_bootstrap --script` will template and build everything using your previous answers (useful for quick iteration) 
-    2. `docker-compose down` will bring all containers down safely 
-    3. `nohup docker-compose up --force-recreate --remove-orphans >/dev/null 2>&1 &` will re-create all containers known to docker-compose and delete those volumes that no longer are associated with running containers
+    2. `docker compose down` will bring all containers down safely
+    3. `nohup docker compose up --force-recreate --remove-orphans >/dev/null 2>&1 &` will re-create all containers known to docker-compose and delete those volumes that no longer are associated with running containers
     4. `docker system prune` for cleaning out old containers and images
-    5. To watch the logs `docker-compose logs --follow` while debugging
+    5. To watch the logs `docker compose logs --follow` while debugging
