@@ -11,7 +11,7 @@ There are 3 different sets of metric logs being sent to logstash's elasticsearch
 
 ## Apache HTTP Logs
 
-Currently, install\_bootstrap and docker-compose handles all necessary configuration
+Currently, install\_bootstrap and docker compose handles all necessary configuration
 
 <!-- Long term, will likely move to AWS RDS, making postgres setup simpler
 ## Postgres

@@ -19,26 +19,19 @@ MSG
 
 function template()
 {
-    mkdir -p config
+    # Place the config files into specific directories so they can be mounted to container paths as bind mounts
+    NGINX_CONF_DIRECTORY="config/nginx-conf"
+    NGINX_HTML2_DIRECTORY="config/nginx-html2"
+    WEBSERVICE_DIRECTORY="config/webservice"
 
-    NGINX_CONF_DIRECTORY="config"
-    NGINX_HTML2_DIRECTORY="config"
-    WEBSERVICE_DIRECTORY="config"
+    mkdir -p ${NGINX_CONF_DIRECTORY}
+    mkdir -p ${NGINX_HTML2_DIRECTORY}
+    mkdir -p ${WEBSERVICE_DIRECTORY}
 
-    if [ $IS_FARGATE_DEPLOY == "true" ]; then
-        mkdir -p config/webservice
-        mkdir -p config/nginx-conf
-        mkdir -p config/nginx-html2
-        # Place the config files into specific directories so they can be mounted to container paths as bind mounts
-        NGINX_CONF_DIRECTORY="${NGINX_CONF_DIRECTORY}/nginx-conf"
-        NGINX_HTML2_DIRECTORY="${NGINX_HTML2_DIRECTORY}/nginx-html2"
-        WEBSERVICE_DIRECTORY="${WEBSERVICE_DIRECTORY}/webservice"
+    # Download index.html for UI we will be serving
+    wget -qO ${NGINX_HTML2_DIRECTORY}/index.html https://gui.dockstore.org/${UI2_HASH}/index.html
+    wget -qO ${NGINX_HTML2_DIRECTORY}/manifest.json https://gui.dockstore.org/${UI2_HASH}/manifest.json
 
-        wget -qO ${NGINX_HTML2_DIRECTORY}/index.html https://gui.dockstore.org/${UI2_HASH}/index.html
-        wget -qO ${NGINX_HTML2_DIRECTORY}/manifest.json https://gui.dockstore.org/${UI2_HASH}/manifest.json
-    fi
-
-    mustache dockstore_launcher_config/compose.config templates/Dockerfile_ui2.template > config/Dockerfile_ui2
     mustache dockstore_launcher_config/compose.config templates/robots.txt.template > ${NGINX_HTML2_DIRECTORY}/robots.txt
     mustache dockstore_launcher_config/compose.config templates/default.nginx_http.conf.template > ${NGINX_CONF_DIRECTORY}/default.nginx_http.conf
     mustache dockstore_launcher_config/compose.config templates/default.nginx_http.shared.conf.template > ${NGINX_CONF_DIRECTORY}/default.nginx_http.shared.conf
@@ -59,8 +52,6 @@ function template()
     mustache dockstore_launcher_config/compose.config templates/jvm.options.logstash.template > config/jvm.options.logstash
     mustache dockstore_launcher_config/compose.config templates/postgres_backup.sh.template > scripts/postgres_backup.sh
     chmod a+rx scripts/postgres_backup.sh
-    # .env file
-    mustache dockstore_launcher_config/compose.config templates/env.template > .env
 
     mkdir -p config/rules
     for f in $(ls templates/rules/); do mustache dockstore_launcher_config/compose.config templates/rules/$f > config/rules/$f; done
@@ -72,14 +63,5 @@ if [ -f dockstore_launcher_config/compose.config ] ; then
 fi
 
 template
-
-if [ $IS_FARGATE_DEPLOY == "false" ]; then
-    # We need to set the environment variable for the image digest
-    source .env
-    DOCKSTORE_IMAGE_DIGEST=$(scripts/webservice-image-digest.py $DOCKSTORE_VERSION)
-    echo "DOCKSTORE_IMAGE_DIGEST=$DOCKSTORE_IMAGE_DIGEST" >> .env
-
-    docker-compose build
-fi
 
 echo "Exiting now."
