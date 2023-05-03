@@ -2,9 +2,10 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ "develop", "master" ]
+    branches: [ "develop", hotfix/*, master, release/*, feature/** ]
   pull_request:
-    branches: [ "develop" ]
+    # The branches below must be a subset of the branches above
+    branches: [ "develop", hotfix/*, master, release/* ]
   schedule:
     - cron: "30 8 * * 3"
 
@@ -20,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ python ]
+        language: [ 'python', 'javascript' ]
 
     steps:
       - name: Checkout
