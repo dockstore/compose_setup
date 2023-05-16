@@ -160,6 +160,8 @@ uiConfig:
   bdCatalystTerraImportUrl: {{ BD_CATALYST_TERRA_IMPORT_URL }}
   bdCatalystSevenBridgesImportUrl: {{ BD_CATALYST_SEVEN_BRIDGES_IMPORT_URL }}
   elwaziImportUrl:  {{ ELWAZI_IMPORT_URL }}
+  colabImportUrl: {{ COLAB_IMPORT_URL }}
+  mybinderImportUrl: {{ MYBINDER_IMPORT_URL }}
 
 
   gitHubAuthUrl: https://github.com/login/oauth/authorize
