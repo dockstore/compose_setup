@@ -1,9 +1,7 @@
 # compose\_setup
-This project documents how to setup Dockstore staging and production using composed Docker containers. 
+This project contains configuration template files needed to run Dockstore using AWS Fargate. View the [dockstore-deploy repository](https://github.com/dockstore/dockstore-deploy)
+for more information about how Dockstore is setup using AWS Fargate.
 Log issues and see general documentation at [dockstore](https://github.com/ga4gh/dockstore/issues) and [docs.dockstore.org](https://docs.dockstore.org/) respectively
-
-Port 80 is exposed over http. This port should not be exposed to the public. A separately [configured load
-balancer](https://github.com/dockstore/dockstore-deploy) is responsible for SSL termination and forwarding traffic to this instance. Previously this repo handled the SSL termination with nginx and LetsEncrypt.
 
 If you are looking for how to run Dockstore locally as a developer, you are probably in the wrong place and should take a look at https://github.com/dockstore/dockstore/blob/develop/docker-compose.yml
 
@@ -17,24 +15,16 @@ If you are looking for how to run Dockstore locally as a developer, you are prob
 
 ## Usage
 
-1. Call the install\_bootstrap script. This templates the contents of `templates` using mustache to the `config` directory while recording your answers for future use. Note that this will also
-rebuild your docker images without affecting existing running containers 
+1. Call the install\_bootstrap script. This templates the contents of `templates` using mustache to the `config` directory while recording your answers for future use.
 
 2. Some additional information on the answers requested in the script
     1. Each integration requires a client id and a secret, it is worth saying that you should not check these in 
     2. The discourse URL is needed to link Dockstore to a discussion forum 
     3. the Google verification code and tag manager ID are used if you want to properly track visitors to Dockstore and what pages they browse to
 
-3. The bootstrap script can also rebuild your Docker images. Keep in mind the following handy commands:
-    1. `install_bootstrap --script` will template and build everything using your previous answers (useful for quick iteration) 
-    2. `docker-compose down` will bring all containers down safely 
-    3. `nohup docker-compose up --force-recreate --remove-orphans >/dev/null 2>&1 &` will re-create all containers known to docker-compose and delete those volumes that no longer are associated with running containers
-    4. `docker system prune` for cleaning out old containers and images
-    5. To watch the logs `docker-compose logs --follow` while debugging
+3. After following the instructions in the bootstrap script and starting up the site with AWS Fargate, you can browse to the Dockstore site hosted at port 443 by default using `https://<domain-name>`. 
 
-4. After following the instructions in the bootstrap script and starting up the site with `docker-compose`, you can browse to the Dockstore site hosted at port 443 by default. `https://<domain-name>` if you specified https or `http://<domain-name>:443` if you did not. 
-
-The current setup relies upon an externally hosted database (currently AWS RDS) and externally hosted search (currently AWS Elasticsearch). 
+The current setup relies upon an externally hosted container orchestration service (current AWS ECS with Fargate), externally hosted database (currently AWS RDS) and externally hosted search (currently AWS Elasticsearch). 
     
 ### Loading Up a Database ###
 
@@ -45,15 +35,15 @@ Note that database migration is run once during the startup process and is contr
 
 ## Logging Usage
 
-If using with logstash in a container (for development), use `-f docker-compose.yml -f docker-compose.dev.yml` flags after each `docker-compose` command to merge docker-compose files (e.g. `docker-compose -f docker-compse.yml -f docker-compose.dev.yml build`) 
+If using with logstash in a container (for development), use `-f docker-compose.yml -f docker-compose.dev.yml` flags after each `docker compose` command to merge docker-compose files (e.g. `docker compose -f docker-compse.yml -f docker-compose.dev.yml build`)
 
 For example to deploy just logging 
 
 ```
-docker-compose  -f docker-compose.dev.yml build
-nohup docker-compose -f docker-compose.dev.yml up --force-recreate --remove-orphans >/dev/null 2>&1 &
-docker-compose -f docker-compose.dev.yml down
-docker-compose -f docker-compose.dev.yml kill
+docker compose  -f docker-compose.dev.yml build
+nohup docker compose -f docker-compose.dev.yml up --force-recreate --remove-orphans >/dev/null 2>&1 &
+docker compose -f docker-compose.dev.yml down
+docker compose -f docker-compose.dev.yml kill
 ```
 
 ### Kibana Dashboard Setup ###
@@ -72,3 +62,10 @@ npm run install-git secrets
 This should install git secrets into your local repository and perform a scan. 
 If secrets are found, the run will error and output the potential secret to stdout.
 If you believe the scan is a false-positive, add the line glob to .gitallowed.
+
+## Handy docker-compose commands:
+    1. `install_bootstrap --script` will template and build everything using your previous answers (useful for quick iteration) 
+    2. `docker compose down` will bring all containers down safely
+    3. `nohup docker compose up --force-recreate --remove-orphans >/dev/null 2>&1 &` will re-create all containers known to docker-compose and delete those volumes that no longer are associated with running containers
+    4. `docker system prune` for cleaning out old containers and images
+    5. To watch the logs `docker compose logs --follow` while debugging
