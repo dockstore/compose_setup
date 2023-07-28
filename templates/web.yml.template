@@ -203,7 +203,6 @@ uiConfig:
   featuredContentUrl: {{ FEATURED_CONTENT_URL }}
   featuredNewsUrl: {{ FEATURED_NEWS_URL }}
 
-  composeSetupVersion: "{{ COMPOSE_SETUP_VERSION }}"
   deployVersion: "{{ DEPLOY_VERSION }}"
   cwlParsingLambdaVersion: {{ CWL_PARSING_LAMBDA_VERSION }}
   wdlParsingLambdaVersion: {{ WDL_PARSING_LAMBDA_VERSION }}
