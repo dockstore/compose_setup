@@ -168,6 +168,7 @@ uiConfig:
   elwaziImportUrl:  {{ ELWAZI_IMPORT_URL }}
   colabImportUrl: {{ COLAB_IMPORT_URL }}
   mybinderImportUrl: {{ MYBINDER_IMPORT_URL }}
+  gitHubCodespacesImportUrl: {{ GITHUB_CODESPACES_IMPORT_URL }}
 
 
   gitHubAuthUrl: https://github.com/login/oauth/authorize
