@@ -112,7 +112,7 @@ database:
   # any properties specific to your JDBC driver:
   properties:
     charSet: UTF-8
-    hibernate.dialect: org.hibernate.dialect.PostgreSQL10Dialect
+    hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
     # create database as needed, disable in production
     hibernate.hbm2ddl.auto: validate
     hibernate.jdbc.batch_size: 30
@@ -142,8 +142,14 @@ database:
   logAbandonedConnections: true
   removeAbandonedTimeout: 5 minutes
 
-{{#LOGSTASH}}
 server:
+  applicationConnectors:
+    - type: custom-http
+      port: 8080
+  adminConnectors:
+    - type: http
+      port: 8001
+{{#LOGSTASH}}
   requestLog:
     type: classic
     timeZone: UTC
@@ -160,6 +166,9 @@ uiConfig:
   bdCatalystTerraImportUrl: {{ BD_CATALYST_TERRA_IMPORT_URL }}
   bdCatalystSevenBridgesImportUrl: {{ BD_CATALYST_SEVEN_BRIDGES_IMPORT_URL }}
   elwaziImportUrl:  {{ ELWAZI_IMPORT_URL }}
+  colabImportUrl: {{ COLAB_IMPORT_URL }}
+  mybinderImportUrl: {{ MYBINDER_IMPORT_URL }}
+  gitHubCodespacesImportUrl: {{ GITHUB_CODESPACES_IMPORT_URL }}
 
 
   gitHubAuthUrl: https://github.com/login/oauth/authorize
@@ -195,7 +204,6 @@ uiConfig:
   featuredContentUrl: {{ FEATURED_CONTENT_URL }}
   featuredNewsUrl: {{ FEATURED_NEWS_URL }}
 
-  composeSetupVersion: "{{ COMPOSE_SETUP_VERSION }}"
   deployVersion: "{{ DEPLOY_VERSION }}"
   cwlParsingLambdaVersion: {{ CWL_PARSING_LAMBDA_VERSION }}
   wdlParsingLambdaVersion: {{ WDL_PARSING_LAMBDA_VERSION }}
