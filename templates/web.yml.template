@@ -126,10 +126,10 @@ database:
   validationQuery: "/* MyApplication Health Check */ SELECT 1"
 
   # the minimum number of connections to keep open
-  minSize: 8
+  minSize: 10
 
   # the maximum number of connections to keep open
-  maxSize: 32
+  maxSize: 100
 
   # whether or not idle connections should be validated
   checkConnectionWhileIdle: true
