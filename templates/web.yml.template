@@ -25,6 +25,8 @@ zenodoClientID: {{ ZENODO_CLIENT_ID }}
 zenodoClientSecret: {{ ZENODO_CLIENT_SECRET }}
 zenodoRedirectURI: https://{{ DOMAIN_NAME }}/auth/zenodo.org
 zenodoUrl: {{ ZENODO_URL }}
+dockstoreZenodoAccessToken: {{ DOCKSTORE_ZENODO_ACCESS_TOKEN }}
+dockstoreZenodoCommunityId: {{ DOCKSTORE_ZENODO_COMMUNITY_ID }}
 
 orcidClientID: {{ ORCID_CLIENT_ID }}
 orcidClientSecret: {{ ORCID_CLIENT_SECRET }}
