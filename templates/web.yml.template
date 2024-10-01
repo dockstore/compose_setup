@@ -27,6 +27,8 @@ zenodoRedirectURI: https://{{ DOMAIN_NAME }}/auth/zenodo.org
 zenodoUrl: {{ ZENODO_URL }}
 dockstoreZenodoAccessToken: {{ DOCKSTORE_ZENODO_ACCESS_TOKEN }}
 dockstoreZenodoCommunityId: {{ DOCKSTORE_ZENODO_COMMUNITY_ID }}
+doiAutoGenerationPolicy: {{ DOI_GENERATION_POLICY }}
+gitHubOrgsWithDoiGeneration: [ {{ GITHUB_ORGS_WITH_DOI_GENERATION }} ]
 
 orcidClientID: {{ ORCID_CLIENT_ID }}
 orcidClientSecret: {{ ORCID_CLIENT_SECRET }}
