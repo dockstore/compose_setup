@@ -25,6 +25,8 @@ zenodoClientID: {{ ZENODO_CLIENT_ID }}
 zenodoClientSecret: {{ ZENODO_CLIENT_SECRET }}
 zenodoRedirectURI: https://{{ DOMAIN_NAME }}/auth/zenodo.org
 zenodoUrl: {{ ZENODO_URL }}
+dockstoreZenodoAccessToken: {{ DOCKSTORE_ZENODO_ACCESS_TOKEN }}
+dockstoreZenodoCommunityId: {{ DOCKSTORE_ZENODO_COMMUNITY_ID }}
 
 orcidClientID: {{ ORCID_CLIENT_ID }}
 orcidClientSecret: {{ ORCID_CLIENT_SECRET }}
@@ -58,6 +60,10 @@ samconfiguration:
 metricsConfig:
   s3BucketName: {{ METRICS_BUCKET_NAME }}
 
+diagnosticsConfig:
+  logRequests: true
+  logPeriodic: true
+
 # the following values describe where the webservice is being run (and on what port and using what scheme) to configure swagger
 externalConfig:
   basePath: /api/
@@ -86,14 +92,14 @@ logging:
       appenders:
         - type: console
           logFormat: "%-5p [%d{ISO8601,UTC}] %c\t %replace(%replace(%msg){'[\\n{};]',''}){'([A-Za-z]) ([A-Za-z])','$1_$2'}%n%rEx"
+    "io.dockstore.webservice.helpers.DiagnosticsHelper": DEBUG
   #logging for other dropwizard things
   appenders:
     - type: console
 # this the default dropwizard (logstash) logFormat for reference      
       #logFormat: "%-5p [%d{ISO8601,UTC}] %c: %m%n%rEx"
-# this is a logFormat that replaces new lines in messages with a → 
-# TODO: should do the same with exceptions, but I couldn't figure it out
-      logFormat: "%-5p [%d{ISO8601,UTC}] %c: %replace(%msg){'[\\n]','→'}%n%rEx"
+# this is a logFormat that replaces new lines with carriage returns
+      logFormat: "%-5p [%d{ISO8601,UTC}] %c: %replace(%m){'\n','\r'}%n%replace(%rEx){'\n','\r'}"
 
 
 database:
