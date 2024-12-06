@@ -150,8 +150,9 @@ database:
 
 server:
   applicationConnectors:
-    - type: custom-http
+    - type: http
       port: 8080
+      uriCompliance: LEGACY
   adminConnectors:
     - type: http
       port: 8001
