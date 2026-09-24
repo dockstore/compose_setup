@@ -218,4 +218,5 @@ uiConfig:
   galaxyParsingPluginVersion: {{ GALAXY_PLUGIN_VERSION }}
   checkUrlLambdaVersion: {{ CHECK_URL_LAMBDA_VERSION }}
   supportVersion: {{ SUPPORT_VERSION }}
+  mcpVersion: "{{ MCP_VERSION }}"
   
