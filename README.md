@@ -1,4 +1,11 @@
 # compose\_setup
+
+> [!IMPORTANT]
+> **This repository is being archived and moved elsewhere to simplify maintenance.**
+>
+> For a simpler alternative, see the [docker-compose.yml in the main Dockstore repository](https://github.com/dockstore/dockstore/blob/develop/docker-compose.yml).
+> For more complex needs, please contact us through the helpdesk. See [Opening helpdesk tickets](https://discuss.dockstore.org/t/opening-helpdesk-tickets/1506) for how to get in touch.
+
 This project contains configuration template files needed to run Dockstore using AWS Fargate. View the [dockstore-deploy repository](https://github.com/dockstore/dockstore-deploy)
 for more information about how Dockstore is setup using AWS Fargate.
 Log issues and see general documentation at [dockstore](https://github.com/ga4gh/dockstore/issues) and [docs.dockstore.org](https://docs.dockstore.org/) respectively
